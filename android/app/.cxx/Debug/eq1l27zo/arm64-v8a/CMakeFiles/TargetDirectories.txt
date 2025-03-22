@@ -1,0 +1,2 @@
+/Users/fuat/Desktop/apps/app/emtelek/android/app/.cxx/Debug/eq1l27zo/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/fuat/Desktop/apps/app/emtelek/android/app/.cxx/Debug/eq1l27zo/arm64-v8a/CMakeFiles/rebuild_cache.dir

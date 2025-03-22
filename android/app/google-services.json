@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "28908586312",
+    "project_id": "emtelek-77a0e",
+    "storage_bucket": "emtelek-77a0e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28908586312:android:d231642f12c75f7047df7d",
+        "android_client_info": {
+          "package_name": "com.emtelekteck.emtelek"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2Ez2cbKbfKmHnxV5w-AXFGROs473jEyI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
