@@ -50,7 +50,9 @@ class MyAdCardWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextWidget(
-                        text: myAdsList[index].adTitle+ ' ' + "${myAdsList[index].categoryId}",
+                        text: myAdsList[index].adTitle +
+                            ' ' +
+                            "${myAdsList[index].categoryId}",
                         color: Colors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -147,10 +149,9 @@ class MyAdCardWidget extends StatelessWidget {
                   ),
                   ButtonWidget(
                     onTap: () {
-                      pageTransition(context,
-                          page: PropertyDetailsPage(
-                            adsModel: myAdsList[index],
-                          ));
+                      BlocProvider.of<MyAdsCubit>(context)
+                          .setEditIndex(index: index);
+                      BlocProvider.of<MyAdsCubit>(context).deleteAdProperty();
                     },
                     color: Colors.red,
                     colorText: Colors.white,

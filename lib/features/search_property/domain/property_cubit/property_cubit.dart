@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
-import 'package:emtelek/features/search_property/data/models/property_filter_mode.dart';
+import 'package:emtelek/features/search_property/data/models/property_filter_request_mode.dart';
 import 'package:emtelek/features/search_property/data/repositories/search_property_repository.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/models/city-model/city_model.dart';
@@ -230,38 +230,38 @@ class PropertyCubit extends Cubit<PropertyState> {
 
   List<AdsModel> filteredAds = [];
   Future<void> applyFilter() async {
+    emit(PropertyAdsFilterLoading());
     try {
       filteredAds = await searchPropertyRepository.getFilteredAds(
-        PropertyFilterModel(
-          categoryId: 14,
-          sellerType: null,
-          roomCount: null,
-          furnish: null,
-          cityId: null,
-          districtId: null,
-          bathroomCount: null,
-          minPrice: null,
-          maxPrice: null,
-          minTotalArea: null,
-          maxTotalArea: null,
-          minNetArea: null,
-          maxNetArea: null,
-          floorCount: null,
-          minConstructionDate: null,
-          maxConstructionDate: null,
-          balconyCount: null,
-        ),
+        PropertyFilterRequestModel(
+            categoryId: 14,
+            sellerType: sellerType == 0 ? null : sellerType,
+            roomCount: listRoomCount.isEmpty ? null : listRoomCount,
+            furnish: furnishedType == 0
+                ? null
+                : furnishedType == 1
+                    ? 'true'
+                    : 'false',
+            cityId: null,
+            districtId: null,
+            bathroomCount: listBathRoomCount.isEmpty ? null : listBathRoomCount,
+            minPrice: null,
+            maxPrice: null,
+            minTotalArea: null,
+            maxTotalArea: null,
+            orderBy: null,
+            page: null),
       );
 
       // ✅ طباعة منظمة لنتائج الفلتر
       if (filteredAds.isNotEmpty) {
-        for (var ad in filteredAds) {
-          print('✅ Ad: ${ad.toJson()}');
-        }
+        emit(PropertyAdsFilterSuccess());
       } else {
+        emit(PropertyAdsFilterFailure(errMessage: 'No ads found!'));
         print('🚫 No ads found!');
       }
     } catch (e) {
+      emit(PropertyAdsFilterFailure(errMessage: e.toString()));
       print('❌ Error loading filtered ads: $e');
     }
   }

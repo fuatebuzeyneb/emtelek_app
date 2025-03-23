@@ -921,7 +921,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: ButtonWidget(
                     onTap: () {
-                      //  propertyCubit.applyFilter();
+                      propertyCubit.applyFilter();
                       pageTransition(context,
                           page: const PropertySearchResultPage());
                     },

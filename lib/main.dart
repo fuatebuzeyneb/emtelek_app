@@ -5,6 +5,7 @@ import 'package:emtelek/features/add_listing/data/repositories/property_reposito
 import 'package:emtelek/features/add_listing/domain/cubit/property_add_ad_cubit.dart';
 import 'package:emtelek/features/add_listing/presentation/pages/finish_page.dart';
 import 'package:emtelek/features/auth/data/repositories/auth_repository.dart';
+import 'package:emtelek/features/home/data/repositories/home_repository.dart';
 import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
 import 'package:emtelek/features/my_ads/data/repositories/my_ads_repository.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
@@ -63,7 +64,9 @@ class MyApp extends StatelessWidget {
           create: (context) => SettingsCubit(),
         ),
         BlocProvider(
-          create: (context) => HomeCubit(),
+          create: (context) => HomeCubit(
+            HomeRepositoryImpl(api: DioConsumer(dio: Dio())),
+          ),
         ),
         BlocProvider(
           create: (context) => PropertyAddAdCubit(

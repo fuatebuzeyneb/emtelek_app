@@ -167,6 +167,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "MostVisitedInRentals": MessageLookupByLibrary.simpleMessage(
       "Most Visited in Rentals",
     ),
+    "MostVisitedInSales": MessageLookupByLibrary.simpleMessage(
+      "Most Visited in Sales",
+    ),
     "MyAds": MessageLookupByLibrary.simpleMessage("My Ads"),
     "MySearches": MessageLookupByLibrary.simpleMessage("My Searches"),
     "NeighborhoodAndStreet": MessageLookupByLibrary.simpleMessage(

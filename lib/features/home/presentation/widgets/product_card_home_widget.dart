@@ -1,5 +1,8 @@
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
+import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
+import 'package:emtelek/features/profile/data/models/ads_model.dart';
+import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
@@ -11,16 +14,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductCardHomeWidget extends StatelessWidget {
-  const ProductCardHomeWidget({super.key});
+  const ProductCardHomeWidget({super.key, required this.adsModel});
+
+  // final int index;
+  // final int witchType; // 1 for sale property, 2 for rent property, 3 vehicles
+
+  final AdsModel adsModel;
 
   @override
   Widget build(BuildContext context) {
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: GestureDetector(
         onTap: () {
-          pageTransition(context, page: PropertyDetailsPage());
+          pageTransition(context,
+              page: PropertyDetailsPage(
+                adsModel: adsModel,
+              ));
         },
         child: Container(
           height: context.height * 0.22,
@@ -69,14 +81,13 @@ class ProductCardHomeWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           TextWidget(
-                            text: '50,000',
+                            text: adsModel.price.toString(),
                             fontSize: 14,
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
                           ),
                           TextWidget(
-                            text:
-                                ' ${settingsCubit.convertCurrencySymbol(settingsCubit.currencyCode)}',
+                            text: adsModel.currency.toString(),
                             fontSize: 12,
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
@@ -84,15 +95,25 @@ class ProductCardHomeWidget extends StatelessWidget {
                         ],
                       ),
                       1.toHeight,
-                      const TextWidget(
-                        text: '2 غرفة 1 حمام',
+                      TextWidget(
+                        text: '${adsModel.roomCount}' +
+                            ' ' +
+                            S.of(context).Room +
+                            ' ' +
+                            '${adsModel.bathroomCount}' +
+                            ' ' +
+                            S.of(context).Bathroom,
                         fontSize: 10,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                       1.toHeight,
-                      const TextWidget(
-                        text: 'كفر سوسة, دمشق',
+                      TextWidget(
+                        text: '${adsModel.address}' +
+                            ' ' +
+                            '${adsModel.districtName}' +
+                            ' ' +
+                            '${adsModel.cityName}',
                         fontSize: 10,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,

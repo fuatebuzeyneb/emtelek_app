@@ -21,18 +21,18 @@ class AdsModel {
   int? districtId;
   int? districtCityId;
   String? districtName;
-
   dynamic totalArea;
   dynamic netOrBuildingArea;
   int? roomCount;
   int? floorNumber;
-  int? floorCount;
+  dynamic floorCount;
   int? bathroomCount;
   dynamic furnish;
   String? constructionDate;
   String? address;
   int? balconyCount;
   String? complexName;
+  bool? isFinished;
 
   AdsModel({
     required this.token,
@@ -68,6 +68,7 @@ class AdsModel {
     this.address,
     this.balconyCount,
     this.complexName,
+    this.isFinished,
   });
 
   factory AdsModel.fromJson(Map<String, dynamic> json) {
@@ -113,6 +114,7 @@ class AdsModel {
       address: json['data']['info']['Address'] ?? '',
       balconyCount: json['data']['info']['BalconyCount'] ?? 0,
       complexName: json['data']['info']['ComplexName'] ?? '',
+      isFinished: json['IsFinished'] ?? true,
     );
   }
 

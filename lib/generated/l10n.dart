@@ -732,6 +732,16 @@ class S {
     );
   }
 
+  /// `Most Visited in Sales`
+  String get MostVisitedInSales {
+    return Intl.message(
+      'Most Visited in Sales',
+      name: 'MostVisitedInSales',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `View All`
   String get ViewAll {
     return Intl.message('View All', name: 'ViewAll', desc: '', args: []);

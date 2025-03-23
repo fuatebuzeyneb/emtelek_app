@@ -74,8 +74,8 @@ class EditAdDetailsPage extends StatelessWidget {
       listener: (context, state) {
         if (state is PropertyUpdateAdSuccess) {
           myAdsCubit.getMyAds();
-          // SnackbarUtils.showSnackbar(context, "تم التعديل بنجاح");
-          // Navigator.pop(context);
+          SnackbarUtils.showSnackbar(context, "تم التعديل بنجاح");
+          Navigator.pop(context);
         }
       },
       builder: (context, state) {

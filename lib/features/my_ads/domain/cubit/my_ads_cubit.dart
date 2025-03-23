@@ -164,4 +164,19 @@ class MyAdsCubit extends Cubit<MyAdsState> {
       emit(PropertyUpdateAdFailure(errorMassage: e.errorModel.errorMessage));
     }
   }
+
+  Future<void> deleteAdProperty() async {
+    try {
+      emit(PropertyDeleteAdLoading());
+
+      // إنشاء النسخة المعدلة من PropertyAdModel
+      await myAdsRepository.deleteAdProperty(
+        adId: myAds[editIndex].adId,
+      );
+
+      emit(PropertyDeleteAdSuccess());
+    } on ServerException catch (e) {
+      emit(PropertyDeleteAdFailure(errorMassage: e.errorModel.errorMessage));
+    }
+  }
 }

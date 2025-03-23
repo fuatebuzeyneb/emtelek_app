@@ -2,33 +2,35 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
+import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/features/search_property/presentation/pages/property_details_page.dart';
+import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/common_pages/image_viewer_page.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
-class PropertyCard extends StatefulWidget {
+class PropertyCard extends StatelessWidget {
   const PropertyCard({
     super.key,
+    required this.index,
   });
+  final int index;
 
-  @override
-  State<PropertyCard> createState() => _PropertyCardState();
-}
-
-class _PropertyCardState extends State<PropertyCard> {
-  int currentPage = 0;
-  final int totalImages = 8;
   @override
   Widget build(BuildContext context) {
+    PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
     return GestureDetector(
       onTap: () {
-        pageTransition(context, page: PropertyDetailsPage());
+        pageTransition(context,
+            page: PropertyDetailsPage(
+              adsModel: propertyCubit.filteredAds[index],
+            ));
       },
       child: Container(
-        height: context.height * 0.51,
+        height: context.height * 0.47,
         width: context.width * 1,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -52,88 +54,15 @@ class _PropertyCardState extends State<PropertyCard> {
                     pageTransition(context, page: PropertyDetailsPage());
                   },
                   child: SizedBox(
-                    height: context.height * 0.27,
+                    height: context.height * 0.25,
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        topRight: Radius.circular(8),
-                      ),
-                      child: ImageSlideshow(
-                        indicatorColor: AppColors.primary,
-                        onPageChanged: (value) {
-                          setState(() {
-                            currentPage = value;
-                          });
-                        },
-                        children: [
-                          Image.asset(
-                            'assets/images/example.png',
-                            fit: BoxFit.cover,
-                          ),
-                          Image.asset(
-                            'assets/images/example1.webp',
-                            fit: BoxFit.cover,
-                          ),
-                          Image.asset(
-                            'assets/images/example2.webp',
-                            fit: BoxFit.cover,
-                          ),
-                          Image.asset(
-                            'assets/images/example3.webp',
-                            fit: BoxFit.cover,
-                          ),
-                          Image.asset(
-                            'assets/images/example.png',
-                            fit: BoxFit.cover,
-                          ),
-                          Image.asset(
-                            'assets/images/example1.webp',
-                            fit: BoxFit.cover,
-                          ),
-                          Image.asset(
-                            'assets/images/example2.webp',
-                            fit: BoxFit.cover,
-                          ),
-                          Image.asset(
-                            'assets/images/example3.webp',
-                            fit: BoxFit.cover,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 10,
-                  right: 8,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.image,
-                          size: 14,
-                          color: Colors.white,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8),
                         ),
-                        6.toWidth,
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: TextWidget(
-                            text: '${currentPage + 1} / $totalImages',
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                        child: Image.asset(
+                          'assets/images/example.png',
+                        )),
                   ),
                 ),
                 Positioned(
@@ -165,17 +94,18 @@ class _PropertyCardState extends State<PropertyCard> {
                   alignment: Alignment.centerRight,
                   child: Row(
                     children: [
-                      const TextWidget(
+                      TextWidget(
                         isHaveOverflow: true,
-                        text: '28,600,278',
+                        text: propertyCubit.filteredAds[index].price.toString(),
                         fontSize: 18,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
                       ),
                       6.toWidth,
-                      const TextWidget(
+                      TextWidget(
                         isHaveOverflow: true,
-                        text: 'ل.س',
+                        text: propertyCubit.filteredAds[index].currency
+                            .toString(),
                         fontSize: 18,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
@@ -184,11 +114,11 @@ class _PropertyCardState extends State<PropertyCard> {
                   ),
                 ),
                 6.toHeight,
-                const Align(
+                Align(
                   alignment: Alignment.centerRight,
                   child: TextWidget(
                     isHaveOverflow: true,
-                    text: 'منزل مستقل 4 غرف وصالة',
+                    text: propertyCubit.filteredAds[index].adTitle.toString(),
                     fontSize: 16,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -206,11 +136,14 @@ class _PropertyCardState extends State<PropertyCard> {
                         color: Colors.black,
                       ),
                       6.toWidth,
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(top: 6),
                         child: TextWidget(
                           isHaveOverflow: true,
-                          text: '4 غرف',
+                          text: propertyCubit.filteredAds[index].roomCount
+                                  .toString() +
+                              ' ' +
+                              S.of(context).Room,
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -224,11 +157,14 @@ class _PropertyCardState extends State<PropertyCard> {
                         color: Colors.black,
                       ),
                       6.toWidth,
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(top: 6),
                         child: TextWidget(
                           isHaveOverflow: true,
-                          text: '2 الحمامات',
+                          text: propertyCubit.filteredAds[index].bathroomCount
+                                  .toString() +
+                              ' ' +
+                              S.of(context).Bathroom,
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -242,11 +178,14 @@ class _PropertyCardState extends State<PropertyCard> {
                         color: Colors.black,
                       ),
                       6.toWidth,
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(top: 6),
                         child: TextWidget(
                           isHaveOverflow: true,
-                          text: '224 متر مربع',
+                          text: propertyCubit.filteredAds[index].totalArea
+                                  .toString() +
+                              ' ' +
+                              S.of(context).SquareMeter,
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -256,7 +195,7 @@ class _PropertyCardState extends State<PropertyCard> {
                   ), //حي أبو رمانة - شارع الجلاء
                 ),
                 12.toHeight,
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -268,8 +207,15 @@ class _PropertyCardState extends State<PropertyCard> {
                     Expanded(
                       child: TextWidget(
                         textAlign: TextAlign.right,
-                        text:
-                            'شارع الجلاء ,حي أبو رمانة ,منطقة الصالحية ,مدينة دمشق',
+                        text: propertyCubit.filteredAds[index].address
+                                .toString() +
+                            ' , ' +
+                            propertyCubit.filteredAds[index].districtName
+                                .toString() +
+                            ' , ' +
+                            propertyCubit.filteredAds[index].cityName
+                                .toString(),
+
                         fontSize: 14,
                         color: Colors.black,
                         // fontWeight: FontWeight.bold,

@@ -1,5 +1,6 @@
 import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
+import 'package:emtelek/core/utils/snackbar_utils.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/my_ads/presentation/widgets/my_ad_card_widget.dart';
@@ -35,9 +36,14 @@ class MyAdsPage extends StatelessWidget {
           backgroundColor: AppColors.appBarBackground,
         ),
         body: BlocConsumer<MyAdsCubit, MyAdsState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is PropertyDeleteAdSuccess) {
+              BlocProvider.of<MyAdsCubit>(context).getMyAds();
+              SnackbarUtils.showSnackbar(context, "تم الحذف بنجاح");
+            }
+          },
           builder: (context, state) {
-            return state is GetMyAdsLoading
+            return state is GetMyAdsLoading || state is PropertyDeleteAdLoading
                 ? const Center(
                     child: LoadingWidget(),
                   )
@@ -45,17 +51,22 @@ class MyAdsPage extends StatelessWidget {
                     ? Center(
                         child: Text(state.errorMassage),
                       )
-                    : ListView.builder(
-                        itemCount:
-                            BlocProvider.of<MyAdsCubit>(context).myAds.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return MyAdCardWidget(
-                            index: index,
-                            myAdsList:
-                                BlocProvider.of<MyAdsCubit>(context).myAds,
+                    : state is PropertyDeleteAdFailure
+                        ? Center(
+                            child: Text(state.errorMassage),
+                          )
+                        : ListView.builder(
+                            itemCount: BlocProvider.of<MyAdsCubit>(context)
+                                .myAds
+                                .length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return MyAdCardWidget(
+                                index: index,
+                                myAdsList:
+                                    BlocProvider.of<MyAdsCubit>(context).myAds,
+                              );
+                            },
                           );
-                        },
-                      );
           },
         ));
   }

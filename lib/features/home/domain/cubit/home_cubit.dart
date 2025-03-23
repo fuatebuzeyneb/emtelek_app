@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:emtelek/features/home/data/models/home_model.dart';
+import 'package:emtelek/features/home/data/repositories/home_repository.dart';
 import 'package:meta/meta.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeInitial());
+  final HomeRepository homeRepository;
+  HomeCubit(this.homeRepository) : super(HomeInitial());
 
   //-------------------------for home search----------------------
 
@@ -47,5 +50,17 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> close() {
     _timer?.cancel();
     return super.close();
+  }
+
+  late HomeModel homeModel;
+
+  Future<void> getHomeData() async {
+    try {
+      emit(HomeAdsLoading());
+      homeModel = await homeRepository.getHomeAds();
+      emit(HomeAdsSuccess());
+    } catch (e) {
+      emit(HomeAdsFailure(errorMassage: e.toString()));
+    }
   }
 }

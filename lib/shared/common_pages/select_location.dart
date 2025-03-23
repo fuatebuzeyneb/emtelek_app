@@ -1,5 +1,6 @@
 import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
+import 'package:emtelek/core/utils/snackbar_utils.dart';
 import 'package:emtelek/features/add_listing/domain/cubit/property_add_ad_cubit.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
@@ -251,9 +252,7 @@ class _SelectLocationState extends State<SelectLocation> {
               print(selectedLocation);
               Navigator.pop(context);
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('يرجى تحديد موقع')),
-              );
+              SnackbarUtils.showSnackbar(context, "يرجى تحديد الموقع");
             }
           } else if (widget.forWitchFeature == 2) {} // for cars
         },

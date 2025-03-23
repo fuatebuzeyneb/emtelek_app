@@ -13,6 +13,10 @@ abstract class MyAdsRepository {
   Future<AllResponseModel> updateAdProperty({
     required AdsModel adsModel,
   });
+
+  Future<AllResponseModel> deleteAdProperty({
+    required int adId,
+  });
 }
 
 class MyAdsRepositoryImpl implements MyAdsRepository {
@@ -74,6 +78,26 @@ class MyAdsRepositoryImpl implements MyAdsRepository {
 
     // طباعة الـ Response (البيانات التي تم استلامها)
     print("🔵 Response from API: $response");
+
+    // تحويل الاستجابة إلى PropertyAdModel
+    return AllResponseModel.fromJson(response);
+  }
+
+  @override
+  Future<AllResponseModel> deleteAdProperty({required int adId}) async {
+    // إرسال الطلب عبر PUT أو PATCH (حسب الـ API الخاص بك)
+    final response = await api.post(
+      '${EndPoints.baseUrl}${EndPoints.adsDelete}', // أو حسب بنية الـ API لديك
+      isFormData: true,
+      data: {
+        "Token": getIt<CacheHelper>().getDataString(key: 'token'),
+        "ClientId": getIt<CacheHelper>().getData(key: 'clientId'),
+        "AdId": adId
+      },
+    );
+
+    // طباعة الـ Response (البيانات التي تم استلامها)
+    print("🔵 Response from API================: $response");
 
     // تحويل الاستجابة إلى PropertyAdModel
     return AllResponseModel.fromJson(response);
