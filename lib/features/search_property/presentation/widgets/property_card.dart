@@ -2,6 +2,7 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
+import 'package:emtelek/features/favorites/presentation/widgets/favorite_widget.dart';
 import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/features/search_property/presentation/pages/property_details_page.dart';
 import 'package:emtelek/generated/l10n.dart';
@@ -65,25 +66,7 @@ class PropertyCard extends StatelessWidget {
                         )),
                   ),
                 ),
-                Positioned(
-                  top: 10,
-                  left: 8,
-                  child: ButtonWidget(
-                    borderRadius: 18,
-                    showElevation: true,
-                    height: 0,
-                    width: 0,
-                    onTap: () {},
-                    color: Colors.white,
-                    child: const Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Icon(
-                        Icons.favorite_border,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
+                FavoriteWidget(),
               ],
             ),
             Padding(
