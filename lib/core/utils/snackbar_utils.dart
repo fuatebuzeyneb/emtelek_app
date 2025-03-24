@@ -6,6 +6,7 @@ class SnackbarUtils {
   static void showSnackbar(BuildContext context, String message,
       [int seconds = 1]) {
     final snackBar = SnackBar(
+      behavior: SnackBarBehavior.floating,
       content: Text(
         message,
         style: const TextStyle(

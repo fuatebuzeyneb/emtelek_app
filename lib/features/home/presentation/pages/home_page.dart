@@ -1,5 +1,6 @@
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
+import 'package:emtelek/core/utils/snackbar_utils.dart';
 import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
 import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
@@ -65,6 +66,8 @@ class HomePage extends StatelessWidget {
         "title": S.of(context).Vehicles,
         "image": 'assets/icons/car.png',
         "onTap": () {
+          SnackbarUtils.showSnackbar(
+              context, 'Pressed Card 3 - Commercial Property', 3);
           print("Pressed Card 3 - Commercial Property");
         },
       },
