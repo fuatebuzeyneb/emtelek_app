@@ -33,7 +33,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       11: S.current.Land,
       12: S.current.Villa,
       13: S.current.Factory,
-      22: S.current.Office,
+      27: S.current.Office,
     };
 
     saleCategories = {
@@ -43,7 +43,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       17: S.current.Land,
       18: S.current.Villa,
       19: S.current.Factory,
-      23: S.current.Office,
+      26: S.current.Office,
     };
 
     emit(SettingsInitial());
@@ -233,7 +233,6 @@ class SettingsCubit extends Cubit<SettingsState> {
 
 //this function will return the districts of the selected city
   int? cityId;
-  List<DistrictModel> filteredDistricts = [];
   void selectCityId(int id) {
     cityId = id;
 
@@ -340,10 +339,108 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   String isForSale(int categoryId) {
-    List<int> saleCategories = [14, 15, 16, 17, 18, 19, 27];
+    List<int> saleCategories = [14, 15, 16, 17, 18, 19, 26];
 
     return saleCategories.contains(categoryId)
         ? S.current.Sale
         : S.current.Rent;
+  }
+
+  List<CityModel> filteredCities = [];
+  List<DistrictModel> filteredDistricts = [];
+  List<dynamic> selectCitiesAndDistricts = [];
+  List<int> selectedCityIds = [];
+  List<int> selectedDistrictIds = [];
+
+  void filterLocations({
+    required String value,
+    required List<CityModel> globalCities,
+    required List<DistrictModel> globalDistricts,
+  }) {
+    String normalizedValue =
+        value.replaceAll(RegExp(r'[أإآ]'), 'ا').toLowerCase();
+
+    if (normalizedValue.length < 3) {
+      filteredCities = [];
+      filteredDistricts = [];
+    } else {
+      filteredCities = globalCities
+          .where((city) => city.cityName
+              .replaceAll(RegExp(r'[أإآ]'), 'ا')
+              .toLowerCase()
+              .contains(normalizedValue))
+          .toList();
+
+      filteredDistricts = globalDistricts
+          .where((district) =>
+              district.districtName
+                  .replaceAll(RegExp(r'[أإآ]'), 'ا')
+                  .toLowerCase()
+                  .contains(normalizedValue) ||
+              filteredCities.any((city) => city.cityId == district.cityId))
+          .toList();
+    }
+
+    emit(LocationFilterSelect());
+  }
+
+  void selectLocation({required dynamic value}) {
+    if (!selectCitiesAndDistricts.contains(value)) {
+      selectCitiesAndDistricts.add(value);
+      print('selectCitiesAndDistricts: $selectCitiesAndDistricts');
+      emit(LocationFilterSelect());
+    }
+  }
+
+  void unSelectLocation({required int index}) {
+    selectCitiesAndDistricts.removeAt(index);
+    emit(LocationFilterSelect());
+  }
+
+  void processLocations() {
+    selectedCityIds = selectCitiesAndDistricts
+        .whereType<CityModel>()
+        .map((city) => city.cityId)
+        .toList();
+
+    selectedDistrictIds = selectCitiesAndDistricts
+        .whereType<DistrictModel>()
+        .map((district) => district.districtId)
+        .toList();
+
+    // تصفية المناطق بناءً على المدينة المحددة مباشرةً بدون دالة خارجية
+    selectedDistrictIds = selectedDistrictIds.where((districtId) {
+      var district = globalDistricts.firstWhere(
+        (d) => d.districtId == districtId,
+        orElse: () =>
+            DistrictModel(districtId: -1, cityId: -1, districtName: ''),
+      );
+
+      return district.districtId == -1 ||
+          !selectedCityIds.contains(district.cityId);
+    }).toList();
+  }
+
+  /// price filter Range
+
+  double? minPrice;
+  double? maxPrice;
+
+  void updateMinPrice(double? value) {
+    minPrice = value;
+    emit(PriceFilterRange());
+  }
+
+  void updateMaxPrice(double? value) {
+    maxPrice = value;
+    emit(PriceFilterRange());
+  }
+
+  void updatePriceRange(double lowerValue, double upperValue) {
+    minPrice = lowerValue;
+    maxPrice = upperValue;
+
+    print('minPrice: $minPrice, maxPrice: $maxPrice');
+    emit(PriceFilterRange());
   }
 }

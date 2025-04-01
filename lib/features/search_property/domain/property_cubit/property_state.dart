@@ -5,6 +5,8 @@ sealed class PropertyState {}
 
 final class PropertyInitial extends PropertyState {}
 
+final class PropertyFilterAreaRange extends PropertyState {}
+
 final class PropertyAdsFilterLoading extends PropertyState {}
 
 final class PropertyAdsFilterSuccess extends PropertyState {}

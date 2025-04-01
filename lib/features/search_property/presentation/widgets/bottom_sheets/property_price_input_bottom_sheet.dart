@@ -6,7 +6,7 @@ import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/features/auth/presentation/pages/login_page.dart';
 import 'package:emtelek/features/auth/presentation/pages/signup_page.dart';
 import 'package:emtelek/shared/widgets/bottom_sheet_widget.dart';
-import 'package:emtelek/shared/widgets/price_widget.dart';
+import 'package:emtelek/shared/widgets/price_range_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -72,7 +72,7 @@ class PropertyPriceInputBottomSheet extends StatelessWidget {
               // fontWeight: FontWeight.bold,
             ),
             24.toHeight,
-            const PriceWidget(),
+            const PriceRangeWidget(),
             const Spacer(),
             ButtonWidget(
                 paddingHorizontal: 12,

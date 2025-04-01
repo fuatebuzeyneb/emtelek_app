@@ -1,6 +1,7 @@
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/shared/models/city-model/city_model.dart';
@@ -20,9 +21,8 @@ class SelectLocationFilterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
-    return BlocConsumer<PropertyCubit, PropertyState>(
+    return BlocConsumer<SettingsCubit, SettingsState>(
       listener: (context, state) {
         // TODO: implement listener
       },
@@ -96,7 +96,7 @@ class SelectLocationFilterView extends StatelessWidget {
                           //   globalDistricts: settingsCubit.globalDistricts,
                           // );
 
-                          propertyCubit.filterCitiesAndDistricts(
+                          settingsCubit.filterLocations(
                               value: value,
                               globalCities: settingsCubit.globalCities,
                               globalDistricts: settingsCubit.globalDistricts);
@@ -104,20 +104,20 @@ class SelectLocationFilterView extends StatelessWidget {
                           print('value is $value');
                         },
                       ),
-                      propertyCubit.selectCitiesAndDistricts.isNotEmpty
+                      settingsCubit.selectCitiesAndDistricts.isNotEmpty
                           ? 10.toHeight
                           : 0.toHeight,
-                      propertyCubit.selectCitiesAndDistricts.isNotEmpty
+                      settingsCubit.selectCitiesAndDistricts.isNotEmpty
                           ? SizedBox(
                               height: context.height * 0.05,
                               width: context.width * 1,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: propertyCubit
+                                itemCount: settingsCubit
                                     .selectCitiesAndDistricts.length,
                                 itemBuilder: (context, index) {
                                   // عكس القائمة باستخدام reversed
-                                  var reversedList = propertyCubit
+                                  var reversedList = settingsCubit
                                       .selectCitiesAndDistricts.reversed
                                       .toList();
                                   var item = reversedList[index];
@@ -140,12 +140,12 @@ class SelectLocationFilterView extends StatelessWidget {
                                       width: 0,
                                       color: Colors.black,
                                       onTap: () {
-                                        int originalIndex = propertyCubit
+                                        int originalIndex = settingsCubit
                                                 .selectCitiesAndDistricts
                                                 .length -
                                             1 -
                                             index;
-                                        propertyCubit.unSelectCityAndDistricts(
+                                        settingsCubit.unSelectLocation(
                                             index: originalIndex);
                                       },
                                       child: Row(
@@ -168,25 +168,25 @@ class SelectLocationFilterView extends StatelessWidget {
                       SizedBox(
                         height: context.height * 0.62,
                         width: context.width * 1,
-                        child: (propertyCubit.filteredCities.isNotEmpty ||
-                                propertyCubit.filteredDistricts.isNotEmpty)
+                        child: (settingsCubit.filteredCities.isNotEmpty ||
+                                settingsCubit.filteredDistricts.isNotEmpty)
                             ? ListView.builder(
                                 padding: EdgeInsets.zero,
-                                itemCount: propertyCubit.filteredCities.length +
-                                    propertyCubit.filteredDistricts.length,
+                                itemCount: settingsCubit.filteredCities.length +
+                                    settingsCubit.filteredDistricts.length,
                                 itemBuilder: (context, index) {
                                   dynamic item;
                                   String displayName = '';
 
                                   // Determine if the item is a city or a district
                                   if (index <
-                                      propertyCubit.filteredCities.length) {
-                                    item = propertyCubit.filteredCities[index];
+                                      settingsCubit.filteredCities.length) {
+                                    item = settingsCubit.filteredCities[index];
                                     displayName = item.cityName;
                                   } else {
-                                    item = propertyCubit.filteredDistricts[
+                                    item = settingsCubit.filteredDistricts[
                                         index -
-                                            propertyCubit
+                                            settingsCubit
                                                 .filteredCities.length];
                                     displayName = item.districtName;
                                   }
@@ -210,8 +210,7 @@ class SelectLocationFilterView extends StatelessWidget {
                                       ],
                                     ),
                                     onTap: () {
-                                      propertyCubit.selectCityAndDistricts(
-                                          value: item);
+                                      settingsCubit.selectLocation(value: item);
                                     },
                                   );
                                 },
@@ -227,7 +226,10 @@ class SelectLocationFilterView extends StatelessWidget {
                       ),
                       20.toHeight,
                       ButtonWidget(
-                        onTap: () {},
+                        onTap: () {
+                          settingsCubit.processLocations();
+                          Navigator.pop(context);
+                        },
                         color: Colors.black,
                         colorText: Colors.white,
                         text: 'متابعة',

@@ -8,12 +8,14 @@ class LeftHintTextFieldWidget extends StatelessWidget {
     this.onChanged,
     this.keyboardType,
     this.initialValue,
+    this.textEditingController,
   });
 
   final String? hint;
   final Function(String)? onChanged;
   final TextInputType? keyboardType;
   final String? initialValue;
+  final TextEditingController? textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class LeftHintTextFieldWidget extends StatelessWidget {
       alignment: Alignment.centerRight,
       children: [
         TextFormField(
+          controller: textEditingController,
           initialValue: initialValue,
           keyboardType: keyboardType,
           onChanged: onChanged,

@@ -3,6 +3,7 @@ import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/features/favorites/presentation/widgets/favorite_widget.dart';
+import 'package:emtelek/features/profile/data/models/ads_model.dart';
 import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/features/search_property/presentation/pages/property_details_page.dart';
 import 'package:emtelek/generated/l10n.dart';
@@ -17,17 +18,19 @@ class PropertyCard extends StatelessWidget {
   const PropertyCard({
     super.key,
     required this.index,
+    required this.adsModel,
   });
   final int index;
+  final List<AdsModel> adsModel;
 
   @override
   Widget build(BuildContext context) {
-    PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
     return GestureDetector(
       onTap: () {
         pageTransition(context,
             page: PropertyDetailsPage(
-              adsModel: propertyCubit.filteredAds[index],
+              adsModel: adsModel[index],
+              //adsModel[index],
             ));
       },
       child: Container(
@@ -66,7 +69,9 @@ class PropertyCard extends StatelessWidget {
                         )),
                   ),
                 ),
-                FavoriteWidget(),
+                FavoriteWidget(
+                  adsModel: adsModel[index],
+                ),
               ],
             ),
             Padding(
@@ -79,7 +84,7 @@ class PropertyCard extends StatelessWidget {
                     children: [
                       TextWidget(
                         isHaveOverflow: true,
-                        text: propertyCubit.filteredAds[index].price.toString(),
+                        text: adsModel[index].price.toString(),
                         fontSize: 18,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
@@ -87,8 +92,7 @@ class PropertyCard extends StatelessWidget {
                       6.toWidth,
                       TextWidget(
                         isHaveOverflow: true,
-                        text: propertyCubit.filteredAds[index].currency
-                            .toString(),
+                        text: adsModel[index].currency.toString(),
                         fontSize: 18,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
@@ -101,7 +105,7 @@ class PropertyCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextWidget(
                     isHaveOverflow: true,
-                    text: propertyCubit.filteredAds[index].adTitle.toString(),
+                    text: adsModel[index].adTitle.toString(),
                     fontSize: 16,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -123,8 +127,7 @@ class PropertyCard extends StatelessWidget {
                         padding: EdgeInsets.only(top: 6),
                         child: TextWidget(
                           isHaveOverflow: true,
-                          text: propertyCubit.filteredAds[index].roomCount
-                                  .toString() +
+                          text: adsModel[index].roomCount.toString() +
                               ' ' +
                               S.of(context).Room,
                           fontSize: 14,
@@ -144,8 +147,7 @@ class PropertyCard extends StatelessWidget {
                         padding: EdgeInsets.only(top: 6),
                         child: TextWidget(
                           isHaveOverflow: true,
-                          text: propertyCubit.filteredAds[index].bathroomCount
-                                  .toString() +
+                          text: adsModel[index].bathroomCount.toString() +
                               ' ' +
                               S.of(context).Bathroom,
                           fontSize: 14,
@@ -165,8 +167,7 @@ class PropertyCard extends StatelessWidget {
                         padding: EdgeInsets.only(top: 6),
                         child: TextWidget(
                           isHaveOverflow: true,
-                          text: propertyCubit.filteredAds[index].totalArea
-                                  .toString() +
+                          text: adsModel[index].totalArea.toString() +
                               ' ' +
                               S.of(context).SquareMeter,
                           fontSize: 14,
@@ -190,14 +191,11 @@ class PropertyCard extends StatelessWidget {
                     Expanded(
                       child: TextWidget(
                         textAlign: TextAlign.right,
-                        text: propertyCubit.filteredAds[index].address
-                                .toString() +
+                        text: adsModel[index].address.toString() +
                             ' , ' +
-                            propertyCubit.filteredAds[index].districtName
-                                .toString() +
+                            adsModel[index].districtName.toString() +
                             ' , ' +
-                            propertyCubit.filteredAds[index].cityName
-                                .toString(),
+                            adsModel[index].cityName.toString(),
 
                         fontSize: 14,
                         color: Colors.black,

@@ -17,3 +17,7 @@ class CityError extends SettingsState {
   final String message;
   CityError(this.message);
 }
+
+final class LocationFilterSelect extends SettingsState {}
+
+final class PriceFilterRange extends SettingsState {}

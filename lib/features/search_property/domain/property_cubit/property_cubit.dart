@@ -29,119 +29,6 @@ class PropertyCubit extends Cubit<PropertyState> {
     emit(PropertyInitial());
   }
 
-//-------------------------for location----------------------
-  List<CityModel> filteredCities = [];
-  List<DistrictModel> filteredDistricts = [];
-  List<dynamic> selectCitiesAndDistricts = [];
-  void filterCities(
-      {required String value, required List<CityModel> globalCities}) {
-    String normalizedValue =
-        value.replaceAll('أ', 'ا').replaceAll('إ', 'ا').replaceAll('آ', 'ا');
-
-    if (normalizedValue.isEmpty) {
-      filteredCities = [];
-    } else {
-      filteredCities = globalCities.where((city) {
-        String normalizedCityName = city.cityName
-            .replaceAll('أ', 'ا')
-            .replaceAll('إ', 'ا')
-            .replaceAll('آ', 'ا');
-
-        return normalizedCityName
-            .toLowerCase()
-            .contains(normalizedValue.toLowerCase());
-      }).toList();
-    }
-
-    emit(PropertyInitial());
-  }
-
-  void filterDistricts(
-      {required String value, required List<DistrictModel> globalDistricts}) {
-    String normalizedValue =
-        value.replaceAll('أ', 'ا').replaceAll('إ', 'ا').replaceAll('آ', 'ا');
-
-    if (normalizedValue.isEmpty) {
-      filteredDistricts = [];
-    } else {
-      filteredDistricts = globalDistricts.where((district) {
-        String normalizedDistrictName = district.districtName
-            .replaceAll('أ', 'ا')
-            .replaceAll('إ', 'ا')
-            .replaceAll('آ', 'ا');
-
-        return normalizedDistrictName
-            .toLowerCase()
-            .contains(normalizedValue.toLowerCase());
-      }).toList();
-    }
-
-    emit(PropertyInitial());
-  }
-
-  // دالة لتصفية المدن والمناطق بناءً على النص المدخل
-  void filterCitiesAndDistricts({
-    required String value,
-    required List<CityModel> globalCities,
-    required List<DistrictModel> globalDistricts,
-  }) {
-    // تطبيع النص المدخل بحيث يتعامل مع الحروف المشابهة مثل "أ" و "إ"
-    String normalizedValue =
-        value.replaceAll('أ', 'ا').replaceAll('إ', 'ا').replaceAll('آ', 'ا');
-
-    // إذا كان النص المدخل يحتوي على 3 أحرف أو أكثر
-    if (normalizedValue.length >= 3) {
-      // تصفية المدن التي تحتوي على النص المدخل
-      List<CityModel> filteredCities = globalCities.where((city) {
-        String normalizedCityName = city.cityName
-            .replaceAll('أ', 'ا')
-            .replaceAll('إ', 'ا')
-            .replaceAll('آ', 'ا');
-        return normalizedCityName
-            .toLowerCase()
-            .contains(normalizedValue.toLowerCase());
-      }).toList();
-
-      // قائمة لتخزين المناطق التي تتبع للمدن المصفاة
-      List<DistrictModel> matchingDistricts = [];
-
-      // البحث عن المناطق التي تنتمي إلى هذه المدن بناءً على الـ CityId
-      for (var city in filteredCities) {
-        // إضافة المناطق التي تتبع لـ CityId الخاص بالمدينة
-        matchingDistricts.addAll(globalDistricts.where((district) {
-          return district.cityId == city.cityId;
-        }).toList());
-      }
-
-      // تحديث المتغيرات المعنية
-      filterCities(
-          value: value,
-          globalCities: globalCities); // تحديث قائمة المدن المصفاة
-
-      filteredDistricts = matchingDistricts;
-
-      if (filteredDistricts.isEmpty) {
-        filterDistricts(value: value, globalDistricts: globalDistricts);
-      }
-      // يمكن أن تستخدم emit هنا لإعادة تفعيل الواجهة أو الحالة إذا كنت تستخدم Bloc أو Cubit
-      emit(PropertyInitial());
-    } else {
-      // إذا كان النص المدخل أقل من 3 أحرف، نقوم بفلترة المدن والمناطق بالطريقة العادية
-      filterCities(value: value, globalCities: globalCities);
-      filterDistricts(value: value, globalDistricts: globalDistricts);
-    }
-  }
-
-  void selectCityAndDistricts({required dynamic value}) {
-    selectCitiesAndDistricts.add(value);
-    emit(PropertyInitial());
-  }
-
-  void unSelectCityAndDistricts({required int index}) {
-    selectCitiesAndDistricts.removeAt(index);
-    emit(PropertyInitial());
-  }
-
 //-------------------------for type property----------------------
 
 //for rent
@@ -152,7 +39,7 @@ class PropertyCubit extends Cubit<PropertyState> {
 // 11---> land
 // 12---> villa
 // 13---> facility
-// 22---> office
+// 26---> office
 
 //for buy
 // 14---> house
@@ -161,13 +48,76 @@ class PropertyCubit extends Cubit<PropertyState> {
 // 17---> land
 // 18---> villa
 // 19---> facility
-// 23---> office
+// 27---> office
 
-  int propertyType = 8;
+  late int propertyType;
 
   changePropertyType(int type) {
     propertyType = type;
+    print('propertyType: $propertyType');
     emit(PropertyInitial());
+  }
+
+  void switchPropertyType() {
+    // إذا كان الوضع هو للإيجار (adType == 5)
+    if (adType == 5) {
+      switch (propertyType) {
+        case 14: // house (للبيع)
+          propertyType = 8; // house (للايجار)
+          break;
+        case 15: // store (للبيع)
+          propertyType = 9; // store (للايجار)
+          break;
+        case 16: // apartment (للبيع)
+          propertyType = 10; // apartment (للايجار)
+          break;
+        case 17: // land (للبيع)
+          propertyType = 11; // land (للايجار)
+          break;
+        case 18: // villa (للبيع)
+          propertyType = 12; // villa (للايجار)
+          break;
+        case 19: // facility (للبيع)
+          propertyType = 13; // facility (للايجار)
+          break;
+        case 26: // office (للبيع)
+          propertyType = 27; // office (للايجار)
+          break;
+        default:
+          // إذا كان نوع العقار لا يتوافق مع الشروط، لا تغيّر شيء
+          break;
+      }
+    } else {
+      // إذا كان الوضع للبيع (adType != 5)
+      switch (propertyType) {
+        case 8: // house (للايجار)
+          propertyType = 14; // house (للبيع)
+          break;
+        case 9: // store (للايجار)
+          propertyType = 15; // store (للبيع)
+          break;
+        case 10: // apartment (للايجار)
+          propertyType = 16; // apartment (للبيع)
+          break;
+        case 11: // land (للايجار)
+          propertyType = 17; // land (للبيع)
+          break;
+        case 12: // villa (للايجار)
+          propertyType = 18; // villa (للبيع)
+          break;
+        case 13: // facility (للايجار)
+          propertyType = 19; // facility (للبيع)
+          break;
+        case 27: // office (للايجار)
+          propertyType = 26; // office (للبيع)
+          break;
+        default:
+          // إذا كان نوع العقار لا يتوافق مع الشروط، لا تغيّر شيء
+          break;
+      }
+    }
+
+    print('after switch: $propertyType');
   }
 
 //-------------------------for Room Count----------------------
@@ -224,17 +174,42 @@ class PropertyCubit extends Cubit<PropertyState> {
     emit(PropertyInitial());
   }
 
-//***********************************for home*******************************
+  //***********************************for Area*******************************
+
+  double? minArea;
+  double? maxArea;
+
+  void updateMinArea(double? value) {
+    maxArea = value;
+    emit(PropertyFilterAreaRange());
+  }
+
+  void updateMaxArea(double? value) {
+    maxArea = value;
+    emit(PropertyFilterAreaRange());
+  }
+
+  void updateAreaRange(double lowerValue, double upperValue) {
+    minArea = lowerValue;
+    maxArea = upperValue;
+
+    print('minArea: $minArea, maxArea: $maxArea');
+    emit(PropertyFilterAreaRange());
+  }
 
   //***********************************for get property*******************************
 
   List<AdsModel> filteredAds = [];
-  Future<void> applyFilter() async {
+  Future<void> applyFilter(
+      {required List<int> listCityIds,
+      required List<int> listDistrictIds,
+      required int? minPrice,
+      required int? maxPrice}) async {
     emit(PropertyAdsFilterLoading());
     try {
       filteredAds = await searchPropertyRepository.getFilteredAds(
         PropertyFilterRequestModel(
-            categoryId: 14,
+            categoryId: propertyType,
             sellerType: sellerType == 0 ? null : sellerType,
             roomCount: listRoomCount.isEmpty ? null : listRoomCount,
             furnish: furnishedType == 0
@@ -242,13 +217,13 @@ class PropertyCubit extends Cubit<PropertyState> {
                 : furnishedType == 1
                     ? 'true'
                     : 'false',
-            cityId: null,
-            districtId: null,
+            cityId: listCityIds.isEmpty ? null : listCityIds,
+            districtId: listDistrictIds.isEmpty ? null : listDistrictIds,
             bathroomCount: listBathRoomCount.isEmpty ? null : listBathRoomCount,
-            minPrice: null,
-            maxPrice: null,
-            minTotalArea: null,
-            maxTotalArea: null,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            minTotalArea: minArea?.toInt(),
+            maxTotalArea: maxArea?.toInt(),
             orderBy: null,
             page: null),
       );
@@ -266,3 +241,4 @@ class PropertyCubit extends Cubit<PropertyState> {
     }
   }
 }
+//  List<dynamic> selectCitiesAndDistricts = [];

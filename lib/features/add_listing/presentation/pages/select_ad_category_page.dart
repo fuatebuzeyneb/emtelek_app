@@ -20,9 +20,9 @@ class SelectAdCategoryPage extends StatelessWidget {
         BlocProvider.of<PropertyAddAdCubit>(context);
     List<int> categories = [];
     if (propertyAddAdCubit.categoryForAdType == 6) {
-      categories = [14, 15, 23, 17, 18, 16, 19];
+      categories = [14, 15, 27, 17, 18, 16, 19];
     } else if (propertyAddAdCubit.categoryForAdType == 5) {
-      categories = [8, 9, 22, 11, 12, 10, 13, 7];
+      categories = [8, 9, 26, 11, 12, 10, 13, 7];
     }
     final List<Map<String, dynamic>> cardsData = [
       {

@@ -4,11 +4,14 @@ import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
+import 'package:emtelek/features/search_property/presentation/widgets/area_range_widget.dart';
+import 'package:emtelek/features/search_property/presentation/widgets/scroll_property_type_widget.dart';
 import 'package:emtelek/shared/common_pages/location_selection_page.dart';
 import 'package:emtelek/features/search_property/presentation/pages/property_search_result_page.dart';
 import 'package:emtelek/features/auth/presentation/pages/login_page.dart';
 import 'package:emtelek/features/auth/presentation/pages/signup_page.dart';
-import 'package:emtelek/shared/widgets/price_widget.dart';
+import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
+import 'package:emtelek/shared/widgets/price_range_widget.dart';
 import 'package:emtelek/shared/widgets/tab_style_button_widget.dart';
 import 'package:emtelek/shared/widgets/bottom_sheet_widget.dart';
 import 'package:emtelek/shared/widgets/left_hint_text_field_widget.dart';
@@ -33,6 +36,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
+    SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
 
     return BlocConsumer<PropertyCubit, PropertyState>(
       listener: (context, state) {
@@ -78,6 +82,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                     TabStyleButtonWidget(
                       onTap: () {
                         propertyCubit.changeAdType(5);
+                        propertyCubit.switchPropertyType();
                       },
                       fontSize: 16,
                       bottomColor: propertyCubit.adType == 5
@@ -91,6 +96,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                     TabStyleButtonWidget(
                       onTap: () {
                         propertyCubit.changeAdType(6);
+                        propertyCubit.switchPropertyType();
                       },
                       bottomColor: propertyCubit.adType == 6
                           ? AppColors.primary
@@ -170,287 +176,8 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                         ],
                       ),
                       10.toHeight,
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            ButtonWidget(
-                              onTap: () {
-                                propertyCubit.changePropertyType(8);
-                              },
-                              color: Colors.white,
-                              height: 0.1,
-                              width: 0.24,
-                              borderColor: propertyCubit.propertyType == 8
-                                  ? AppColors.primary
-                                  : Colors.black26,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/home.png',
-                                    height: 23,
-                                    width: 23,
-                                    color: propertyCubit.propertyType == 8
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                  ),
-                                  4.toHeight,
-                                  TextWidget(
-                                    text: S.of(context).Apartment,
-                                    fontSize: 14,
-                                    color: propertyCubit.propertyType == 8
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            6.toWidth,
-                            ButtonWidget(
-                              onTap: () {
-                                propertyCubit.changePropertyType(9);
-                              },
-                              color: Colors.white,
-                              height: 0.1,
-                              width: 0.24,
-                              borderColor: propertyCubit.propertyType == 9
-                                  ? AppColors.primary
-                                  : Colors.black26,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/store.png',
-                                    height: 23,
-                                    width: 23,
-                                    color: propertyCubit.propertyType == 9
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                  ),
-                                  4.toHeight,
-                                  TextWidget(
-                                    text: S.of(context).Shop,
-                                    fontSize: 14,
-                                    color: propertyCubit.propertyType == 9
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            6.toWidth,
-                            ButtonWidget(
-                              onTap: () {
-                                propertyCubit.changePropertyType(20);
-                              },
-                              color: Colors.white,
-                              height: 0.1,
-                              width: 0.24,
-                              borderColor: propertyCubit.propertyType == 20
-                                  ? AppColors.primary
-                                  : Colors.black26,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/office.png',
-                                    height: 23,
-                                    width: 23,
-                                    color: propertyCubit.propertyType == 20
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                  ),
-                                  4.toHeight,
-                                  TextWidget(
-                                    text: S.of(context).Office,
-                                    fontSize: 14,
-                                    color: propertyCubit.propertyType == 20
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            6.toWidth,
-                            ButtonWidget(
-                              onTap: () {
-                                propertyCubit.changePropertyType(11);
-                              },
-                              color: Colors.white,
-                              height: 0.1,
-                              width: 0.24,
-                              borderColor: propertyCubit.propertyType == 11
-                                  ? AppColors.primary
-                                  : Colors.black26,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/land.png',
-                                    height: 23,
-                                    width: 23,
-                                    color: propertyCubit.propertyType == 11
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                  ),
-                                  4.toHeight,
-                                  TextWidget(
-                                    text: S.of(context).Land,
-                                    fontSize: 14,
-                                    color: propertyCubit.propertyType == 11
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            6.toWidth,
-                            ButtonWidget(
-                              onTap: () {
-                                propertyCubit.changePropertyType(12);
-                              },
-                              color: Colors.white,
-                              height: 0.1,
-                              width: 0.24,
-                              borderColor: propertyCubit.propertyType == 12
-                                  ? AppColors.primary
-                                  : Colors.black26,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/house.png',
-                                    height: 23,
-                                    width: 23,
-                                    color: propertyCubit.propertyType == 12
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                  ),
-                                  4.toHeight,
-                                  TextWidget(
-                                    text: S.of(context).Villa,
-                                    fontSize: 14,
-                                    color: propertyCubit.propertyType == 12
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            6.toWidth,
-                            ButtonWidget(
-                              onTap: () {
-                                propertyCubit.changePropertyType(10);
-                              },
-                              color: Colors.white,
-                              height: 0.1,
-                              width: 0.24,
-                              borderColor: propertyCubit.propertyType == 10
-                                  ? AppColors.primary
-                                  : Colors.black26,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/building.png',
-                                    height: 23,
-                                    width: 23,
-                                    color: propertyCubit.propertyType == 10
-                                        ? AppColors.primary
-                                        : Colors.black87,
-                                  ),
-                                  4.toHeight,
-                                  TextWidget(
-                                    text: S.of(context).Building,
-                                    fontSize: 14,
-                                    color: propertyCubit.propertyType == 10
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            6.toWidth,
-                            ButtonWidget(
-                              onTap: () {
-                                propertyCubit.changePropertyType(13);
-                              },
-                              color: Colors.white,
-                              height: 0.1,
-                              width: 0.24,
-                              borderColor: propertyCubit.propertyType == 13
-                                  ? AppColors.primary
-                                  : Colors.black26,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/factory.png',
-                                    height: 23,
-                                    width: 23,
-                                    color: propertyCubit.propertyType == 13
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                  ),
-                                  4.toHeight,
-                                  TextWidget(
-                                    text: S.of(context).Factory,
-                                    fontSize: 14,
-                                    color: propertyCubit.propertyType == 13
-                                        ? AppColors.primary
-                                        : Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            propertyCubit.adType == 6 ? 0.toWidth : 6.toWidth,
-                            propertyCubit.adType == 6
-                                ? const SizedBox()
-                                : ButtonWidget(
-                                    onTap: () {
-                                      propertyCubit.changePropertyType(7);
-                                    },
-                                    color: Colors.white,
-                                    height: 0.1,
-                                    width: 0.24,
-                                    borderColor: propertyCubit.propertyType == 7
-                                        ? AppColors.primary
-                                        : Colors.black26,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'assets/icons/room.png',
-                                          height: 23,
-                                          width: 23,
-                                          color: propertyCubit.propertyType == 7
-                                              ? AppColors.primary
-                                              : Colors.black,
-                                        ),
-                                        4.toHeight,
-                                        TextWidget(
-                                          text: S.of(context).Room,
-                                          fontSize: 14,
-                                          color: propertyCubit.propertyType == 7
-                                              ? AppColors.primary
-                                              : Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                          ],
-                        ),
-                      ),
+                      ScrollPropertyTypeWidget(
+                          itIsRent: propertyCubit.adType == 5),
                       20.toHeight,
                       Row(
                         children: [
@@ -846,7 +573,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const PriceWidget(),
+                      const PriceRangeWidget(),
                       20.toHeight,
                       Row(
                         children: [
@@ -858,62 +585,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            height: context.height * 0.06,
-                            width: context.width * 0.42,
-                            child: const LeftHintTextFieldWidget(
-                                initialValue: '0.0',
-                                hint: 'متر مربع',
-                                keyboardType: TextInputType.number),
-                          ),
-                          TextWidget(
-                            text: S.of(context).To,
-                            fontSize: 14,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          SizedBox(
-                            height: context.height * 0.06,
-                            width: context.width * 0.42,
-                            child: const LeftHintTextFieldWidget(
-                                initialValue: '0.0',
-                                hint: 'متر مربع',
-                                keyboardType: TextInputType.number),
-                          ),
-                        ],
-                      ),
-                      10.toHeight,
-                      FlutterSlider(
-                        values: const [0, 1000],
-                        max: 1000,
-                        min: 0,
-                        rangeSlider: true,
-                        handlerHeight: 20,
-                        handlerWidth: 20,
-                        trackBar: FlutterSliderTrackBar(
-                          activeTrackBarHeight: 5,
-                          activeTrackBar:
-                              const BoxDecoration(color: Colors.black),
-                          inactiveTrackBar:
-                              BoxDecoration(color: Colors.grey[300]),
-                        ),
-                        handler: FlutterSliderHandler(
-                          decoration: const BoxDecoration(
-                            color: Colors.black,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        rightHandler: FlutterSliderHandler(
-                          decoration: const BoxDecoration(
-                            color: Colors.black,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        onDragging: (handlerIndex, lowerValue, upperValue) {},
-                      ),
+                      const AreaRangeWidget(),
                     ]),
                   ),
                 ),
@@ -921,7 +593,11 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: ButtonWidget(
                     onTap: () {
-                      propertyCubit.applyFilter();
+                      propertyCubit.applyFilter(
+                          listCityIds: settingsCubit.selectedCityIds,
+                          listDistrictIds: settingsCubit.selectedDistrictIds,
+                          minPrice: settingsCubit.minPrice?.toInt(),
+                          maxPrice: settingsCubit.maxPrice?.toInt());
                       pageTransition(context,
                           page: const PropertySearchResultPage());
                     },

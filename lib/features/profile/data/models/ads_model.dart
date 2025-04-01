@@ -33,43 +33,44 @@ class AdsModel {
   int? balconyCount;
   String? complexName;
   bool? isFinished;
+  bool? isFavorite;
 
-  AdsModel({
-    required this.token,
-    required this.adId,
-    required this.adTitle,
-    required this.price,
-    required this.currency,
-    this.description,
-    required this.location,
-    required this.publishDate,
-    required this.status,
-    required this.sellerType,
-    required this.categoryId,
-    required this.clientId,
-    required this.firstName,
-    required this.lastName,
-    required this.phoneNumber,
-    required this.email,
-    required this.subscriptionDate,
-    this.cityId,
-    this.cityName,
-    this.districtId,
-    this.districtCityId,
-    this.districtName,
-    required this.totalArea,
-    this.netOrBuildingArea,
-    this.roomCount,
-    this.floorNumber,
-    this.floorCount,
-    this.bathroomCount,
-    this.furnish,
-    this.constructionDate,
-    this.address,
-    this.balconyCount,
-    this.complexName,
-    this.isFinished,
-  });
+  AdsModel(
+      {required this.token,
+      required this.adId,
+      required this.adTitle,
+      required this.price,
+      required this.currency,
+      this.description,
+      required this.location,
+      required this.publishDate,
+      required this.status,
+      required this.sellerType,
+      required this.categoryId,
+      required this.clientId,
+      required this.firstName,
+      required this.lastName,
+      required this.phoneNumber,
+      required this.email,
+      required this.subscriptionDate,
+      this.cityId,
+      this.cityName,
+      this.districtId,
+      this.districtCityId,
+      this.districtName,
+      required this.totalArea,
+      this.netOrBuildingArea,
+      this.roomCount,
+      this.floorNumber,
+      this.floorCount,
+      this.bathroomCount,
+      this.furnish,
+      this.constructionDate,
+      this.address,
+      this.balconyCount,
+      this.complexName,
+      this.isFinished,
+      this.isFavorite});
 
   factory AdsModel.fromJson(Map<String, dynamic> json) {
     return AdsModel(
@@ -89,6 +90,7 @@ class AdsModel {
       sellerType: (json['SellerType'] is String)
           ? int.tryParse(json['SellerType']) ?? 0
           : json['SellerType'] ?? 0,
+      isFavorite: json['isFavorite'],
       categoryId: (json['CategoryId'] is String)
           ? int.tryParse(json['CategoryId']) ?? 0
           : json['CategoryId'] ?? 0,
@@ -154,6 +156,7 @@ class AdsModel {
       'Address': address,
       'BalconyCount': balconyCount,
       'ComplexName': complexName,
+      'IsFinished': isFinished
     };
   }
 }

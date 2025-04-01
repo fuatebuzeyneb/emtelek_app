@@ -36,6 +36,7 @@ class HomePage extends StatelessWidget {
         "title": S.of(context).PropertyForRent,
         "image": 'assets/icons/home.png',
         "onTap": () {
+          propertyCubit.changePropertyType(8);
           propertyCubit.changeAdType(5);
           showModalBottomSheet(
             context: context,
@@ -51,6 +52,7 @@ class HomePage extends StatelessWidget {
         "title": S.of(context).PropertyForSale,
         "image": 'assets/icons/home.png',
         "onTap": () {
+          propertyCubit.changePropertyType(14);
           propertyCubit.changeAdType(6);
           showModalBottomSheet(
             context: context,
@@ -74,7 +76,7 @@ class HomePage extends StatelessWidget {
     ];
     BlocProvider.of<SettingsCubit>(context).openBox();
     homeCubit.startTimer();
-    homeCubit.getHomeData();
+    //homeCubit.getHomeData();
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SingleChildScrollView(

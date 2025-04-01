@@ -16,26 +16,6 @@ class SearchPropertyRepositoryImpl implements SearchPropertyRepository {
   Future<List<AdsModel>> getFilteredAds(
       PropertyFilterRequestModel filter) async {
     try {
-      // final data = {
-      //   'MinPrice': null,
-      //   'MaxPrice': null,
-      //   'CategoryId': 14,
-      //   'SellerType': 1,
-      //   'DistrictId': null,
-      //   'CityId': 1,
-      //   'MinTotalArea': null,
-      //   'MaxTotalArea': null,
-      //   'MinNetArea': null,
-      //   'MaxNetArea': null,
-      //   'RoomCount[]': null,
-      //   'FloorCount': null,
-      //   'BathroomCount': null,
-      //   'Furnish': null,
-      //   'MinConstructionDate': null,
-      //   'MaxConstructionDate': null,
-      //   'BalconyCount': null,
-      // };
-
       // طباعة البيانات التي سيتم إرسالها
       print('🚀 Sending filter data: ${filter.toJson()}');
 
@@ -46,17 +26,19 @@ class SearchPropertyRepositoryImpl implements SearchPropertyRepository {
       );
 
       print('----------------------------------------');
-      // طباعة الاستجابة
+// طباعة الاستجابة
       print('🚀 Response: $response');
 
-      if (response.containsKey("data") && response["data"] != null) {
+      if (response.containsKey("data") &&
+          response["data"] != null &&
+          response["data"] != false) {
         Map<String, dynamic> adsMap = response["data"];
         List<dynamic> adsJson = adsMap.values.toList();
 
         return adsJson.map((json) => AdsModel.fromJson(json)).toList();
       } else {
-        print("🚀 Error: Failed with status code: ${response.statusCode}");
-        return []; // إرجاع قائمة فارغة في حالة وجود خطأ
+        print("🚀 Error: Data is empty or invalid");
+        return []; // إرجاع قائمة فارغة في حالة عدم وجود بيانات صالحة
       }
     } catch (e) {
       print('----------------------------------------');
