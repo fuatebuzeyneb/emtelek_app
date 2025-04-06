@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
+import 'package:emtelek/core/utils/snackbar_utils.dart';
 import 'package:emtelek/features/add_listing/domain/cubit/property_add_ad_cubit.dart';
 import 'package:emtelek/features/add_listing/presentation/pages/finish_page.dart';
+import 'package:emtelek/features/add_listing/presentation/widgets/alert_dialog/ad_features_alert_dialog.dart';
 import 'package:emtelek/features/add_listing/presentation/widgets/alert_dialog/city_selection_alert_dialog.dart';
+import 'package:emtelek/features/add_listing/presentation/widgets/alert_dialog/currency_selection_alert_dialog.dart';
 import 'package:emtelek/features/add_listing/presentation/widgets/alert_dialog/district_selection_alert_dialog.dart';
 import 'package:emtelek/features/add_listing/presentation/widgets/alert_dialog/furnished_or_unfurnished_alert_dialog.dart';
 
@@ -305,13 +308,14 @@ class AddAdDetailsPage extends StatelessWidget {
                                   hint: S.of(context).Price,
                                   onChanged: (value) {
                                     propertyAddAdCubit.setPropertyField(
-                                        'adModelPrice', double.tryParse(value));
+                                        'adModelPrice', value);
                                   },
                                   suffixWidget: Padding(
                                     padding: EdgeInsets.only(
                                         top: context.height * 0.02),
-                                    child: const TextWidget(
-                                      text: 'USD',
+                                    child: TextWidget(
+                                      text: propertyAddAdCubit
+                                          .propertyAdModel.adModel.currency!,
                                       fontSize: 16,
                                       color: Colors.black38,
                                     ),
@@ -322,11 +326,21 @@ class AddAdDetailsPage extends StatelessWidget {
                               Expanded(
                                 flex: 1,
                                 child: ButtonWidget(
-                                  onTap: () {},
+                                  onTap: () {
+                                    showDialog<void>(
+                                      context: context,
+                                      barrierDismissible:
+                                          false, // user must tap button!
+                                      builder: (BuildContext context) {
+                                        return CurrencySelectionAlertDialog();
+                                      },
+                                    );
+                                  },
                                   height: 0.059,
                                   color: Colors.black,
                                   borderColor: Colors.black,
-                                  text: "USD",
+                                  text: propertyAddAdCubit
+                                      .propertyAdModel.adModel.currency,
                                   fontSize: 16,
                                 ),
                               ),
@@ -338,7 +352,7 @@ class AddAdDetailsPage extends StatelessWidget {
                             hint: S.of(context).TotalArea,
                             onChanged: (value) {
                               propertyAddAdCubit.setPropertyField(
-                                  'totalArea', double.tryParse(value));
+                                  'totalArea', value);
                             },
                             suffixWidget: Padding(
                               padding: EdgeInsets.only(
@@ -355,7 +369,7 @@ class AddAdDetailsPage extends StatelessWidget {
                             paddingVertical: 0,
                             onChanged: (value) {
                               propertyAddAdCubit.setPropertyField(
-                                  'netOrBuildingArea', double.tryParse(value));
+                                  'netOrBuildingArea', value);
                             },
                             hint: [
                               10,
@@ -799,6 +813,58 @@ class AddAdDetailsPage extends StatelessWidget {
                             ),
                           ),
                           12.toHeight,
+                          Visibility(
+                            visible: ![11, 17, 9, 15, 13, 19]
+                                .contains(propertyAddAdCubit.categoryForAdType),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              child: ButtonWidget(
+                                onTap: () {
+                                  propertyAddAdCubit.getFeatures();
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return AdFeaturesAlertDialog();
+                                      });
+                                },
+                                height: 0.06,
+                                width: 1,
+                                color: Colors.white,
+                                borderColor: Colors.grey,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  child: Row(
+                                    children: [
+                                      propertyAddAdCubit
+                                                  .propertyAdModel.furnished ==
+                                              null
+                                          ? TextWidget(
+                                              text: S
+                                                  .of(context)
+                                                  .FurnishedOptional,
+                                              fontSize: 16,
+                                              color: Colors.black38,
+                                            )
+                                          : TextWidget(
+                                              text: propertyAddAdCubit
+                                                          .propertyAdModel
+                                                          .furnished ==
+                                                      true
+                                                  ? S.of(context).Furnished
+                                                  : S.of(context).Unfurnished,
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          12.toHeight,
                           ButtonWidget(
                             onTap: () {
                               showDialog(
@@ -1074,12 +1140,33 @@ class AddAdDetailsPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ButtonWidget(
                   onTap: () {
-                    Navigator.pushNamed(context, FinishPage.id);
+                    if (propertyAddAdCubit.propertyAdModel.adModel.title == null ||
+                        propertyAddAdCubit.propertyAdModel.adModel.phone ==
+                            null ||
+                        propertyAddAdCubit.propertyAdModel.adModel.price ==
+                            null ||
+                        propertyAddAdCubit.propertyAdModel.adModel.currency ==
+                            null ||
+                        propertyAddAdCubit.propertyAdModel.totalArea == null ||
+                        propertyAddAdCubit.propertyAdModel.roomCount == null ||
+                        propertyAddAdCubit.propertyAdModel.bathroomCount ==
+                            null ||
+                        propertyAddAdCubit.propertyAdModel.adModel.sellerType ==
+                            null ||
+                        propertyAddAdCubit.propertyAdModel.adModel.districtId ==
+                            null ||
+                        propertyAddAdCubit.propertyAdModel.adModel.location ==
+                            null) {
+                      SnackbarUtils.showSnackbar(
+                          context, S.of(context).AddAdWarning, 2);
+                    } else {
+                      Navigator.pushNamed(context, FinishPage.id);
+                    }
                   },
                   text: S.of(context).Apply,
                   height: 0.06,
                   width: 1,
-                  color: Colors.red,
+                  color: AppColors.primary,
                   fontSize: 18,
                   colorText: Colors.white,
                 ),

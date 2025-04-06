@@ -1,10 +1,13 @@
 import 'package:emtelek/core/api/api_consumer.dart';
 import 'package:emtelek/core/api/end_points.dart';
+import 'package:emtelek/features/add_listing/data/models/feature_model.dart';
 import 'package:emtelek/features/add_listing/data/models/property_add_model.dart';
 
 abstract class PropertyRepository {
   Future<PropertyAdModel> addAdProperty(
       {required PropertyAdModel propertyAdModel});
+
+  Future<List<FeatureModel>> getFeatures();
 }
 
 class PropertyRepositoryImpl implements PropertyRepository {
@@ -30,6 +33,33 @@ class PropertyRepositoryImpl implements PropertyRepository {
 
     // تحويل الاستجابة إلى PropertyAdModel
     return PropertyAdModel.fromJson(response);
+  }
+
+  @override
+  Future<List<FeatureModel>> getFeatures() async {
+    try {
+      final response = await api.get(
+        '${EndPoints.baseUrl}${EndPoints.features}',
+      );
+
+      if (response == null || response["data"] == null) {
+        print("No ads found in the response");
+        throw Exception("No ads found");
+      }
+
+      Map<String, dynamic> adsMap = response["data"];
+      if (adsMap.isEmpty) {
+        print("No ads found in the ads map");
+        throw Exception("No ads found in the ads map");
+      }
+
+      List<dynamic> adsJson = adsMap.values.toList();
+      return adsJson.map((json) => FeatureModel.fromJson(json)).toList();
+      //return [];
+    } catch (e) {
+      print("Error in getMyAds: $e"); // طباعة الخطأ لمزيد من التحليل
+      throw Exception("Failed to load ads: ${e.toString()}");
+    }
   }
 }
 

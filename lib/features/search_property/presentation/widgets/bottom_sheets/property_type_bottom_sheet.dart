@@ -25,7 +25,8 @@ class PropertyTypeBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
+    final settingsCubit = context.read<SettingsCubit>();
+    final propertyCubit = context.read<PropertyCubit>();
     return BottomSheetWidget(
       circularRadius: 12,
       height: 0.33,
@@ -68,7 +69,16 @@ class PropertyTypeBottomSheet extends StatelessWidget {
             ButtonWidget(
                 paddingHorizontal: 12,
                 paddingVertical: 8,
-                onTap: () {},
+                onTap: () {
+                  propertyCubit.applyFilter(
+                    listCityIds: settingsCubit.selectedCityIds,
+                    listDistrictIds: settingsCubit.selectedDistrictIds,
+                    minPrice: settingsCubit.minPrice?.toInt(),
+                    maxPrice: settingsCubit.maxPrice?.toInt(),
+                    sortBy: settingsCubit.sortBy,
+                  );
+                  Navigator.pop(context);
+                },
                 text: 'اظهار النتائج',
                 color: AppColors.primary,
                 colorText: Colors.white,

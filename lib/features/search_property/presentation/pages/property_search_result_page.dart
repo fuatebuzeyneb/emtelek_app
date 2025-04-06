@@ -27,354 +27,370 @@ class PropertySearchResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
-    final List<Map<String, dynamic>> items = [
-      {
-        'text': propertyCubit.adType == 6 ? 'للبيع' : 'للايجار',
-        'onTap': () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true, // يسمح بالتحكم الكامل في الطول
-            enableDrag: false,
 
-            builder: (context) {
-              return const PropertyRentOrSaleBottomSheet();
-            },
-          );
-        },
-      },
-      {
-        'text': propertyCubit.adType == 6
-            ? '${settingsCubit.saleCategories[propertyCubit.propertyType]}'
-            : '${settingsCubit.rentCategories[propertyCubit.propertyType]}',
-        'onTap': () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true, // يسمح بالتحكم الكامل في الطول
-            enableDrag: false,
-
-            builder: (context) {
-              return const PropertyTypeBottomSheet();
-            },
-          );
-        },
-      },
-      {
-        'text': 'السعر',
-        'onTap': () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true, // يسمح بالتحكم الكامل في الطول
-            enableDrag: false,
-
-            builder: (context) {
-              return const PropertyPriceInputBottomSheet();
-            },
-          );
-        },
-      },
-      {
-        'text': 'غرف النوم',
-        'onTap': () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true, // يسمح بالتحكم الكامل في الطول
-            enableDrag: false,
-
-            builder: (context) {
-              return const PropertyRoomCountBottomSheet();
-            },
-          );
-        },
-      },
-      {
-        'text': 'عدد الحمامات',
-        'onTap': () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true, // يسمح بالتحكم الكامل في الطول
-            enableDrag: false,
-
-            builder: (context) {
-              return const PropertyBathroomCountBottomSheet();
-            },
-          );
-        },
-      },
-    ];
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      body: BlocConsumer<PropertyCubit, PropertyState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
-        builder: (context, state) {
-          return Column(
-            children: [
-              ButtonWidget(
-                borderRadius: 0,
-                showElevation: true,
-                boxShadowOpacity: 0.1,
-                height: 0.24,
-                width: 1,
-                onTap: () {},
-                color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Icon(
-                              Icons.arrow_back_ios,
-                              size: 20,
+        backgroundColor: Colors.grey.shade200,
+        body: Column(
+          children: [
+            ButtonWidget(
+              borderRadius: 0,
+              showElevation: true,
+              boxShadowOpacity: 0.1,
+              height: 0.24,
+              width: 1,
+              onTap: () {},
+              color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            size: 20,
+                          ),
+                        ),
+                        8.toWidth,
+                        ButtonWidget(
+                          onTap: () {},
+                          color: Colors.white,
+                          height: 0.06,
+                          width: 0.86,
+                          colorText: Colors.grey,
+                          borderColor: Colors.grey,
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  size: 20,
+                                ),
+                                SizedBox(width: 4),
+                                TextWidget(
+                                  text: 'دمشق، اللاذقية، ادلب، سراقب، بانياس',
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ],
                             ),
                           ),
-                          8.toWidth,
-                          ButtonWidget(
-                            onTap: () {},
-                            color: Colors.white,
-                            height: 0.06,
-                            width: 0.86,
-                            colorText: Colors.grey,
-                            borderColor: Colors.grey,
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    size: 20,
-                                  ),
-                                  SizedBox(width: 4),
-                                  TextWidget(
-                                    text: 'دمشق، اللاذقية، ادلب، سراقب، بانياس',
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    12.toHeight,
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.tune,
-                              color: AppColors.primary,
-                              size: 24,
-                            ),
-                            8.toWidth,
-                            TextWidget(
-                              text: 'فلتر',
-                              fontSize: 16,
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            4.toWidth,
-                            ButtonWidget(
-                              paddingHorizontal: 8,
-                              paddingVertical: 2,
-                              borderRadius: 16,
-                              onTap: () {},
-                              color: Colors.black,
-                              height: 0,
-                              width: 0,
-                              colorText: Colors.white,
-                              borderColor: Colors.black,
-                              text: '2',
-                            ),
-                            8.toWidth,
-                            SizedBox(
-                              height: context.height * 0.04,
-                              width: context.width * 1.32,
-                              child: ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: 5,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8, right: 0),
-                                    child: ButtonWidget(
-                                      onTap: items[index]['onTap'],
-                                      color: (index == 0 || index == 1)
-                                          ? Colors.grey.shade200
-                                          : Colors.white,
-                                      height: 0,
-                                      width: 0,
-                                      borderColor: (index == 0 || index == 1)
-                                          ? Colors.black
-                                          : Colors.grey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: Row(
-                                          children: [
-                                            TextWidget(
-                                              text: items[index]['text'],
-                                              fontSize: 14,
-                                              color: (index == 0 || index == 1)
-                                                  ? Colors.black
-                                                  : Colors.grey,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Icon(
-                                              Icons.keyboard_arrow_down,
-                                              size: 20,
-                                              color: (index == 0 || index == 1)
-                                                  ? Colors.black
-                                                  : Colors.grey,
-                                            ),
-                                          ],
+                  ),
+                  12.toHeight,
+                  BlocConsumer<SettingsCubit, SettingsState>(
+                    listener: (context, state) {
+                      // TODO: implement listener
+                    },
+                    builder: (context, state) {
+                      final List<Map<String, dynamic>> items = [
+                        {
+                          'text':
+                              propertyCubit.adType == 6 ? 'للبيع' : 'للايجار',
+                          'onTap': () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled:
+                                  true, // يسمح بالتحكم الكامل في الطول
+                              enableDrag: false,
+
+                              builder: (context) {
+                                return const PropertyRentOrSaleBottomSheet();
+                              },
+                            );
+                          },
+                        },
+                        {
+                          'text': propertyCubit.adType == 6
+                              ? '${settingsCubit.saleCategories[propertyCubit.propertyType]}'
+                              : '${settingsCubit.rentCategories[propertyCubit.propertyType]}',
+                          'onTap': () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled:
+                                  true, // يسمح بالتحكم الكامل في الطول
+                              enableDrag: false,
+
+                              builder: (context) {
+                                return const PropertyTypeBottomSheet();
+                              },
+                            );
+                          },
+                        },
+                        {
+                          'text': 'السعر',
+                          'onTap': () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled:
+                                  true, // يسمح بالتحكم الكامل في الطول
+                              enableDrag: false,
+
+                              builder: (context) {
+                                return const PropertyPriceInputBottomSheet();
+                              },
+                            );
+                          },
+                        },
+                        {
+                          'text': 'غرف النوم',
+                          'onTap': () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled:
+                                  true, // يسمح بالتحكم الكامل في الطول
+                              enableDrag: false,
+
+                              builder: (context) {
+                                return const PropertyRoomCountBottomSheet();
+                              },
+                            );
+                          },
+                        },
+                        {
+                          'text': 'عدد الحمامات',
+                          'onTap': () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled:
+                                  true, // يسمح بالتحكم الكامل في الطول
+                              enableDrag: false,
+
+                              builder: (context) {
+                                return const PropertyBathroomCountBottomSheet();
+                              },
+                            );
+                          },
+                        },
+                      ];
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.tune,
+                                color: AppColors.primary,
+                                size: 24,
+                              ),
+                              8.toWidth,
+                              TextWidget(
+                                text: 'فلتر',
+                                fontSize: 16,
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              4.toWidth,
+                              ButtonWidget(
+                                paddingHorizontal: 8,
+                                paddingVertical: 2,
+                                borderRadius: 16,
+                                onTap: () {},
+                                color: Colors.black,
+                                height: 0,
+                                width: 0,
+                                colorText: Colors.white,
+                                borderColor: Colors.black,
+                                text: '2',
+                              ),
+                              8.toWidth,
+                              SizedBox(
+                                height: context.height * 0.04,
+                                width: context.width * 1.32,
+                                child: ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: 5,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, right: 0),
+                                      child: ButtonWidget(
+                                        onTap: items[index]['onTap'],
+                                        color: (index == 0 || index == 1)
+                                            ? Colors.grey.shade200
+                                            : Colors.white,
+                                        height: 0,
+                                        width: 0,
+                                        borderColor: (index == 0 || index == 1)
+                                            ? Colors.black
+                                            : Colors.grey,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: Row(
+                                            children: [
+                                              TextWidget(
+                                                text: items[index]['text'],
+                                                fontSize: 14,
+                                                color:
+                                                    (index == 0 || index == 1)
+                                                        ? Colors.black
+                                                        : Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Icon(
+                                                Icons.keyboard_arrow_down,
+                                                size: 20,
+                                                color:
+                                                    (index == 0 || index == 1)
+                                                        ? Colors.black
+                                                        : Colors.grey,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            const TextWidget(
-                              text: 'كل الفلاتر',
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            2.toWidth,
-                            SizedBox(
-                              height: context.height * 0.025,
-                              child: const VerticalDivider(
-                                color: Colors.grey,
-                                thickness: 2,
-                              ),
-                            ),
-                            2.toWidth,
-                            const TextWidget(
-                              text: 'كل الفلاتر',
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    14.toHeight,
-                    ButtonWidget(
-                      height: 0.04,
-                      width: 1,
-                      onTap: () {},
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: ButtonWidget(
-                              color: Colors.white,
-                              onTap: () {},
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.swap_vert),
-                                  4.toWidth,
-                                  TextWidget(
-                                    text: S.of(context).Sort,
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          VerticalDivider(
-                            color: Colors.grey,
-                            thickness: 2,
-                          ),
-                          Expanded(
-                            child: ButtonWidget(
-                              height: 0.04,
-                              width: 0.5,
-                              color: Colors.white,
-                              onTap: () {
-                                showDialog<void>(
-                                  context: context,
-                                  barrierDismissible:
-                                      false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return SortAlertDialogWidget();
+                                    );
                                   },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.bookmark),
-                                  4.toWidth,
-                                  TextWidget(
-                                    text: S.of(context).Save,
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    6.toHeight,
-                  ],
-                ),
-              ),
-              16.toHeight,
-              state is PropertyAdsFilterLoading
-                  ? Center(
-                      child: LoadingWidget(),
-                    )
-                  : state is PropertyAdsFilterFailure
-                      ? Center(
-                          child: Text(state.errMessage),
-                        )
-                      : Expanded(
-                          child: ListView.builder(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                            ),
-                            itemCount: BlocProvider.of<PropertyCubit>(context)
-                                .filteredAds
-                                .length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: 16),
-                                child: PropertyCard(
-                                  index: index,
-                                  adsModel:
-                                      BlocProvider.of<PropertyCubit>(context)
-                                          .filteredAds,
                                 ),
+                              ),
+                              const TextWidget(
+                                text: 'كل الفلاتر',
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              2.toWidth,
+                              SizedBox(
+                                height: context.height * 0.025,
+                                child: const VerticalDivider(
+                                  color: Colors.grey,
+                                  thickness: 2,
+                                ),
+                              ),
+                              2.toWidth,
+                              const TextWidget(
+                                text: 'كل الفلاتر',
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  14.toHeight,
+                  ButtonWidget(
+                    height: 0.04,
+                    width: 1,
+                    onTap: () {},
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ButtonWidget(
+                            color: Colors.white,
+                            onTap: () {
+                              showDialog<void>(
+                                context: context,
+                                barrierDismissible:
+                                    false, // user must tap button!
+                                builder: (BuildContext context) {
+                                  return SortAlertDialogWidget();
+                                },
                               );
                             },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.swap_vert),
+                                4.toWidth,
+                                TextWidget(
+                                  text: S.of(context).Sort,
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        VerticalDivider(
+                          color: Colors.grey,
+                          thickness: 2,
+                        ),
+                        Expanded(
+                          child: ButtonWidget(
+                            height: 0.04,
+                            width: 0.5,
+                            color: Colors.white,
+                            onTap: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.bookmark),
+                                4.toWidth,
+                                TextWidget(
+                                  text: S.of(context).Save,
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ],
+                            ),
                           ),
                         )
-            ],
-          );
-        },
-      ),
-    );
+                      ],
+                    ),
+                  ),
+                  6.toHeight,
+                ],
+              ),
+            ),
+            16.toHeight,
+            BlocConsumer<PropertyCubit, PropertyState>(
+              listener: (context, state) {
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                return state is PropertyAdsFilterLoading
+                    ? Center(
+                        child: LoadingWidget(),
+                      )
+                    : state is PropertyAdsFilterFailure
+                        ? Center(
+                            child: Text(state.errMessage),
+                          )
+                        : Expanded(
+                            child: ListView.builder(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                              ),
+                              itemCount: BlocProvider.of<PropertyCubit>(context)
+                                  .filteredAds
+                                  .length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 16),
+                                  child: PropertyCard(
+                                    index: index,
+                                    adsModel:
+                                        BlocProvider.of<PropertyCubit>(context)
+                                            .filteredAds,
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+              },
+            )
+          ],
+        ));
   }
 }

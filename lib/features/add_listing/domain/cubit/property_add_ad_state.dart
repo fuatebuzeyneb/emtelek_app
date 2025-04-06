@@ -14,3 +14,15 @@ final class PropertyAddAdFailure extends PropertyAddAdState {
 
   PropertyAddAdFailure({required this.errorMassage});
 }
+
+final class FeaturesAddAdInitial extends PropertyAddAdState {}
+
+final class FeaturesAddAdLoading extends PropertyAddAdState {}
+
+final class FeaturesAddAdSuccess extends PropertyAddAdState {}
+
+final class FeaturesAddAdFailure extends PropertyAddAdState {
+  final String errorMassage;
+
+  FeaturesAddAdFailure({required this.errorMassage});
+}

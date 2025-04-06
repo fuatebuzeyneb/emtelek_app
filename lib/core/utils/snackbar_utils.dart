@@ -16,7 +16,7 @@ class SnackbarUtils {
       backgroundColor: AppColors.primary,
       duration: Duration(seconds: seconds),
       action: SnackBarAction(
-        label: S.of(context).All,
+        label: S.of(context).Ok,
         textColor: Colors.white,
         onPressed: () {},
       ),

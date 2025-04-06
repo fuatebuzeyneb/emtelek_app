@@ -39,6 +39,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "AdTitle": MessageLookupByLibrary.simpleMessage("عنوان الإعلان"),
     "AdTitleHint": MessageLookupByLibrary.simpleMessage("عنوان الإعلان"),
+    "AddAdWarning": MessageLookupByLibrary.simpleMessage(
+      "املأ الحقول المطلوبة على الأقل",
+    ),
     "AddLocation": MessageLookupByLibrary.simpleMessage("اضف الموقع"),
     "AddPhoto": MessageLookupByLibrary.simpleMessage("اضف صورة"),
     "AddPhotos": MessageLookupByLibrary.simpleMessage("أضف الصور"),
@@ -195,6 +198,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "NumberOfBedrooms": MessageLookupByLibrary.simpleMessage("عدد غرف النوم"),
     "NumberOfRooms": MessageLookupByLibrary.simpleMessage("عدد الغرف"),
     "Office": MessageLookupByLibrary.simpleMessage("مكتب"),
+    "Ok": MessageLookupByLibrary.simpleMessage("حسنا"),
     "Owner": MessageLookupByLibrary.simpleMessage("مالك"),
     "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "PhoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),

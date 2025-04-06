@@ -40,9 +40,9 @@ class FurnishedOrUnfurnishedAlertDialog extends StatelessWidget {
                 // colorText: Colors.black38,
                 onTap: () {
                   if (isEdit == false) {
-                    propertyAddAdCubit.setPropertyField('furnished', 'true');
+                    propertyAddAdCubit.setPropertyField('furnished', true);
                   } else {
-                    myAdsCubit.updatePropertyField('furnished', 'true');
+                    myAdsCubit.updatePropertyField('furnished', true);
                   }
 
                   Navigator.pop(context);
@@ -103,9 +103,9 @@ class FurnishedOrUnfurnishedAlertDialog extends StatelessWidget {
                 // colorText: Colors.black38,
                 onTap: () {
                   if (isEdit == false) {
-                    propertyAddAdCubit.setPropertyField('furnished', 'false');
+                    propertyAddAdCubit.setPropertyField('furnished', false);
                   } else {
-                    myAdsCubit.updatePropertyField('furnished', 'false');
+                    myAdsCubit.updatePropertyField('furnished', false);
                   }
 
                   Navigator.pop(context);
@@ -124,7 +124,7 @@ class FurnishedOrUnfurnishedAlertDialog extends StatelessWidget {
                             groupValue: isEdit
                                 ? myAdsCubit.myAds[myAdsCubit.editIndex]
                                             .furnish ==
-                                        'true'
+                                        true
                                     ? true
                                     : false
                                 : propertyAddAdCubit.propertyAdModel.furnished,

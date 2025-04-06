@@ -557,7 +557,7 @@ class FinishPage extends StatelessWidget {
               onTap: () {
                 propertyAddAdCubit.setPropertyField(
                     'adModelCategoryId', propertyAddAdCubit.categoryForAdType);
-                propertyAddAdCubit.setPropertyField('adModelCurrency', 'USD');
+
                 propertyAddAdCubit.addAdPropertyFunc();
               },
               text: S.of(context).Apply,

@@ -39,6 +39,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "AdTitle": MessageLookupByLibrary.simpleMessage("Ad Title"),
     "AdTitleHint": MessageLookupByLibrary.simpleMessage("Ad Title"),
+    "AddAdWarning": MessageLookupByLibrary.simpleMessage(
+      "Fill in at least the required fields",
+    ),
     "AddLocation": MessageLookupByLibrary.simpleMessage("Add location"),
     "AddPhoto": MessageLookupByLibrary.simpleMessage("Add photo"),
     "AddPhotos": MessageLookupByLibrary.simpleMessage("Add Photos"),
@@ -203,6 +206,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "NumberOfRooms": MessageLookupByLibrary.simpleMessage("Number of Rooms"),
     "Office": MessageLookupByLibrary.simpleMessage("Office"),
+    "Ok": MessageLookupByLibrary.simpleMessage("Ok"),
     "Owner": MessageLookupByLibrary.simpleMessage("Owner"),
     "Password": MessageLookupByLibrary.simpleMessage("Password"),
     "PhoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),

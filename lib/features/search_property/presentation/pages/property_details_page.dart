@@ -36,11 +36,6 @@ class PropertyDetailsPage extends StatelessWidget {
 
   final int totalImages = 8;
 
-  final int totalFeatures = 11;
-
-  final List<String> features =
-      List.generate(11, (index) => 'ميزة ${index + 1}');
-
   final Key mapKey = UniqueKey();
 
   final ScrollController scrollController = ScrollController();
@@ -61,7 +56,10 @@ class PropertyDetailsPage extends StatelessWidget {
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
     AdDetailsCubit adDetailsCubit = BlocProvider.of<AdDetailsCubit>(context);
     adDetailsCubit.showAppBarFunction(scrollController);
+    final int totalFeatures = adsModel.f;
 
+    final List<String> features =
+        List.generate(11, (index) => 'ميزة ${index + 1}');
     // Alignment alignment =
     //     getIt<CacheHelper>().getDataString(key: 'Lang') == 'ar'
     //         ? Alignment.centerRight

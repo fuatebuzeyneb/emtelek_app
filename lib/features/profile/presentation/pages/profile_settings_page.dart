@@ -53,6 +53,36 @@ class ProfileSettingsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           12.toHeight,
+                          Stack(
+                            children: [
+                              Container(
+                                height: 100,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Colors.grey[300],
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: Colors.black,
+                                  ),
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          12.toHeight,
                           TextFieldWidget(
                             initialValue:
                                 profileCubit.accountData!.data!.firstName,
@@ -153,13 +183,17 @@ class ProfileSettingsPage extends StatelessWidget {
                                   ),
                                   TextWidget(
                                     text:
-                                        BlocProvider.of<SettingsCubit>(context)
-                                            .getCityNameByDistrictId(
-                                                profileCubit
-                                                        .accountData!
-                                                        .addressData!
-                                                        .districtId ??
-                                                    99999999),
+                                        profileCubit.accountData!.addressData !=
+                                                null
+                                            ? BlocProvider.of<SettingsCubit>(
+                                                    context)
+                                                .getCityNameByDistrictId(
+                                                    profileCubit
+                                                            .accountData!
+                                                            .addressData!
+                                                            .districtId ??
+                                                        99999999)
+                                            : '',
                                     fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -194,13 +228,17 @@ class ProfileSettingsPage extends StatelessWidget {
                                   ),
                                   TextWidget(
                                     text:
-                                        BlocProvider.of<SettingsCubit>(context)
-                                            .getDistrictNameByDistrictId(
-                                                profileCubit
-                                                        .accountData!
-                                                        .addressData!
-                                                        .districtId ??
-                                                    99999999),
+                                        profileCubit.accountData!.addressData !=
+                                                null
+                                            ? BlocProvider.of<SettingsCubit>(
+                                                    context)
+                                                .getDistrictNameByDistrictId(
+                                                    profileCubit
+                                                            .accountData!
+                                                            .addressData!
+                                                            .districtId ??
+                                                        99999999)
+                                            : '',
                                     fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -217,8 +255,11 @@ class ProfileSettingsPage extends StatelessWidget {
                           ),
                           12.toHeight,
                           TextFieldWidget(
-                            initialValue:
-                                '${profileCubit.accountData!.addressData!.address}',
+                            initialValue: profileCubit
+                                        .accountData!.addressData !=
+                                    null
+                                ? '${profileCubit.accountData!.addressData!.address}'
+                                : '',
                             label: TextWidget(
                               text: S.of(context).Address,
                               fontSize: 16,

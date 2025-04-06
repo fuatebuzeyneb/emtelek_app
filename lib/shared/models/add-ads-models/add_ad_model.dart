@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 class AddAdModel {
   String? title;
   String? description;
-  double? price;
+  String? price;
   String? phone;
   String? currency;
   String? email;

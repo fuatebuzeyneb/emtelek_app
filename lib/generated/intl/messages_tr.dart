@@ -37,6 +37,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "AdTitle": MessageLookupByLibrary.simpleMessage("İlan Başlığı"),
     "AdTitleHint": MessageLookupByLibrary.simpleMessage("İlan Başlığı"),
+    "AddAdWarning": MessageLookupByLibrary.simpleMessage(
+      "En azindan Zorunlu Alanları Doldurun",
+    ),
     "AddLocation": MessageLookupByLibrary.simpleMessage("Konumu ekle"),
     "AddPhoto": MessageLookupByLibrary.simpleMessage("Fotografı ekle"),
     "AddPhotos": MessageLookupByLibrary.simpleMessage("Fotoğraf Ekle"),
@@ -207,6 +210,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "NumberOfRooms": MessageLookupByLibrary.simpleMessage("Oda Sayısı"),
     "Office": MessageLookupByLibrary.simpleMessage("Ofis"),
+    "Ok": MessageLookupByLibrary.simpleMessage("Tamam"),
     "Owner": MessageLookupByLibrary.simpleMessage("Sahibi"),
     "Password": MessageLookupByLibrary.simpleMessage("Şifre"),
     "PhoneNumber": MessageLookupByLibrary.simpleMessage("Telefon Numarası"),

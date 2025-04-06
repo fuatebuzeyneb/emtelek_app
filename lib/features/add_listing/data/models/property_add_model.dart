@@ -2,8 +2,8 @@ import 'package:emtelek/shared/models/add-ads-models/add_ad_model.dart';
 
 class PropertyAdModel {
   AddAdModel adModel;
-  int? totalArea;
-  int? netOrBuildingArea;
+  String? totalArea;
+  String? netOrBuildingArea;
   int? roomCount;
   int? bathroomCount;
   int? floorCount;
@@ -12,6 +12,7 @@ class PropertyAdModel {
   DateTime? constructionDate;
   bool? furnished; //If we add to the land, this means that it contains trees
   String? complexName;
+  List<int>? features = [];
 
   PropertyAdModel({
     required this.adModel,
@@ -25,6 +26,7 @@ class PropertyAdModel {
     this.constructionDate,
     this.furnished = false,
     this.complexName,
+    this.features,
   });
 
   factory PropertyAdModel.fromJson(Map<String, dynamic> json) {
@@ -40,6 +42,7 @@ class PropertyAdModel {
       constructionDate: json["constructionDate"],
       furnished: json["furnished"],
       complexName: json["complexName"],
+      features: json["Features"],
     );
   }
 
@@ -55,6 +58,10 @@ class PropertyAdModel {
         "ConstructionDate": constructionDate,
         "Furnish": furnished,
         "ComplexName": complexName,
+        if (features!.isEmpty || features == null)
+          'Features': 'null'
+        else
+          'Features[]': features,
       };
 
   @override
@@ -70,6 +77,7 @@ class PropertyAdModel {
         'balconyCount: $balconyCount, '
         'constructionDate: $constructionDate, '
         'furnished: $furnished, '
+        'features: $features, '
         'complexName: $complexName)';
   }
 }

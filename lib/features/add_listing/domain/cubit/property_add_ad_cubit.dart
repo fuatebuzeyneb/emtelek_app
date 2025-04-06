@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:emtelek/core/errors/exceptions.dart';
+import 'package:emtelek/features/add_listing/data/models/feature_model.dart';
 import 'package:emtelek/features/add_listing/data/models/property_add_model.dart';
 import 'package:emtelek/features/add_listing/data/repositories/property_repository.dart';
 import 'package:emtelek/generated/l10n.dart';
@@ -48,6 +49,7 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
       constructionDate: null,
       furnished: null,
       complexName: null,
+      features: [],
       adModel: AddAdModel(
         title: null,
         price: null,
@@ -55,7 +57,7 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
         image: null,
         description: null,
         phone: null,
-        currency: null,
+        currency: 'USD',
         email: null,
         districtId: null,
         clientId: getIt<CacheHelper>().getData(key: 'clientId')!,
@@ -114,10 +116,20 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
       propertyAdModel.adModel.address = value;
     } else if (field == 'adModelToken') {
       propertyAdModel.adModel.token = value;
+    } else if (field == 'featuresAdd') {
+      propertyAdModel.features!.add(value);
+    } else if (field == 'featuresRemove') {
+      propertyAdModel.features!.remove(value);
     }
-
+    print('propertyAdModel: $propertyAdModel');
     emit(PropertyAddAdInitial());
   }
+
+  // void addFeatures({required int featuresId}) {
+  //  setPropertyField('features', featuresId);
+  //   emit(PropertyAddAdInitial());
+
+  // }
 
   Future<void> addAdPropertyFunc() async {
     try {
@@ -131,6 +143,19 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
       emit(PropertyAddAdSuccess());
     } on ServerException catch (e) {
       emit(PropertyAddAdFailure(errorMassage: e.errorModel.errorMessage));
+    }
+  }
+
+  List<FeatureModel> features = [];
+
+  Future<void> getFeatures() async {
+    try {
+      emit(FeaturesAddAdLoading());
+      final data = await propertyRepository.getFeatures();
+      features = data;
+      emit(FeaturesAddAdSuccess());
+    } on ServerException catch (e) {
+      emit(FeaturesAddAdFailure(errorMassage: e.errorModel.errorMessage));
     }
   }
 }

@@ -412,9 +412,24 @@ class S {
     return Intl.message('Clear', name: 'Clear', desc: '', args: []);
   }
 
+  /// `Ok`
+  String get Ok {
+    return Intl.message('Ok', name: 'Ok', desc: '', args: []);
+  }
+
   /// `Clear All`
   String get ClearAll {
     return Intl.message('Clear All', name: 'ClearAll', desc: '', args: []);
+  }
+
+  /// `Fill in at least the required fields`
+  String get AddAdWarning {
+    return Intl.message(
+      'Fill in at least the required fields',
+      name: 'AddAdWarning',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Sign In And Post`
