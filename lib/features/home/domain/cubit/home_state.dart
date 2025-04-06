@@ -16,3 +16,13 @@ final class HomeAdsFailure extends HomeState {
 
   HomeAdsFailure({required this.errorMassage});
 }
+
+final class HomeTextSearchAdsLoading extends HomeState {}
+
+final class HomeTextSearchAdsSuccess extends HomeState {}
+
+final class HomeTextSearchAdsFailure extends HomeState {
+  final String errorMassage;
+
+  HomeTextSearchAdsFailure({required this.errorMassage});
+}

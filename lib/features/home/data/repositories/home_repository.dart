@@ -7,6 +7,7 @@ import 'package:emtelek/shared/services/service_locator.dart';
 
 abstract class HomeRepository {
   Future<HomeModel> getHomeAds();
+  Future<List<AdsModel>> getSearchAds({required String searchQuery});
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -34,6 +35,47 @@ class HomeRepositoryImpl implements HomeRepository {
 
       return HomeModel.fromJson(response);
 
+      //return [];
+    } catch (e) {
+      print("Error in getMyAds: $e"); // طباعة الخطأ لمزيد من التحليل
+      throw Exception("Failed to load ads: ${e.toString()}");
+    }
+  }
+
+  @override
+  Future<List<AdsModel>> getSearchAds({required String searchQuery}) async {
+    try {
+      final data = {
+        "Token": getIt<CacheHelper>().getDataString(key: 'token'),
+        "ClientId": getIt<CacheHelper>().getData(key: 'clientId'),
+        "SearchQuery": searchQuery,
+        "Page": 0,
+        "OrderBy": "Price ASC",
+      };
+
+      print("Data being sent: $data");
+
+      final response = await api.post(
+        '${EndPoints.baseUrl}${EndPoints.adsSearch}',
+        isFormData: true,
+        data: data,
+      );
+
+      print("Response: $response"); // طباعة الاستجابة للتحقق
+
+      if (response == null || response["data"] == null) {
+        print("No ads found in the response");
+        throw Exception("No ads found");
+      }
+
+      Map<String, dynamic> adsMap = response["data"];
+      if (adsMap.isEmpty) {
+        print("No ads found in the ads map");
+        throw Exception("No ads found in the ads map");
+      }
+
+      List<dynamic> adsJson = adsMap.values.toList();
+      return adsJson.map((json) => AdsModel.fromJson(json)).toList();
       //return [];
     } catch (e) {
       print("Error in getMyAds: $e"); // طباعة الخطأ لمزيد من التحليل

@@ -7,6 +7,8 @@ import 'package:emtelek/features/search_property/data/repositories/search_proper
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/models/city-model/city_model.dart';
 import 'package:emtelek/shared/models/district-model/district_model.dart';
+import 'package:emtelek/shared/services/cache_hekper.dart';
+import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -59,60 +61,56 @@ class PropertyCubit extends Cubit<PropertyState> {
   }
 
   void switchPropertyType() {
-    // إذا كان الوضع هو للإيجار (adType == 5)
     if (adType == 5) {
       switch (propertyType) {
-        case 14: // house (للبيع)
-          propertyType = 8; // house (للايجار)
+        case 14:
+          propertyType = 8;
           break;
-        case 15: // store (للبيع)
-          propertyType = 9; // store (للايجار)
+        case 15:
+          propertyType = 9;
           break;
-        case 16: // apartment (للبيع)
-          propertyType = 10; // apartment (للايجار)
+        case 16:
+          propertyType = 10;
           break;
-        case 17: // land (للبيع)
-          propertyType = 11; // land (للايجار)
+        case 17:
+          propertyType = 11;
           break;
-        case 18: // villa (للبيع)
-          propertyType = 12; // villa (للايجار)
+        case 18:
+          propertyType = 12;
           break;
-        case 19: // facility (للبيع)
-          propertyType = 13; // facility (للايجار)
+        case 19:
+          propertyType = 13;
           break;
-        case 26: // office (للبيع)
-          propertyType = 27; // office (للايجار)
+        case 26:
+          propertyType = 27;
           break;
         default:
-          // إذا كان نوع العقار لا يتوافق مع الشروط، لا تغيّر شيء
           break;
       }
     } else {
-      // إذا كان الوضع للبيع (adType != 5)
       switch (propertyType) {
-        case 8: // house (للايجار)
-          propertyType = 14; // house (للبيع)
+        case 8:
+          propertyType = 14;
           break;
-        case 9: // store (للايجار)
-          propertyType = 15; // store (للبيع)
+        case 9:
+          propertyType = 15;
           break;
-        case 10: // apartment (للايجار)
-          propertyType = 16; // apartment (للبيع)
+        case 10:
+          propertyType = 16;
           break;
-        case 11: // land (للايجار)
-          propertyType = 17; // land (للبيع)
+        case 11:
+          propertyType = 17;
           break;
-        case 12: // villa (للايجار)
-          propertyType = 18; // villa (للبيع)
+        case 12:
+          propertyType = 18;
           break;
-        case 13: // facility (للايجار)
-          propertyType = 19; // facility (للبيع)
+        case 13:
+          propertyType = 19;
           break;
-        case 27: // office (للايجار)
-          propertyType = 26; // office (للبيع)
+        case 27:
+          propertyType = 26;
           break;
         default:
-          // إذا كان نوع العقار لا يتوافق مع الشروط، لا تغيّر شيء
           break;
       }
     }
@@ -204,11 +202,14 @@ class PropertyCubit extends Cubit<PropertyState> {
       {required List<int> listCityIds,
       required List<int> listDistrictIds,
       required int? minPrice,
-      required int? maxPrice}) async {
+      required int? maxPrice,
+      String? sortBy}) async {
     emit(PropertyAdsFilterLoading());
     try {
       filteredAds = await searchPropertyRepository.getFilteredAds(
         PropertyFilterRequestModel(
+            token: getIt<CacheHelper>().getDataString(key: 'token'),
+            clientId: getIt<CacheHelper>().getData(key: 'clientId'),
             categoryId: propertyType,
             sellerType: sellerType == 0 ? null : sellerType,
             roomCount: listRoomCount.isEmpty ? null : listRoomCount,
@@ -224,7 +225,7 @@ class PropertyCubit extends Cubit<PropertyState> {
             maxPrice: maxPrice,
             minTotalArea: minArea?.toInt(),
             maxTotalArea: maxArea?.toInt(),
-            orderBy: null,
+            orderBy: sortBy,
             page: null),
       );
 

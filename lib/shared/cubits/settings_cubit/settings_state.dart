@@ -21,3 +21,5 @@ class CityError extends SettingsState {
 final class LocationFilterSelect extends SettingsState {}
 
 final class PriceFilterRange extends SettingsState {}
+
+final class SortBy extends SettingsState {}

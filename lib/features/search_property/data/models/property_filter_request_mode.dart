@@ -1,4 +1,6 @@
 class PropertyFilterRequestModel {
+  final String? token;
+  final int? clientId;
   final int? minPrice;
   final int? maxPrice;
   final int? categoryId;
@@ -14,7 +16,9 @@ class PropertyFilterRequestModel {
   final String? orderBy;
 
   PropertyFilterRequestModel(
-      {required this.minPrice,
+      {required this.token,
+      required this.clientId,
+      required this.minPrice,
       required this.maxPrice,
       required this.categoryId,
       required this.sellerType,
@@ -29,6 +33,8 @@ class PropertyFilterRequestModel {
       required this.page});
   Map<String, dynamic> toJson() {
     return {
+      'Token': token ?? 'null',
+      'ClientId': clientId ?? 'null',
       'MinPrice': minPrice ?? 'null',
       'MaxPrice': maxPrice ?? 'null',
       'CategoryId': categoryId,

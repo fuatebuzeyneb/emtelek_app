@@ -332,6 +332,21 @@ class S {
     return Intl.message('My Ads', name: 'MyAds', desc: '', args: []);
   }
 
+  /// `Search`
+  String get Search {
+    return Intl.message('Search', name: 'Search', desc: '', args: []);
+  }
+
+  /// `Write at least 3 characters`
+  String get WriteThreeCharacters {
+    return Intl.message(
+      'Write at least 3 characters',
+      name: 'WriteThreeCharacters',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `My Searches`
   String get MySearches {
     return Intl.message('My Searches', name: 'MySearches', desc: '', args: []);
@@ -345,6 +360,61 @@ class S {
   /// `Hello`
   String get Hello {
     return Intl.message('Hello', name: 'Hello', desc: '', args: []);
+  }
+
+  /// `Sort`
+  String get Sort {
+    return Intl.message('Sort', name: 'Sort', desc: '', args: []);
+  }
+
+  /// `Price: Low to High`
+  String get PriceLowToHigh {
+    return Intl.message(
+      'Price: Low to High',
+      name: 'PriceLowToHigh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price: High to Low`
+  String get PriceHighToLow {
+    return Intl.message(
+      'Price: High to Low',
+      name: 'PriceHighToLow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date New to Old`
+  String get DateNewToOld {
+    return Intl.message(
+      'Date New to Old',
+      name: 'DateNewToOld',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date Old to New`
+  String get DateOldToNew {
+    return Intl.message(
+      'Date Old to New',
+      name: 'DateOldToNew',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear`
+  String get Clear {
+    return Intl.message('Clear', name: 'Clear', desc: '', args: []);
+  }
+
+  /// `Clear All`
+  String get ClearAll {
+    return Intl.message('Clear All', name: 'ClearAll', desc: '', args: []);
   }
 
   /// `Sign In And Post`

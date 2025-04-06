@@ -17,7 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MyAdsPage extends StatelessWidget {
   const MyAdsPage({super.key});
 
-  static String id = "MyAdsPage";
+  static const String id = "MyAdsPage";
 
   @override
   Widget build(BuildContext context) {

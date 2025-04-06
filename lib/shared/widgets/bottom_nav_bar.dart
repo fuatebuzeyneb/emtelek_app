@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
-  static String id = 'BottomNavBar';
+  static const String id = 'BottomNavBar';
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();

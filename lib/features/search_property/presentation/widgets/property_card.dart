@@ -84,7 +84,8 @@ class PropertyCard extends StatelessWidget {
                     children: [
                       TextWidget(
                         isHaveOverflow: true,
-                        text: adsModel[index].price.toString(),
+                        text: adsModel[index].price.toString() +
+                            adsModel[index].isFavorite.toString(),
                         fontSize: 18,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,

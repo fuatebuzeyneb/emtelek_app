@@ -86,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Şimdi, ilanınız için uygun kategoriyi seçin:",
     ),
     "City": MessageLookupByLibrary.simpleMessage("Şehir"),
+    "Clear": MessageLookupByLibrary.simpleMessage("Temizle"),
+    "ClearAll": MessageLookupByLibrary.simpleMessage("Hepsini Temizle"),
     "Close": MessageLookupByLibrary.simpleMessage("Kapat"),
     "ConstructionDate": MessageLookupByLibrary.simpleMessage("Yapım Tarihi"),
     "ConstructionDateOptional": MessageLookupByLibrary.simpleMessage(
@@ -97,6 +99,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "Currency": MessageLookupByLibrary.simpleMessage("Para"),
     "CurrencyConversion": MessageLookupByLibrary.simpleMessage("Döviz Kurları"),
+    "DateNewToOld": MessageLookupByLibrary.simpleMessage(
+      "Tarih Yeniden Eskiye",
+    ),
+    "DateOldToNew": MessageLookupByLibrary.simpleMessage(
+      "Tarih Eskiye Yeniden",
+    ),
     "Description": MessageLookupByLibrary.simpleMessage("Açıklama"),
     "DidYouForgetYourPassword": MessageLookupByLibrary.simpleMessage(
       "Şifrenizi mi unuttunuz?",
@@ -206,6 +214,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "PlaceAnAd": MessageLookupByLibrary.simpleMessage("İlan Ver"),
     "PostedBy": MessageLookupByLibrary.simpleMessage("Gönderen"),
     "Price": MessageLookupByLibrary.simpleMessage("Fiyat"),
+    "PriceHighToLow": MessageLookupByLibrary.simpleMessage("En Yüksek Fiyat"),
+    "PriceLowToHigh": MessageLookupByLibrary.simpleMessage("En Düşük Fiyat"),
     "PrivacyPolicy": MessageLookupByLibrary.simpleMessage(
       "Gizlilik Politikası",
     ),
@@ -226,6 +236,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Room": MessageLookupByLibrary.simpleMessage("Oda"),
     "Sale": MessageLookupByLibrary.simpleMessage("Satılık"),
     "Save": MessageLookupByLibrary.simpleMessage("Kaydet"),
+    "Search": MessageLookupByLibrary.simpleMessage("Ara"),
     "SearchFilters": MessageLookupByLibrary.simpleMessage("Arama Filtreleri"),
     "SearchForTheLocation": MessageLookupByLibrary.simpleMessage(
       "Konumu arayın",
@@ -253,6 +264,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "SignOutFromApp": MessageLookupByLibrary.simpleMessage(
       "Uygulamadan Çıkış Yapın!!",
     ),
+    "Sort": MessageLookupByLibrary.simpleMessage("Sırala"),
     "SquareMeter": MessageLookupByLibrary.simpleMessage("m²"),
     "SquareMeters": MessageLookupByLibrary.simpleMessage("Metrekare"),
     "Support": MessageLookupByLibrary.simpleMessage("Destek"),
@@ -279,6 +291,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ne hakkında reklam yapmak istersiniz?",
     ),
     "WhatsAppContact": MessageLookupByLibrary.simpleMessage("WhatsApp."),
+    "WriteThreeCharacters": MessageLookupByLibrary.simpleMessage(
+      "En Az 3 karakter yazın",
+    ),
     "publishDate": MessageLookupByLibrary.simpleMessage("Yayın Tarihi"),
     "undefined": MessageLookupByLibrary.simpleMessage("Tanımsız"),
   };

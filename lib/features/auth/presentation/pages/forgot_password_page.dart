@@ -11,7 +11,7 @@ import 'package:flutter/widgets.dart';
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({super.key});
 
-  static String id = 'ForgotPasswordView';
+  static const String id = 'ForgotPasswordView';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

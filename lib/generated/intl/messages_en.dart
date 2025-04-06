@@ -86,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Now, choose the appropriate category for your ad:",
     ),
     "City": MessageLookupByLibrary.simpleMessage("City"),
+    "Clear": MessageLookupByLibrary.simpleMessage("Clear"),
+    "ClearAll": MessageLookupByLibrary.simpleMessage("Clear All"),
     "Close": MessageLookupByLibrary.simpleMessage("Close"),
     "ConstructionDate": MessageLookupByLibrary.simpleMessage(
       "Construction Date",
@@ -101,6 +103,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "CurrencyConversion": MessageLookupByLibrary.simpleMessage(
       "Currency Conversion",
     ),
+    "DateNewToOld": MessageLookupByLibrary.simpleMessage("Date New to Old"),
+    "DateOldToNew": MessageLookupByLibrary.simpleMessage("Date Old to New"),
     "Description": MessageLookupByLibrary.simpleMessage("Description"),
     "DidYouForgetYourPassword": MessageLookupByLibrary.simpleMessage(
       "Did you forget your password?",
@@ -206,6 +210,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "PlaceAnAd": MessageLookupByLibrary.simpleMessage("Place an Ad"),
     "PostedBy": MessageLookupByLibrary.simpleMessage("Posted By"),
     "Price": MessageLookupByLibrary.simpleMessage("Price"),
+    "PriceHighToLow": MessageLookupByLibrary.simpleMessage(
+      "Price: High to Low",
+    ),
+    "PriceLowToHigh": MessageLookupByLibrary.simpleMessage(
+      "Price: Low to High",
+    ),
     "PrivacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "PropertyForRent": MessageLookupByLibrary.simpleMessage(
       "Property For Rent",
@@ -228,6 +238,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Room": MessageLookupByLibrary.simpleMessage("Room"),
     "Sale": MessageLookupByLibrary.simpleMessage("Sale"),
     "Save": MessageLookupByLibrary.simpleMessage("Save"),
+    "Search": MessageLookupByLibrary.simpleMessage("Search"),
     "SearchFilters": MessageLookupByLibrary.simpleMessage("Search Filters"),
     "SearchForTheLocation": MessageLookupByLibrary.simpleMessage(
       "Search for the location",
@@ -251,6 +262,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "SignOutFromApp": MessageLookupByLibrary.simpleMessage(
       "Sign Out From App!!",
     ),
+    "Sort": MessageLookupByLibrary.simpleMessage("Sort"),
     "SquareMeter": MessageLookupByLibrary.simpleMessage("m²"),
     "SquareMeters": MessageLookupByLibrary.simpleMessage("Square Meters"),
     "Support": MessageLookupByLibrary.simpleMessage("Support"),
@@ -277,6 +289,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "What would you like to advertise?",
     ),
     "WhatsAppContact": MessageLookupByLibrary.simpleMessage("WhatsApp."),
+    "WriteThreeCharacters": MessageLookupByLibrary.simpleMessage(
+      "Write at least 3 characters",
+    ),
     "publishDate": MessageLookupByLibrary.simpleMessage("Publish Date"),
     "undefined": MessageLookupByLibrary.simpleMessage("undefined"),
   };

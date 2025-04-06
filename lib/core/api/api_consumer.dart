@@ -1,5 +1,3 @@
-import 'package:dio/src/options.dart';
-
 abstract class ApiConsumer {
   Future<dynamic> get(
     String path, {

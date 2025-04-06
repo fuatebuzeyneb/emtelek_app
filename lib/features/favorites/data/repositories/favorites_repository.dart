@@ -6,6 +6,10 @@ import 'package:emtelek/shared/services/service_locator.dart';
 
 abstract class FavoritesRepository {
   Future<List<AdsModel>> getMyFavoriteAds();
+
+  Future<void> removeFavoriteAd({required int adId});
+
+  Future<void> addFavoriteAd({required int adId});
 }
 
 class FavoritesRepositoryImpl implements FavoritesRepository {
@@ -50,6 +54,50 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
     } catch (e) {
       print("Error in getMyAds: $e"); // طباعة الخطأ لمزيد من التحليل
       throw Exception("No ads found"); // رمي استثناء واحد فقط
+    }
+  }
+
+  @override
+  Future<void> addFavoriteAd({required int adId}) async {
+    try {
+      final data = {
+        "Token": getIt<CacheHelper>().getDataString(key: 'token'),
+        "ClientId": getIt<CacheHelper>().getData(key: 'clientId'),
+        "AdId": adId
+      };
+
+      final response = await api.post(
+        '${EndPoints.baseUrl}${EndPoints.clientsAddFavorite}',
+        isFormData: true,
+        data: data,
+      );
+
+      print("Response: $response");
+    } catch (e) {
+      print("Error in getMyAds: $e");
+      throw Exception("No ads found");
+    }
+  }
+
+  @override
+  Future<void> removeFavoriteAd({required int adId}) async {
+    try {
+      final data = {
+        "Token": getIt<CacheHelper>().getDataString(key: 'token'),
+        "ClientId": getIt<CacheHelper>().getData(key: 'clientId'),
+        "AdId": adId
+      };
+
+      final response = await api.post(
+        '${EndPoints.baseUrl}${EndPoints.clientsRemoveFavorite}',
+        isFormData: true,
+        data: data,
+      );
+
+      print("Response: $response");
+    } catch (e) {
+      print("Error in getMyAds: $e");
+      throw Exception("No ads found");
     }
   }
 }

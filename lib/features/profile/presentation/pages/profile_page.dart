@@ -3,6 +3,7 @@ import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
+import 'package:emtelek/features/my_searchs/presentation/my_searches_page.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/my_ads/presentation/pages/my_ads_page.dart';
 import 'package:emtelek/features/profile/presentation/pages/profile_settings_page.dart';
@@ -202,7 +203,9 @@ class ProfilePage extends StatelessWidget {
                       ButtonWidget(
                         color: Colors.white,
                         showElevation: true,
-                        onTap: () {},
+                        onTap: () {
+                          pageTransition(context, page: const MySearchesPage());
+                        },
                         height: 0.1,
                         width: 0.45,
                         borderRadius: 8,

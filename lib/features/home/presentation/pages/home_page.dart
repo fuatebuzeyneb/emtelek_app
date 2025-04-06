@@ -1,8 +1,10 @@
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
+import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/core/utils/snackbar_utils.dart';
 import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
 import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/shared/common_pages/search_text_page.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
@@ -24,6 +26,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
     HomeCubit homeCubit = BlocProvider.of<HomeCubit>(context);
+    homeCubit.startTimer();
     homeCubit.updateIconsAndTexts(
       findHomeText: S.of(context).FindHome,
       findCarText: S.of(context).FindCar,
@@ -75,7 +78,7 @@ class HomePage extends StatelessWidget {
       },
     ];
     BlocProvider.of<SettingsCubit>(context).openBox();
-    homeCubit.startTimer();
+
     //homeCubit.getHomeData();
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
@@ -88,40 +91,56 @@ class HomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    child: AnimatedSwitcher(
-                      duration: const Duration(seconds: 1),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
-                        return FadeTransition(
-                          opacity: animation,
-                          child: child,
-                        );
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        key: ValueKey<int>(homeCubit.currentIndex),
-                        children: [
-                          SizedBox(
-                            height: context.height * 0.06,
-                            width: context.width * 0.8,
-                            child: TextFieldWidget(
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Image.asset(
-                                  homeCubit.currentIconAndText['image'],
-                                  color: Colors.grey,
-                                  height: 5,
-                                  width: 5,
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      final homeCubit = context.read<HomeCubit>();
+                      return SizedBox(
+                        child: AnimatedSwitcher(
+                          duration: const Duration(seconds: 1),
+                          transitionBuilder:
+                              (Widget child, Animation<double> animation) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                          child: Row(
+                            key: ValueKey<int>(homeCubit.currentIndex),
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ButtonWidget(
+                                borderRadius: 12,
+                                paddingHorizontal: 12,
+                                borderColor: Colors.grey,
+                                height: 0.05,
+                                width: 0.85,
+                                onTap: () {
+                                  pageTransition(context,
+                                      page: SearchTextPage());
+                                },
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      homeCubit.currentIconAndText['image'],
+                                      color: Colors.grey,
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                    10.toWidth,
+                                    TextWidget(
+                                      text:
+                                          homeCubit.currentIconAndText['text'],
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                    ),
+                                  ],
                                 ),
                               ),
-                              hint: homeCubit.currentIconAndText['text'],
-                              borderRadius: 28,
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                    },
                   ),
                   const Icon(
                     Icons.notifications,

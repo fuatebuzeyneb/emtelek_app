@@ -4,7 +4,7 @@ import 'package:emtelek/features/search_property/domain/property_cubit/property_
 import 'package:emtelek/features/search_property/presentation/widgets/property_card.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
-import 'package:emtelek/shared/widgets/alert_dialog_widget.dart';
+
 import 'package:emtelek/shared/widgets/loading_widget.dart';
 
 import 'package:flutter/material.dart';

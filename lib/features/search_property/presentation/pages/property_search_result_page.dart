@@ -9,9 +9,11 @@ import 'package:emtelek/features/search_property/presentation/widgets/bottom_she
 
 import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_type_bottom_sheet.dart';
 import 'package:emtelek/features/search_property/presentation/widgets/property_card.dart';
+import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/loading_widget.dart';
+import 'package:emtelek/shared/widgets/sort_alert_dialog_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +114,7 @@ class PropertySearchResultPage extends StatelessWidget {
                 borderRadius: 0,
                 showElevation: true,
                 boxShadowOpacity: 0.1,
-                height: 0.2,
+                height: 0.24,
                 width: 1,
                 onTap: () {},
                 color: Colors.white,
@@ -270,7 +272,72 @@ class PropertySearchResultPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    12.toHeight,
+                    14.toHeight,
+                    ButtonWidget(
+                      height: 0.04,
+                      width: 1,
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ButtonWidget(
+                              color: Colors.white,
+                              onTap: () {},
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.swap_vert),
+                                  4.toWidth,
+                                  TextWidget(
+                                    text: S.of(context).Sort,
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          VerticalDivider(
+                            color: Colors.grey,
+                            thickness: 2,
+                          ),
+                          Expanded(
+                            child: ButtonWidget(
+                              height: 0.04,
+                              width: 0.5,
+                              color: Colors.white,
+                              onTap: () {
+                                showDialog<void>(
+                                  context: context,
+                                  barrierDismissible:
+                                      false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return SortAlertDialogWidget();
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.bookmark),
+                                  4.toWidth,
+                                  TextWidget(
+                                    text: S.of(context).Save,
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    6.toHeight,
                   ],
                 ),
               ),

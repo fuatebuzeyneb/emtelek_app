@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:emtelek/features/home/data/models/home_model.dart';
 import 'package:emtelek/features/home/data/repositories/home_repository.dart';
+import 'package:emtelek/features/profile/data/models/ads_model.dart';
 import 'package:meta/meta.dart';
 
 part 'home_state.dart';
@@ -36,6 +37,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   // بدء الـ Timer لتغيير الأيقونة والنص
   void startTimer() {
+    print('start timer====================================');
     _timer = Timer.periodic(const Duration(seconds: 7), _updateTextAndIcon);
   }
 
@@ -61,6 +63,19 @@ class HomeCubit extends Cubit<HomeState> {
       emit(HomeAdsSuccess());
     } catch (e) {
       emit(HomeAdsFailure(errorMassage: e.toString()));
+    }
+  }
+
+  List<AdsModel> searchTextAds = [];
+
+  Future<void> getSearchTextData({required String searchText}) async {
+    try {
+      emit(HomeTextSearchAdsLoading());
+      searchTextAds =
+          await homeRepository.getSearchAds(searchQuery: searchText);
+      emit(HomeTextSearchAdsSuccess());
+    } catch (e) {
+      emit(HomeTextSearchAdsFailure(errorMassage: e.toString()));
     }
   }
 }

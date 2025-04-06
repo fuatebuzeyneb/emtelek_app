@@ -443,4 +443,11 @@ class SettingsCubit extends Cubit<SettingsState> {
     print('minPrice: $minPrice, maxPrice: $maxPrice');
     emit(PriceFilterRange());
   }
+
+  String sortBy = "PublishDate DESC";
+  void selectSortByFunction({required String value}) {
+    sortBy = value;
+    print('sortBy: $sortBy');
+    emit(SortBy());
+  }
 }

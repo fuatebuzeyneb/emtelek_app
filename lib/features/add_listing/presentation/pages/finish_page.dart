@@ -15,7 +15,7 @@ import 'package:flutter_map/flutter_map.dart';
 
 class FinishPage extends StatelessWidget {
   const FinishPage({super.key});
-  static String id = 'FinishPage';
+  static const String id = 'FinishPage';
 
   @override
   Widget build(BuildContext context) {

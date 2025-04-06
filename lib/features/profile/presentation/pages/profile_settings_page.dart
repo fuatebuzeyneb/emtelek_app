@@ -15,7 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ProfileSettingsPage extends StatelessWidget {
   const ProfileSettingsPage({super.key});
 
-  static String id = 'ProfileSettingsPage';
+  static const String id = 'ProfileSettingsPage';
 
   @override
   Widget build(BuildContext context) {

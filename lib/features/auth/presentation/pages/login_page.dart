@@ -22,7 +22,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-  static String id = 'LoginView';
+  static const String id = 'LoginView';
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(

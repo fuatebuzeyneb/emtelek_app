@@ -86,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "الأن, اختر الفئة المناسبة لاعلانك:",
     ),
     "City": MessageLookupByLibrary.simpleMessage("المدينة"),
+    "Clear": MessageLookupByLibrary.simpleMessage("مسح"),
+    "ClearAll": MessageLookupByLibrary.simpleMessage("مسح الكل"),
     "Close": MessageLookupByLibrary.simpleMessage("اغلاق"),
     "ConstructionDate": MessageLookupByLibrary.simpleMessage("تاريخ البناء"),
     "ConstructionDateOptional": MessageLookupByLibrary.simpleMessage(
@@ -95,6 +97,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "CreateNewAccount": MessageLookupByLibrary.simpleMessage("أنشىء حساب جديد"),
     "Currency": MessageLookupByLibrary.simpleMessage("العملة"),
     "CurrencyConversion": MessageLookupByLibrary.simpleMessage("تحويل العملة"),
+    "DateNewToOld": MessageLookupByLibrary.simpleMessage("من الاحدث للاقدم"),
+    "DateOldToNew": MessageLookupByLibrary.simpleMessage("من الاقدم للاحدث"),
     "Description": MessageLookupByLibrary.simpleMessage("وصف"),
     "DidYouForgetYourPassword": MessageLookupByLibrary.simpleMessage(
       "هل نسيت كلمة المرور؟",
@@ -198,6 +202,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "PlaceAnAd": MessageLookupByLibrary.simpleMessage("اضف اعلانك"),
     "PostedBy": MessageLookupByLibrary.simpleMessage("نشر بواسطة"),
     "Price": MessageLookupByLibrary.simpleMessage("السعر"),
+    "PriceHighToLow": MessageLookupByLibrary.simpleMessage(
+      "السعر من الاعلى الاقل",
+    ),
+    "PriceLowToHigh": MessageLookupByLibrary.simpleMessage(
+      "السعر من الاقل الاعلى",
+    ),
     "PrivacyPolicy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
     "PropertyForRent": MessageLookupByLibrary.simpleMessage("عقارات للايجار"),
     "PropertyForSale": MessageLookupByLibrary.simpleMessage("عقارات للبيع"),
@@ -218,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Room": MessageLookupByLibrary.simpleMessage("غرفة"),
     "Sale": MessageLookupByLibrary.simpleMessage("بيع"),
     "Save": MessageLookupByLibrary.simpleMessage("حفظ"),
+    "Search": MessageLookupByLibrary.simpleMessage("البحث"),
     "SearchFilters": MessageLookupByLibrary.simpleMessage("فلاتر البحث"),
     "SearchForTheLocation": MessageLookupByLibrary.simpleMessage(
       "ابحث عن الموقع",
@@ -245,6 +256,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "SignOutFromApp": MessageLookupByLibrary.simpleMessage(
       "تسجيل الخروج من التطبيق!!",
     ),
+    "Sort": MessageLookupByLibrary.simpleMessage("ترتيب"),
     "SquareMeter": MessageLookupByLibrary.simpleMessage("م²"),
     "SquareMeters": MessageLookupByLibrary.simpleMessage("متر مربع"),
     "Support": MessageLookupByLibrary.simpleMessage("الدعم"),
@@ -271,6 +283,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "ما الذي ترغب بالاعلان عنه؟",
     ),
     "WhatsAppContact": MessageLookupByLibrary.simpleMessage("الواتس اب."),
+    "WriteThreeCharacters": MessageLookupByLibrary.simpleMessage(
+      "اكتب 3 حدوف على الاقل",
+    ),
     "publishDate": MessageLookupByLibrary.simpleMessage("تاريخ النشر"),
     "undefined": MessageLookupByLibrary.simpleMessage("غير محدد"),
   };

@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:emtelek/core/api/end_points.dart';
-import 'package:emtelek/shared/services/cache_hekper.dart';
 
 class ApiInterceptors extends Interceptor {
   @override
