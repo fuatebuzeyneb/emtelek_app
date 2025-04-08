@@ -54,14 +54,20 @@ class HomeCubit extends Cubit<HomeState> {
     return super.close();
   }
 
-  late HomeModel homeModel;
+  List<AdsModel> propertiesRent = [];
+  List<AdsModel> propertiesSell = [];
 
   Future<void> getHomeData() async {
     try {
       emit(HomeAdsLoading());
+      HomeModel homeModel;
       homeModel = await homeRepository.getHomeAds();
+      propertiesRent = homeModel.propertiesRent;
+      propertiesSell = homeModel.propertiesSell;
       emit(HomeAdsSuccess());
+      print('ok');
     } catch (e) {
+      print('nooooooo');
       emit(HomeAdsFailure(errorMassage: e.toString()));
     }
   }

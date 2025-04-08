@@ -52,7 +52,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
       List<dynamic> adsJson = adsData.values.toList();
       return adsJson.map((json) => AdsModel.fromJson(json)).toList();
     } catch (e) {
-      print("Error in getMyAds: $e"); // طباعة الخطأ لمزيد من التحليل
+      print("Error in getMyAds2: $e"); // طباعة الخطأ لمزيد من التحليل
       throw Exception("No ads found"); // رمي استثناء واحد فقط
     }
   }
@@ -74,7 +74,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
 
       print("Response: $response");
     } catch (e) {
-      print("Error in getMyAds: $e");
+      print("Error in getMyAds3: $e");
       throw Exception("No ads found");
     }
   }
@@ -96,7 +96,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
 
       print("Response: $response");
     } catch (e) {
-      print("Error in getMyAds: $e");
+      print("Error in getMyAds5: $e");
       throw Exception("No ads found");
     }
   }

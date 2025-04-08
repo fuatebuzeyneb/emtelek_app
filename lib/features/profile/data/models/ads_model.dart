@@ -1,3 +1,5 @@
+import 'package:emtelek/features/profile/data/models/featur_model.dart';
+
 class AdsModel {
   String token;
   int adId;
@@ -34,43 +36,46 @@ class AdsModel {
   String? complexName;
   bool? isFinished;
   bool? isFavorite;
+  List<Feature>? features; // ✅ أضفنا هذه
 
-  AdsModel(
-      {required this.token,
-      required this.adId,
-      required this.adTitle,
-      required this.price,
-      required this.currency,
-      this.description,
-      required this.location,
-      required this.publishDate,
-      required this.status,
-      required this.sellerType,
-      required this.categoryId,
-      required this.clientId,
-      required this.firstName,
-      required this.lastName,
-      required this.phoneNumber,
-      required this.email,
-      required this.subscriptionDate,
-      this.cityId,
-      this.cityName,
-      this.districtId,
-      this.districtCityId,
-      this.districtName,
-      required this.totalArea,
-      this.netOrBuildingArea,
-      this.roomCount,
-      this.floorNumber,
-      this.floorCount,
-      this.bathroomCount,
-      this.furnish,
-      this.constructionDate,
-      this.address,
-      this.balconyCount,
-      this.complexName,
-      this.isFinished,
-      this.isFavorite});
+  AdsModel({
+    required this.token,
+    required this.adId,
+    required this.adTitle,
+    required this.price,
+    required this.currency,
+    this.description,
+    required this.location,
+    required this.publishDate,
+    required this.status,
+    required this.sellerType,
+    required this.categoryId,
+    required this.clientId,
+    required this.firstName,
+    required this.lastName,
+    required this.phoneNumber,
+    this.email,
+    this.subscriptionDate,
+    this.cityId,
+    this.cityName,
+    this.districtId,
+    this.districtCityId,
+    this.districtName,
+    required this.totalArea,
+    this.netOrBuildingArea,
+    this.roomCount,
+    this.floorNumber,
+    this.floorCount,
+    this.bathroomCount,
+    this.furnish,
+    this.constructionDate,
+    this.address,
+    this.balconyCount,
+    this.complexName,
+    this.isFinished,
+    this.isFavorite,
+    this.features, // ✅ أضفنا هذه
+  });
 
   factory AdsModel.fromJson(Map<String, dynamic> json) {
     return AdsModel(
@@ -117,10 +122,14 @@ class AdsModel {
       balconyCount: json['data']['info']['BalconyCount'] ?? 0,
       complexName: json['data']['info']['ComplexName'] ?? '',
       isFinished: json['IsFinished'] ?? true,
+      features: (json['Features'] is List)
+          ? (json['Features'] as List<dynamic>)
+              .map((featureJson) => Feature.fromJson(featureJson))
+              .toList()
+          : [],
     );
   }
 
-  // Add toJson method
   Map<String, dynamic> toJson() {
     return {
       'Token': token,
@@ -156,7 +165,8 @@ class AdsModel {
       'Address': address,
       'BalconyCount': balconyCount,
       'ComplexName': complexName,
-      'IsFinished': isFinished
+      'IsFinished': isFinished,
+      'Features': features?.map((feature) => feature.toJson()).toList(),
     };
   }
 }

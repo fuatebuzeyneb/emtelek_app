@@ -57,7 +57,7 @@ class MyAdsRepositoryImpl implements MyAdsRepository {
       return adsJson.map((json) => AdsModel.fromJson(json)).toList();
       //return [];
     } catch (e) {
-      print("Error in getMyAds: $e"); // طباعة الخطأ لمزيد من التحليل
+      print("Error in getMyAds4: $e"); // طباعة الخطأ لمزيد من التحليل
       throw Exception("Failed to load ads: ${e.toString()}");
     }
   }

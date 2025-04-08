@@ -5,28 +5,33 @@ class HomeModel {
   final int districtsCount;
   final List<AdsModel> propertiesRent;
   final List<AdsModel> propertiesSell;
+  final bool vehicles;
 
-  HomeModel({
-    required this.carbrandsCount,
-    required this.districtsCount,
-    required this.propertiesRent,
-    required this.propertiesSell,
-  });
+  HomeModel(
+      {required this.carbrandsCount,
+      required this.districtsCount,
+      required this.propertiesRent,
+      required this.propertiesSell,
+      required this.vehicles});
 
   factory HomeModel.fromJson(Map<String, dynamic> json) {
+    final propertiesRentJson = json['properties_rent'];
+    final propertiesSellJson = json['properties_sell'];
+
     return HomeModel(
+      vehicles: json['vehicles'] ?? false,
       carbrandsCount: json['carbrands_count'] ?? 0,
       districtsCount: json['districts_count'] ?? 0,
-      propertiesRent: (json['properties_rent'] as Map<String, dynamic>?)
-              ?.values
+      propertiesRent: propertiesRentJson is Map<String, dynamic>
+          ? propertiesRentJson.values
               .map((e) => AdsModel.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      propertiesSell: (json['properties_sell'] as Map<String, dynamic>?)
-              ?.values
+              .toList()
+          : [],
+      propertiesSell: propertiesSellJson is Map<String, dynamic>
+          ? propertiesSellJson.values
               .map((e) => AdsModel.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+              .toList()
+          : [],
     );
   }
 
@@ -36,6 +41,7 @@ class HomeModel {
       'districts_count': districtsCount,
       'properties_rent': propertiesRent.map((e) => e.toJson()).toList(),
       'properties_sell': propertiesSell.map((e) => e.toJson()).toList(),
+      'vehicles': vehicles
     };
   }
 }

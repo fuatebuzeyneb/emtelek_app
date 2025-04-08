@@ -37,7 +37,7 @@ class HomeRepositoryImpl implements HomeRepository {
 
       //return [];
     } catch (e) {
-      print("Error in getMyAds: $e"); // طباعة الخطأ لمزيد من التحليل
+      print("Error in getMyAds6: $e"); // طباعة الخطأ لمزيد من التحليل
       throw Exception("Failed to load ads: ${e.toString()}");
     }
   }
@@ -78,7 +78,7 @@ class HomeRepositoryImpl implements HomeRepository {
       return adsJson.map((json) => AdsModel.fromJson(json)).toList();
       //return [];
     } catch (e) {
-      print("Error in getMyAds: $e"); // طباعة الخطأ لمزيد من التحليل
+      print("Error in getMyAds7: $e"); // طباعة الخطأ لمزيد من التحليل
       throw Exception("Failed to load ads: ${e.toString()}");
     }
   }

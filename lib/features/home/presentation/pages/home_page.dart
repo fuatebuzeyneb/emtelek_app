@@ -251,15 +251,14 @@ class HomePage extends StatelessWidget {
                                   height: context.height * 0.22,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: homeCubit
-                                        .homeModel.propertiesRent.length,
+                                    itemCount: homeCubit.propertiesRent.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Padding(
                                         padding: EdgeInsets.only(left: 8.0),
                                         child: ProductCardHomeWidget(
-                                          adsModel: homeCubit
-                                              .homeModel.propertiesRent[index],
+                                          adsModel:
+                                              homeCubit.propertiesRent[index],
                                         ),
                                       );
                                     },
@@ -290,15 +289,14 @@ class HomePage extends StatelessWidget {
                                   height: context.height * 0.22,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: homeCubit
-                                        .homeModel.propertiesSell.length,
+                                    itemCount: homeCubit.propertiesSell.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Padding(
                                         padding: EdgeInsets.only(left: 8.0),
                                         child: ProductCardHomeWidget(
-                                          adsModel: homeCubit
-                                              .homeModel.propertiesSell[index],
+                                          adsModel:
+                                              homeCubit.propertiesSell[index],
                                         ),
                                       );
                                     },

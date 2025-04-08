@@ -57,7 +57,7 @@ class PropertyRepositoryImpl implements PropertyRepository {
       return adsJson.map((json) => FeatureModel.fromJson(json)).toList();
       //return [];
     } catch (e) {
-      print("Error in getMyAds: $e"); // طباعة الخطأ لمزيد من التحليل
+      print("Error in getMyAds1: $e"); // طباعة الخطأ لمزيد من التحليل
       throw Exception("Failed to load ads: ${e.toString()}");
     }
   }

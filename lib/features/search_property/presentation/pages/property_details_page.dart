@@ -8,6 +8,7 @@ import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/shared/cubits/ad_details_cubit/ad_details_cubit.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
+import 'package:emtelek/shared/helper/features_icon.dart';
 import 'package:emtelek/shared/models/add-ads-models/add_ad_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
@@ -56,10 +57,11 @@ class PropertyDetailsPage extends StatelessWidget {
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
     AdDetailsCubit adDetailsCubit = BlocProvider.of<AdDetailsCubit>(context);
     adDetailsCubit.showAppBarFunction(scrollController);
-    final int totalFeatures = adsModel.f;
+    final int totalFeatures =
+        adsModel!.features == null ? 0 : adsModel!.features!.length;
 
-    final List<String> features =
-        List.generate(11, (index) => 'ميزة ${index + 1}');
+    final List<String> features = List.generate(adsModel!.features!.length,
+        (index) => '${adsModel!.features?[index].featureName}');
     // Alignment alignment =
     //     getIt<CacheHelper>().getDataString(key: 'Lang') == 'ar'
     //         ? Alignment.centerRight
@@ -762,9 +764,12 @@ class PropertyDetailsPage extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            const Icon(
-                                              Icons.ac_unit_outlined,
-                                            ),
+                                            Image.asset(
+                                                IconHelper.getIconPath(adsModel!
+                                                    .features![index]
+                                                    .featureId),
+                                                height: 25,
+                                                width: 25),
                                             8.toHeight,
                                             TextWidget(
                                               text: features[
