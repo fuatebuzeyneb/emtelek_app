@@ -14,3 +14,13 @@ final class GetAccountSettingsFailure extends ProfileState {
 
   GetAccountSettingsFailure({required this.errorMassage});
 }
+
+final class EditAccountSettingsLoading extends ProfileState {}
+
+final class EditAccountSettingsSuccess extends ProfileState {}
+
+final class EditAccountSettingsFailure extends ProfileState {
+  final String errorMassage;
+
+  EditAccountSettingsFailure({required this.errorMassage});
+}

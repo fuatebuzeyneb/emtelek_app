@@ -7,6 +7,7 @@ import 'package:emtelek/features/my_searchs/presentation/my_searches_page.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/my_ads/presentation/pages/my_ads_page.dart';
 import 'package:emtelek/features/profile/presentation/pages/profile_settings_page.dart';
+import 'package:emtelek/features/profile/presentation/widgets/circle_profile_image_widget.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
@@ -56,14 +57,7 @@ class ProfilePage extends StatelessWidget {
                           horizontal: 16, vertical: 8),
                       child: Row(
                         children: [
-                          Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Colors.grey[300],
-                            ),
-                          ),
+                          CircleProfileImageWidget(),
                           16.toWidth,
                           getIt<CacheHelper>().getDataString(key: 'token') !=
                                   null

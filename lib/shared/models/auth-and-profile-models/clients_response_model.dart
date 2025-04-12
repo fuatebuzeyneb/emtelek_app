@@ -20,7 +20,15 @@ class ClientsResponseModel {
     );
   }
 
-  // دالة تساعد في التحقق مما إذا كان `addressData` كائنًا صحيحًا أم لا
+  Map<String, dynamic> toJson() {
+    return {
+      "status": status,
+      "token": token,
+      "data": data?.toJson(),
+      "address_data": addressData?.toJson(),
+    };
+  }
+
   static AddressData? _parseAddressData(dynamic json) {
     if (json == null) {
       return null;
@@ -51,6 +59,14 @@ class AddressData {
       address: json["Address"],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "ClientId": clientId,
+      "DistrictId": districtId,
+      "Address": address,
+    };
+  }
 }
 
 class Data {
@@ -64,6 +80,7 @@ class Data {
     required this.subscriptionDate,
     required this.status,
     required this.accountType,
+    required this.image,
   });
 
   final int? clientId;
@@ -75,6 +92,7 @@ class Data {
   final DateTime? subscriptionDate;
   final int? status;
   final int? accountType;
+  final String? image;
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
@@ -89,7 +107,23 @@ class Data {
           : null,
       status: json["Status"],
       accountType: json["AccountType"],
+      image: json["Image"],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "ClientId": clientId,
+      "FirstName": firstName,
+      "LastName": lastName,
+      "PhoneNumber": phoneNumber,
+      "Email": email,
+      "Password": password,
+      "SubscriptionDate": subscriptionDate?.toIso8601String(),
+      "Status": status,
+      "AccountType": accountType,
+      "Image": image,
+    };
   }
 }
 

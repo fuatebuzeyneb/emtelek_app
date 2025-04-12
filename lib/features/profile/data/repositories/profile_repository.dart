@@ -9,6 +9,8 @@ import 'package:emtelek/shared/services/service_locator.dart';
 // تعريف الواجهة (Interface)
 abstract class ProfileRepository {
   Future<ClientsResponseModel> getAccountSettings();
+  Future<ClientsResponseModel> editAccountSettings(
+      {required Map<String, dynamic> clientsResponseModel});
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -27,6 +29,24 @@ class ProfileRepositoryImpl implements ProfileRepository {
           "ClientId": getIt<CacheHelper>().getData(key: 'clientId'),
         },
       );
+
+      // ✅ Ensure response.data is correctly parsed
+      return ClientsResponseModel.fromJson(response);
+    } catch (e) {
+      throw Exception("Failed to load account settings: ${e.toString()}");
+    }
+  }
+
+  @override
+  Future<ClientsResponseModel> editAccountSettings(
+      {required Map<String, dynamic> clientsResponseModel}) async {
+    dynamic data = clientsResponseModel;
+    print('data---------: $data');
+    try {
+      final response = await api.post(
+          '${EndPoints.baseUrl}${EndPoints.clientsEdit}',
+          isFormData: true,
+          data: data);
 
       // ✅ Ensure response.data is correctly parsed
       return ClientsResponseModel.fromJson(response);

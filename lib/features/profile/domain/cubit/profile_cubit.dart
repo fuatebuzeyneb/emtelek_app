@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:emtelek/core/api/api_consumer.dart';
 import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
@@ -31,6 +34,52 @@ class ProfileCubit extends Cubit<ProfileState> {
     } catch (e) {
       print("Error in ProfileCubit: $e"); // 🔍 Debugging print statement
       emit(GetAccountSettingsFailure(errorMassage: e.toString()));
+    }
+  }
+
+  String? editFirstName;
+  String? editLastName;
+  String? editPhoneNumber;
+  int? editDistrictId;
+  String? editAddress;
+  File? editImage;
+
+  Future<void> editAccountSettings({
+    required String? firstName,
+    required String? lastName,
+    required String? phoneNumber,
+    required File? image,
+    required String? address,
+    required int? districtId,
+  }) async {
+    emit(EditAccountSettingsLoading());
+    try {
+      final clientId = getIt<CacheHelper>().getData(key: 'clientId');
+      final email = getIt<CacheHelper>().getData(key: 'email');
+      final token = getIt<CacheHelper>().getDataString(key: 'token');
+      final requestBody = {
+        'Token': token,
+        'ClientId': clientId,
+        'FirstName': firstName ?? accountData!.data!.firstName!,
+        'LastName': lastName ?? accountData!.data!.lastName!,
+        'PhoneNumber': phoneNumber ?? accountData!.data!.phoneNumber!,
+        'Email': email,
+        'Password': 123456,
+        if (image != null)
+          'Image': await MultipartFile.fromFile(
+            image.path,
+            filename: image.path.split('/').last,
+          ),
+        'DistrictId': districtId ?? accountData!.addressData!.districtId!,
+        'Address': address ?? accountData!.addressData!.address!,
+      };
+
+      await profileRepository.editAccountSettings(
+          clientsResponseModel: requestBody);
+      ();
+      emit(EditAccountSettingsSuccess());
+    } catch (e) {
+      emit(EditAccountSettingsFailure(errorMassage: e.toString()));
     }
   }
 }

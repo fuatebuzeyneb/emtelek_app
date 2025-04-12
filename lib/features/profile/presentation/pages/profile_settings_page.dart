@@ -2,6 +2,7 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
+import 'package:emtelek/features/profile/presentation/widgets/circle_profile_image_widget.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
@@ -39,7 +40,8 @@ class ProfileSettingsPage extends StatelessWidget {
           // TODO: implement listener
         },
         builder: (context, state) {
-          return state is GetAccountSettingsLoading
+          return state is GetAccountSettingsLoading ||
+                  state is EditAccountSettingsLoading
               ? const Center(
                   child: LoadingWidget(),
                 )
@@ -53,35 +55,7 @@ class ProfileSettingsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           12.toHeight,
-                          Stack(
-                            children: [
-                              Container(
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.grey[300],
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: Colors.black,
-                                  ),
-                                  child: const Icon(
-                                    Icons.edit,
-                                    color: Colors.white,
-                                    size: 18,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          CircleProfileImageWidget(),
                           12.toHeight,
                           TextFieldWidget(
                             initialValue:
@@ -90,6 +64,9 @@ class ProfileSettingsPage extends StatelessWidget {
                               text: S.of(context).FirstName,
                               fontSize: 16,
                             ),
+                            onChanged: (value) {
+                              profileCubit.editFirstName = value;
+                            },
                           ),
                           12.toHeight,
                           TextFieldWidget(
@@ -99,6 +76,9 @@ class ProfileSettingsPage extends StatelessWidget {
                               text: S.of(context).LastName,
                               fontSize: 16,
                             ),
+                            onChanged: (value) {
+                              profileCubit.editLastName = value;
+                            },
                           ),
                           12.toHeight,
                           ButtonWidget(
@@ -265,10 +245,22 @@ class ProfileSettingsPage extends StatelessWidget {
                               fontSize: 16,
                             ),
                             maxLines: 3,
+                            onChanged: (value) {
+                              profileCubit.editAddress = value;
+                            },
                           ),
                           12.toHeight,
                           ButtonWidget(
-                            onTap: () {},
+                            onTap: () {
+                              profileCubit.editAccountSettings(
+                                firstName: profileCubit.editFirstName,
+                                lastName: profileCubit.editLastName,
+                                phoneNumber: profileCubit.editPhoneNumber,
+                                image: profileCubit.editImage,
+                                address: profileCubit.editAddress,
+                                districtId: profileCubit.editDistrictId,
+                              );
+                            },
                             color: AppColors.primary,
                             borderRadius: 6,
                             height: 0.06,
