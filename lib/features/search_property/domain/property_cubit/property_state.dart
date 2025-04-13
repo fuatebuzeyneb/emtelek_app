@@ -24,3 +24,12 @@ final class PropertyAddFilterSearchFailure extends PropertyState {
   final String errMessage;
   PropertyAddFilterSearchFailure({required this.errMessage});
 }
+
+final class PropertyGetFilterSearchLoading extends PropertyState {}
+
+final class PropertyGetFilterSearchSuccess extends PropertyState {}
+
+final class PropertyGetFilterSearchFailure extends PropertyState {
+  final String errMessage;
+  PropertyGetFilterSearchFailure({required this.errMessage});
+}

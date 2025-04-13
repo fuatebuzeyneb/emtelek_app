@@ -244,7 +244,7 @@ class PropertyCubit extends Cubit<PropertyState> {
   }
 
   String searchTitle = 'بحث جديد';
-  void saveFilterAds({
+  void saveSearchFilter({
     required List<int> listCityIds,
     required List<int> listDistrictIds,
     required int? minPrice,
@@ -253,7 +253,7 @@ class PropertyCubit extends Cubit<PropertyState> {
   }) async {
     emit(PropertyAdsFilterLoading());
     try {
-      await searchPropertyRepository.saveFilterAds(
+      await searchPropertyRepository.saveSearchFilter(
         PropertyFilterRequestModel(
             token: getIt<CacheHelper>().getDataString(key: 'token'),
             clientId: getIt<CacheHelper>().getData(key: 'clientId'),
@@ -280,6 +280,26 @@ class PropertyCubit extends Cubit<PropertyState> {
       emit(PropertyAdsFilterSuccess());
     } catch (e) {
       emit(PropertyAdsFilterFailure(errMessage: e.toString()));
+      print('❌ Error loading filtered ads: $e');
+    }
+  }
+
+  List<PropertyFilterRequestModel> searchFilterList = [];
+
+  Future<void> getSearchFilter() async {
+    emit(PropertyGetFilterSearchLoading());
+    try {
+      searchFilterList = await searchPropertyRepository.getSearchFilter();
+
+      // ✅ طباعة منظمة لنتائج الفلتر
+      if (searchFilterList.isNotEmpty) {
+        emit(PropertyGetFilterSearchSuccess());
+      } else {
+        emit(PropertyGetFilterSearchFailure(errMessage: 'No ads found!'));
+        print('🚫 No ads found!');
+      }
+    } catch (e) {
+      emit(PropertyGetFilterSearchFailure(errMessage: e.toString()));
       print('❌ Error loading filtered ads: $e');
     }
   }

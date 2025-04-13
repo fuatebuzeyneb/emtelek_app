@@ -105,7 +105,7 @@ class PropertySaveSearchBottomSheet extends StatelessWidget {
                         paddingHorizontal: 12,
                         paddingVertical: 8,
                         onTap: () {
-                          propertyCubit.saveFilterAds(
+                          propertyCubit.saveSearchFilter(
                               listCityIds: settingsCubit.selectedCityIds,
                               listDistrictIds:
                                   settingsCubit.selectedDistrictIds,

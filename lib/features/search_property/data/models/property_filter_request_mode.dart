@@ -1,20 +1,23 @@
+import 'package:emtelek/features/search_property/data/models/get_save_search_model.dart';
+
 class PropertyFilterRequestModel {
   final String? token;
-  final int? clientId;
-  final int? minPrice;
-  final int? maxPrice;
-  final int? categoryId;
-  final int? sellerType;
+  final dynamic clientId;
+  final dynamic minPrice;
+  final dynamic maxPrice;
+  final dynamic categoryId;
+  final dynamic sellerType;
   final List<int>? districtId;
   final List<int>? cityId;
-  final int? minTotalArea;
-  final int? maxTotalArea;
+  final dynamic minTotalArea;
+  final dynamic maxTotalArea;
   final List<int>? roomCount;
   final List<int>? bathroomCount;
   final dynamic furnish;
-  final int? page;
+  final dynamic page;
   final String? orderBy;
   final String? searchTitle;
+  final ContentModel? content;
 
   PropertyFilterRequestModel(
       {required this.token,
@@ -32,6 +35,7 @@ class PropertyFilterRequestModel {
       required this.furnish,
       required this.orderBy,
       required this.searchTitle,
+      this.content,
       required this.page});
   Map<String, dynamic> toJson() {
     return {
@@ -58,5 +62,31 @@ class PropertyFilterRequestModel {
       'Page': page ?? 0,
       'SearchTitle': searchTitle ?? 'null'
     };
+  }
+
+  factory PropertyFilterRequestModel.fromJson(Map<String, dynamic> json) {
+    final content = json['Content'];
+
+    return PropertyFilterRequestModel(
+      searchTitle: json['SearchTitle'] as String? ?? '',
+      content: content is Map<String, dynamic>
+          ? ContentModel.fromJson(content)
+          : null,
+      token: '',
+      clientId: null,
+      minPrice: null,
+      maxPrice: null,
+      categoryId: null,
+      sellerType: null,
+      districtId: [],
+      cityId: [],
+      minTotalArea: null,
+      maxTotalArea: null,
+      roomCount: [],
+      bathroomCount: [],
+      furnish: null,
+      orderBy: '',
+      page: null,
+    );
   }
 }
