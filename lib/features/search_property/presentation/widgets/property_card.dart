@@ -55,7 +55,10 @@ class PropertyCard extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    pageTransition(context, page: PropertyDetailsPage());
+                    pageTransition(context,
+                        page: PropertyDetailsPage(
+                          adsModel: adsModel[index],
+                        ));
                   },
                   child: SizedBox(
                     height: context.height * 0.25,

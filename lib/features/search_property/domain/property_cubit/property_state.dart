@@ -15,3 +15,12 @@ final class PropertyAdsFilterFailure extends PropertyState {
   final String errMessage;
   PropertyAdsFilterFailure({required this.errMessage});
 }
+
+final class PropertyAddFilterSearchLoading extends PropertyState {}
+
+final class PropertyAddFilterSearchSuccess extends PropertyState {}
+
+final class PropertyAddFilterSearchFailure extends PropertyState {
+  final String errMessage;
+  PropertyAddFilterSearchFailure({required this.errMessage});
+}

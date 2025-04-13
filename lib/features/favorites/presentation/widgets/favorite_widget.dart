@@ -36,12 +36,12 @@ class FavoriteWidget extends StatelessWidget {
             },
             color: Colors.white,
             child: Padding(
-              padding: EdgeInsets.all(4.0),
+              padding: EdgeInsets.all(6.0),
               child: Icon(
                 adsModel.isFavorite == true
                     ? Icons.favorite
                     : Icons.favorite_border,
-                size: 20,
+                size: 22,
               ),
             ),
           ),

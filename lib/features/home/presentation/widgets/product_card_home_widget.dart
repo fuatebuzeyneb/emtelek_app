@@ -8,6 +8,7 @@ import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
 
 import 'package:emtelek/features/search_property/presentation/pages/property_details_page.dart';
+import 'package:emtelek/shared/helper/founctions/formatter.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -81,13 +82,15 @@ class ProductCardHomeWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           TextWidget(
-                            text: adsModel.price.toString(),
+                            text: Formatter.formatNumber(adsModel.price),
                             fontSize: 14,
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
                           ),
+                          2.toWidth,
                           TextWidget(
-                            text: adsModel.currency.toString(),
+                            text: Formatter.convertCurrencySymbol(
+                                adsModel.currency),
                             fontSize: 12,
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
@@ -96,24 +99,18 @@ class ProductCardHomeWidget extends StatelessWidget {
                       ),
                       1.toHeight,
                       TextWidget(
-                        text: '${adsModel.roomCount}' +
-                            ' ' +
-                            S.of(context).Room +
-                            ' ' +
-                            '${adsModel.bathroomCount}' +
-                            ' ' +
-                            S.of(context).Bathroom,
+                        text: '${adsModel.roomCount} ${S.of(context).Room}  '
+                            '${adsModel.bathroomCount} ${S.of(context).Bathroom}',
                         fontSize: 10,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                       1.toHeight,
                       TextWidget(
-                        text: '${adsModel.address}' +
-                            ' ' +
-                            '${adsModel.districtName}' +
-                            ' ' +
-                            '${adsModel.cityName}',
+                        maxLines: 2,
+                        isHaveOverflow: true,
+                        text:
+                            '${adsModel.address}, ${adsModel.districtName},  ${adsModel.cityName}',
                         fontSize: 10,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,

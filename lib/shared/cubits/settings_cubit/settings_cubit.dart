@@ -75,20 +75,6 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(SettingsInitial());
   }
 
-  String convertCurrencySymbol(String input) {
-    if (locale == 'ar') {
-      switch (input.toUpperCase()) {
-        case 'SYP':
-          return 'ل.س';
-        case 'TRL':
-          return 'ل.ت';
-        case 'USD':
-          return 'دولار';
-        default:
-      }
-    }
-    return input; // يعيد النص الأصلي إذا لم تكن العملة موجودة في القائمة
-  }
   //---------------------------------------cities---------------------------
 
   List<CityModel> globalCities = [];

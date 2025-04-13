@@ -5,6 +5,9 @@ import 'package:emtelek/features/search_property/data/models/property_filter_req
 
 abstract class SearchPropertyRepository {
   Future<List<AdsModel>> getFilteredAds(PropertyFilterRequestModel filter);
+  Future<void> saveFilterAds(
+    PropertyFilterRequestModel filter,
+  );
 }
 
 class SearchPropertyRepositoryImpl implements SearchPropertyRepository {
@@ -40,6 +43,28 @@ class SearchPropertyRepositoryImpl implements SearchPropertyRepository {
         print("🚀 Error: Data is empty or invalid");
         return []; // إرجاع قائمة فارغة في حالة عدم وجود بيانات صالحة
       }
+    } catch (e) {
+      print('----------------------------------------');
+      // طباعة الخطأ في حال فشل الطلب
+      print('🚀 Error occurred: $e');
+      throw Exception("Failed to load filtered ads: ${e.toString()}");
+    }
+  }
+
+  @override
+  Future<void> saveFilterAds(PropertyFilterRequestModel filter) async {
+    try {
+      print('🚀 Sending filter data: ${filter.toJson()}');
+
+      final response = await api.post(
+        '${EndPoints.baseUrl}${EndPoints.clientSearchesAdd}',
+        isFormData: true,
+        data: filter.toJson(),
+      );
+
+      print('----------------------------------------');
+// طباعة الاستجابة
+      print('🚀 Response: $response');
     } catch (e) {
       print('----------------------------------------');
       // طباعة الخطأ في حال فشل الطلب

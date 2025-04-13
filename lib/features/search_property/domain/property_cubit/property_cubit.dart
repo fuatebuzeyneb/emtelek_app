@@ -226,6 +226,7 @@ class PropertyCubit extends Cubit<PropertyState> {
             minTotalArea: minArea?.toInt(),
             maxTotalArea: maxArea?.toInt(),
             orderBy: sortBy,
+            searchTitle: null,
             page: null),
       );
 
@@ -236,6 +237,47 @@ class PropertyCubit extends Cubit<PropertyState> {
         emit(PropertyAdsFilterFailure(errMessage: 'No ads found!'));
         print('🚫 No ads found!');
       }
+    } catch (e) {
+      emit(PropertyAdsFilterFailure(errMessage: e.toString()));
+      print('❌ Error loading filtered ads: $e');
+    }
+  }
+
+  String searchTitle = 'بحث جديد';
+  void saveFilterAds({
+    required List<int> listCityIds,
+    required List<int> listDistrictIds,
+    required int? minPrice,
+    required int? maxPrice,
+    String? sortBy,
+  }) async {
+    emit(PropertyAdsFilterLoading());
+    try {
+      await searchPropertyRepository.saveFilterAds(
+        PropertyFilterRequestModel(
+            token: getIt<CacheHelper>().getDataString(key: 'token'),
+            clientId: getIt<CacheHelper>().getData(key: 'clientId'),
+            categoryId: propertyType,
+            sellerType: sellerType == 0 ? null : sellerType,
+            roomCount: listRoomCount.isEmpty ? null : listRoomCount,
+            furnish: furnishedType == 0
+                ? null
+                : furnishedType == 1
+                    ? 'true'
+                    : 'false',
+            cityId: listCityIds.isEmpty ? null : listCityIds,
+            districtId: listDistrictIds.isEmpty ? null : listDistrictIds,
+            bathroomCount: listBathRoomCount.isEmpty ? null : listBathRoomCount,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            minTotalArea: minArea?.toInt(),
+            maxTotalArea: maxArea?.toInt(),
+            orderBy: sortBy,
+            searchTitle: searchTitle,
+            page: null),
+      );
+
+      emit(PropertyAdsFilterSuccess());
     } catch (e) {
       emit(PropertyAdsFilterFailure(errMessage: e.toString()));
       print('❌ Error loading filtered ads: $e');

@@ -9,6 +9,7 @@ import 'package:emtelek/features/my_ads/presentation/pages/edit_ad_details_page.
 import 'package:emtelek/features/search_property/presentation/pages/property_details_page.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
+import 'package:emtelek/shared/helper/founctions/formatter.dart';
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
@@ -60,10 +61,8 @@ class MyAdCardWidget extends StatelessWidget {
                       Row(
                         children: [
                           TextWidget(
-                            text: context
-                                .read<SettingsCubit>()
-                                .convertCurrencySymbol(
-                                    myAdsList[index].currency),
+                            text: Formatter.convertCurrencySymbol(
+                                myAdsList[index].currency),
                             color: Colors.black87,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

@@ -240,6 +240,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Room": MessageLookupByLibrary.simpleMessage("Oda"),
     "Sale": MessageLookupByLibrary.simpleMessage("Satılık"),
     "Save": MessageLookupByLibrary.simpleMessage("Kaydet"),
+    "SaveSearch": MessageLookupByLibrary.simpleMessage("Arama Kaydet"),
     "Search": MessageLookupByLibrary.simpleMessage("Ara"),
     "SearchFilters": MessageLookupByLibrary.simpleMessage("Arama Filtreleri"),
     "SearchForTheLocation": MessageLookupByLibrary.simpleMessage(

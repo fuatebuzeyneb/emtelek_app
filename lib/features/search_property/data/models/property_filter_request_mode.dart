@@ -14,6 +14,7 @@ class PropertyFilterRequestModel {
   final dynamic furnish;
   final int? page;
   final String? orderBy;
+  final String? searchTitle;
 
   PropertyFilterRequestModel(
       {required this.token,
@@ -30,6 +31,7 @@ class PropertyFilterRequestModel {
       required this.bathroomCount,
       required this.furnish,
       required this.orderBy,
+      required this.searchTitle,
       required this.page});
   Map<String, dynamic> toJson() {
     return {
@@ -53,7 +55,8 @@ class PropertyFilterRequestModel {
         'BathroomCount[]': bathroomCount,
       'Furnish': furnish ?? 'null',
       'OrderBy': orderBy ?? 'Price ASC',
-      'Page': page ?? 0
+      'Page': page ?? 0,
+      'SearchTitle': searchTitle ?? 'null'
     };
   }
 }

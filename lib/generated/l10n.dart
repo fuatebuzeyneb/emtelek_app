@@ -1331,6 +1331,11 @@ class S {
   String get Currency {
     return Intl.message('Currency', name: 'Currency', desc: '', args: []);
   }
+
+  /// `Save Search`
+  String get SaveSearch {
+    return Intl.message('Save Search', name: 'SaveSearch', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

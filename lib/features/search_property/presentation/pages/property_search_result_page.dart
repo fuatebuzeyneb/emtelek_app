@@ -6,6 +6,7 @@ import 'package:emtelek/features/search_property/presentation/widgets/bottom_she
 import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_price_input_bottom_sheet.dart';
 import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_rent_or_sale_bottom_sheet.dart';
 import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_room_count_bottom_sheet.dart';
+import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_save_search_bottom_sheet.dart';
 
 import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_type_bottom_sheet.dart';
 import 'package:emtelek/features/search_property/presentation/widgets/property_card.dart';
@@ -87,7 +88,7 @@ class PropertySearchResultPage extends StatelessWidget {
                     ),
                   ),
                   12.toHeight,
-                  BlocConsumer<SettingsCubit, SettingsState>(
+                  BlocConsumer<PropertyCubit, PropertyState>(
                     listener: (context, state) {
                       // TODO: implement listener
                     },
@@ -206,7 +207,7 @@ class PropertySearchResultPage extends StatelessWidget {
                               8.toWidth,
                               SizedBox(
                                 height: context.height * 0.04,
-                                width: context.width * 1.32,
+                                width: context.width * 1.2,
                                 child: ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: 5,
@@ -273,7 +274,7 @@ class PropertySearchResultPage extends StatelessWidget {
                               ),
                               2.toWidth,
                               const TextWidget(
-                                text: 'كل الفلاتر',
+                                text: 'اعاده الضبط',
                                 fontSize: 14,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -329,7 +330,18 @@ class PropertySearchResultPage extends StatelessWidget {
                             height: 0.04,
                             width: 0.5,
                             color: Colors.white,
-                            onTap: () {},
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled:
+                                    true, // يسمح بالتحكم الكامل في الطول
+                                enableDrag: false,
+
+                                builder: (context) {
+                                  return const PropertySaveSearchBottomSheet();
+                                },
+                              );
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -337,7 +349,7 @@ class PropertySearchResultPage extends StatelessWidget {
                                 Icon(Icons.bookmark),
                                 4.toWidth,
                                 TextWidget(
-                                  text: S.of(context).Save,
+                                  text: S.of(context).SaveSearch,
                                   fontSize: 16,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
