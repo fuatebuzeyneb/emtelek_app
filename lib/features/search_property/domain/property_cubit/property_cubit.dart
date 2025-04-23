@@ -197,49 +197,95 @@ class PropertyCubit extends Cubit<PropertyState> {
 
   //***********************************for get property*******************************
 
+  int currentPage = 0;
+  bool isFinished = false;
+  bool isFetchingMore = false;
   List<AdsModel> filteredAds = [];
-  Future<void> applyFilter(
-      {required List<int> listCityIds,
-      required List<int> listDistrictIds,
-      required int? minPrice,
-      required int? maxPrice,
-      String? sortBy}) async {
+
+  Future<void> applyFilter({
+    required List<int> listCityIds,
+    required List<int> listDistrictIds,
+    required int? minPrice,
+    required int? maxPrice,
+    String? sortBy,
+  }) async {
     emit(PropertyAdsFilterLoading());
+
+    currentPage = 0;
+    isFinished = false;
+    filteredAds.clear();
+
+    await _fetchAdsPage(
+      listCityIds: listCityIds,
+      listDistrictIds: listDistrictIds,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      sortBy: sortBy,
+    );
+  }
+
+  Future<void> fetchNextPage({
+    required List<int> listCityIds,
+    required List<int> listDistrictIds,
+    required int? minPrice,
+    required int? maxPrice,
+    String? sortBy,
+  }) async {
+    if (isFinished || isFetchingMore) return;
+
+    isFetchingMore = true;
+
+    await _fetchAdsPage(
+      listCityIds: listCityIds,
+      listDistrictIds: listDistrictIds,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      sortBy: sortBy,
+    );
+
+    isFetchingMore = false;
+  }
+
+  Future<void> _fetchAdsPage({
+    required List<int> listCityIds,
+    required List<int> listDistrictIds,
+    required int? minPrice,
+    required int? maxPrice,
+    String? sortBy,
+  }) async {
     try {
-      filteredAds = await searchPropertyRepository.getFilteredAds(
+      final result = await searchPropertyRepository.getFilteredAds(
         PropertyFilterRequestModel(
-            token: getIt<CacheHelper>().getDataString(key: 'token'),
-            clientId: getIt<CacheHelper>().getData(key: 'clientId'),
-            categoryId: propertyType,
-            sellerType: sellerType == 0 ? null : sellerType,
-            roomCount: listRoomCount.isEmpty ? null : listRoomCount,
-            furnish: furnishedType == 0
-                ? null
-                : furnishedType == 1
-                    ? 'true'
-                    : 'false',
-            cityId: listCityIds.isEmpty ? null : listCityIds,
-            districtId: listDistrictIds.isEmpty ? null : listDistrictIds,
-            bathroomCount: listBathRoomCount.isEmpty ? null : listBathRoomCount,
-            minPrice: minPrice,
-            maxPrice: maxPrice,
-            minTotalArea: minArea?.toInt(),
-            maxTotalArea: maxArea?.toInt(),
-            orderBy: sortBy,
-            searchTitle: null,
-            page: null),
+          token: getIt<CacheHelper>().getDataString(key: 'token'),
+          clientId: getIt<CacheHelper>().getData(key: 'clientId'),
+          categoryId: propertyType,
+          sellerType: sellerType == 0 ? null : sellerType,
+          roomCount: listRoomCount.isEmpty ? null : listRoomCount,
+          furnish: furnishedType == 0
+              ? null
+              : furnishedType == 1
+                  ? 'true'
+                  : 'false',
+          cityId: listCityIds.isEmpty ? null : listCityIds,
+          districtId: listDistrictIds.isEmpty ? null : listDistrictIds,
+          bathroomCount: listBathRoomCount.isEmpty ? null : listBathRoomCount,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+          minTotalArea: minArea?.toInt(),
+          maxTotalArea: maxArea?.toInt(),
+          orderBy: sortBy,
+          searchTitle: null,
+          page: currentPage,
+        ),
       );
 
-      // ✅ طباعة منظمة لنتائج الفلتر
-      if (filteredAds.isNotEmpty) {
-        emit(PropertyAdsFilterSuccess());
-      } else {
-        emit(PropertyAdsFilterFailure(errMessage: 'No ads found!'));
-        print('🚫 No ads found!');
-      }
+      filteredAds.addAll(result ?? []);
+      isFinished = result.first.isFinished ?? false;
+      currentPage++;
+
+      emit(PropertyAdsFilterSuccess());
     } catch (e) {
       emit(PropertyAdsFilterFailure(errMessage: e.toString()));
-      print('❌ Error loading filtered ads: $e');
     }
   }
 
@@ -251,7 +297,7 @@ class PropertyCubit extends Cubit<PropertyState> {
     required int? maxPrice,
     String? sortBy,
   }) async {
-    emit(PropertyAdsFilterLoading());
+    emit(PropertyAddFilterSearchLoading());
     try {
       await searchPropertyRepository.saveSearchFilter(
         PropertyFilterRequestModel(
@@ -277,9 +323,9 @@ class PropertyCubit extends Cubit<PropertyState> {
             page: null),
       );
 
-      emit(PropertyAdsFilterSuccess());
+      emit(PropertyAddFilterSearchSuccess());
     } catch (e) {
-      emit(PropertyAdsFilterFailure(errMessage: e.toString()));
+      emit(PropertyAddFilterSearchFailure(errMessage: e.toString()));
       print('❌ Error loading filtered ads: $e');
     }
   }

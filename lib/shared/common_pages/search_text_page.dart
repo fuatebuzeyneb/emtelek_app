@@ -61,9 +61,12 @@ class SearchTextPage extends StatelessWidget {
                               child: ListView.builder(
                                 itemCount: homeCubit.searchTextAds.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return PropertyCard(
-                                      index: index,
-                                      adsModel: homeCubit.searchTextAds);
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 16),
+                                    child: PropertyCard(
+                                        index: index,
+                                        adsModel: homeCubit.searchTextAds),
+                                  );
                                 },
                               ),
                             );

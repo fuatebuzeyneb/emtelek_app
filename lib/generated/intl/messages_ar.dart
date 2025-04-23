@@ -120,6 +120,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "Error": MessageLookupByLibrary.simpleMessage("يوجد خطأ"),
     "Factory": MessageLookupByLibrary.simpleMessage("مصنع"),
     "Favorites": MessageLookupByLibrary.simpleMessage("المفضلة"),
+    "FeaturesOptional": MessageLookupByLibrary.simpleMessage(
+      "الميزات (اختياري)",
+    ),
     "FindCar": MessageLookupByLibrary.simpleMessage("ابحث عن سيارتك هنا"),
     "FindHome": MessageLookupByLibrary.simpleMessage("ابحث عن منزلك هنا"),
     "FindLand": MessageLookupByLibrary.simpleMessage("ابحث عن أرضك هنا"),

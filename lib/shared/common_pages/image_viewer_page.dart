@@ -1,3 +1,6 @@
+import 'package:emtelek/core/constants/app_colors.dart';
+import 'package:emtelek/shared/widgets/appbar_widget.dart';
+import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -19,7 +22,19 @@ class ImageGalleryPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Image Gallery')),
+      appBar: AppBar(
+        centerTitle: true,
+        shadowColor: Colors.white,
+        elevation: 2,
+        surfaceTintColor: Colors.white,
+        automaticallyImplyLeading: false,
+        title: AppBarWidget(
+            title: 'Image Gallery',
+            onTap: () {
+              Navigator.pop(context);
+            }),
+        backgroundColor: AppColors.appBarBackground,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: GridView.builder(

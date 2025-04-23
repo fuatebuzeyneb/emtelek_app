@@ -105,14 +105,18 @@ class PropertySaveSearchBottomSheet extends StatelessWidget {
                         paddingHorizontal: 12,
                         paddingVertical: 8,
                         onTap: () {
-                          propertyCubit.saveSearchFilter(
-                              listCityIds: settingsCubit.selectedCityIds,
-                              listDistrictIds:
-                                  settingsCubit.selectedDistrictIds,
-                              minPrice: settingsCubit.minPrice?.toInt(),
-                              maxPrice: settingsCubit.maxPrice?.toInt());
+                          if (state is! PropertyAddFilterSearchLoading) {
+                            propertyCubit.saveSearchFilter(
+                                listCityIds: settingsCubit.selectedCityIds,
+                                listDistrictIds:
+                                    settingsCubit.selectedDistrictIds,
+                                minPrice: settingsCubit.minPrice?.toInt(),
+                                maxPrice: settingsCubit.maxPrice?.toInt());
+                          }
                         },
-                        text: S.of(context).Save,
+                        text: state is PropertyAddFilterSearchLoading
+                            ? 'wait...'
+                            : S.of(context).Save,
                         color: AppColors.primary,
                         colorText: Colors.white,
                         borderColor: AppColors.primary,

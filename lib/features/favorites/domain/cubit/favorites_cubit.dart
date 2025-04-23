@@ -24,6 +24,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   Future<void> addFavorite({required int adId}) async {
     try {
       await favoritesRepository.addFavoriteAd(adId: adId);
+      getFavoritesData();
       emit(FavoritesSuccess());
     } catch (e) {
       emit(FavoritesFailure(errorMassage: e.toString()));
@@ -33,6 +34,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   Future<void> removeFavorite({required int adId}) async {
     try {
       await favoritesRepository.removeFavoriteAd(adId: adId);
+      getFavoritesData();
       emit(FavoritesSuccess());
     } catch (e) {
       emit(FavoritesFailure(errorMassage: e.toString()));

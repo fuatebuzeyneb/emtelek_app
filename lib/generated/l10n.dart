@@ -1336,6 +1336,16 @@ class S {
   String get SaveSearch {
     return Intl.message('Save Search', name: 'SaveSearch', desc: '', args: []);
   }
+
+  /// `Features (Optional)`
+  String get FeaturesOptional {
+    return Intl.message(
+      'Features (Optional)',
+      name: 'FeaturesOptional',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

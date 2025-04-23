@@ -1,0 +1,2 @@
+/Users/fuat/Desktop/apps/emtelek/android/app/.cxx/RelWithDebInfo/2275m373/x86/CMakeFiles/edit_cache.dir
+/Users/fuat/Desktop/apps/emtelek/android/app/.cxx/RelWithDebInfo/2275m373/x86/CMakeFiles/rebuild_cache.dir

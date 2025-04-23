@@ -126,6 +126,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "Error": MessageLookupByLibrary.simpleMessage("Hata! Yanlış"),
     "Factory": MessageLookupByLibrary.simpleMessage("Fabrika"),
     "Favorites": MessageLookupByLibrary.simpleMessage("Favoriler"),
+    "FeaturesOptional": MessageLookupByLibrary.simpleMessage(
+      "Ozellikler (Opsiyonel)",
+    ),
     "FindCar": MessageLookupByLibrary.simpleMessage("Arabanızı Burada Bulun"),
     "FindHome": MessageLookupByLibrary.simpleMessage("Evinizi Burada Bulun"),
     "FindLand": MessageLookupByLibrary.simpleMessage("Arsanızı Burada Bulun"),

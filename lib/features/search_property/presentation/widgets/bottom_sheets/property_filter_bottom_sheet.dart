@@ -593,6 +593,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: ButtonWidget(
                     onTap: () {
+                      Navigator.pop(context);
                       propertyCubit.applyFilter(
                           listCityIds: settingsCubit.selectedCityIds,
                           listDistrictIds: settingsCubit.selectedDistrictIds,

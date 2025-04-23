@@ -1,0 +1,2 @@
+/Users/fuat/Desktop/apps/emtelek/android/app/.cxx/RelWithDebInfo/2275m373/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/fuat/Desktop/apps/emtelek/android/app/.cxx/RelWithDebInfo/2275m373/armeabi-v7a/CMakeFiles/rebuild_cache.dir

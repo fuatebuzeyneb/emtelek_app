@@ -812,7 +812,6 @@ class AddAdDetailsPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          12.toHeight,
                           Visibility(
                             visible: ![11, 17, 9, 15, 13, 19]
                                 .contains(propertyAddAdCubit.categoryForAdType),
@@ -837,27 +836,11 @@ class AddAdDetailsPage extends StatelessWidget {
                                       horizontal: 12),
                                   child: Row(
                                     children: [
-                                      propertyAddAdCubit
-                                                  .propertyAdModel.furnished ==
-                                              null
-                                          ? TextWidget(
-                                              text: S
-                                                  .of(context)
-                                                  .FurnishedOptional,
-                                              fontSize: 16,
-                                              color: Colors.black38,
-                                            )
-                                          : TextWidget(
-                                              text: propertyAddAdCubit
-                                                          .propertyAdModel
-                                                          .furnished ==
-                                                      true
-                                                  ? S.of(context).Furnished
-                                                  : S.of(context).Unfurnished,
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                      TextWidget(
+                                        text: S.of(context).FeaturesOptional,
+                                        fontSize: 16,
+                                        color: Colors.black38,
+                                      )
                                     ],
                                   ),
                                 ),

@@ -126,6 +126,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "Error": MessageLookupByLibrary.simpleMessage("oops! Wrong"),
     "Factory": MessageLookupByLibrary.simpleMessage("Factory"),
     "Favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
+    "FeaturesOptional": MessageLookupByLibrary.simpleMessage(
+      "Features (Optional)",
+    ),
     "FindCar": MessageLookupByLibrary.simpleMessage("Find Your Car Here"),
     "FindHome": MessageLookupByLibrary.simpleMessage("Find Your Home Here"),
     "FindLand": MessageLookupByLibrary.simpleMessage("Find Your Land Here"),

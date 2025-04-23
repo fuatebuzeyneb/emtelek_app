@@ -34,7 +34,6 @@ class PropertyCard extends StatelessWidget {
             ));
       },
       child: Container(
-        height: context.height * 0.47,
         width: context.width * 1,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -60,20 +59,21 @@ class PropertyCard extends StatelessWidget {
                           adsModel: adsModel[index],
                         ));
                   },
-                  child: SizedBox(
-                    height: context.height * 0.25,
-                    child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          topRight: Radius.circular(8),
-                        ),
-                        child: Image.asset(
-                          'assets/images/example.png',
-                        )),
-                  ),
+                  child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
+                      child: Image.asset(
+                        'assets/images/example.png',
+                      )),
                 ),
-                FavoriteWidget(
-                  adsModel: adsModel[index],
+                Positioned(
+                  top: 10,
+                  left: 8,
+                  child: FavoriteWidget(
+                    adsModel: adsModel[index],
+                  ),
                 ),
               ],
             ),
@@ -211,6 +211,7 @@ class PropertyCard extends StatelessWidget {
                 16.toHeight,
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ButtonWidget(
                         borderRadius: 4,
