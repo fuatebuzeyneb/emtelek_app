@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/generated/l10n.dart';
+import 'package:emtelek/shared/models/exchange_rate_model/exchange_rate_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:emtelek/shared/services/shared_preferences_funs.dart';
@@ -64,12 +65,13 @@ class SettingsCubit extends Cubit<SettingsState> {
 
 //SYP --> Syrian
 //USD --> American
-//TRL --> Turkish
-  String currencyCode =
+//TRY --> Turkish
+  String appCurrencyCode =
       getIt<CacheHelper>().getDataString(key: 'currencyCode') ?? 'SYP';
 
   void selectCurrencyCodeFunction({required String value}) {
-    currencyCode = value;
+    appCurrencyCode = value;
+    print('currencyCode: $appCurrencyCode');
     saveCurrencyCode(value);
 
     emit(SettingsInitial());
@@ -117,7 +119,7 @@ class SettingsCubit extends Cubit<SettingsState> {
               CityModel(cityId: city['CityId'], cityName: city['CityName']));
         }
       }
-
+      print("citiesBox!.length ${citiesBox!.length}");
       emit(CityLoaded());
     } catch (e) {
       emit(CityError('Failed to load cities'));
@@ -127,32 +129,35 @@ class SettingsCubit extends Cubit<SettingsState> {
   Future<List<dynamic>> getCityDataFromApi() async {
     try {
       Response response = await dio.get(
-        '$apiUrl/cities',
+        'https://emtelek.com/api/cities',
         options: Options(
+          responseType: ResponseType.plain, // <<<<<< هام جدا هنا
           headers: {
             'Authorization': basicAuth,
           },
         ),
       );
 
-      if (response.statusCode == 200) {
-        if (response.data['data'] is Map) {
-          Map<String, dynamic> cities = response.data['data'];
-          List<dynamic> citiesList = [];
+      print('Raw Response: ${response.data}');
 
-          cities.forEach((key, value) {
-            citiesList.add(value);
-          });
+      // فك التشفير اليدوي
+      var decodedData = jsonDecode(response.data);
 
-          return citiesList;
-        } else {
-          throw Exception('Data format is not correct');
-        }
+      if (decodedData['data'] is Map) {
+        Map<String, dynamic> cities = decodedData['data'];
+        List<dynamic> citiesList = [];
+
+        cities.forEach((key, value) {
+          citiesList.add(value);
+        });
+
+        return citiesList;
       } else {
-        throw Exception('Failed to load cities');
+        print('Unexpected response format');
+        return [];
       }
     } catch (e) {
-      print(e);
+      print('API error: $e');
       return [];
     }
   }
@@ -185,7 +190,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   Future<List<dynamic>> getDistrictDataFromApi() async {
     try {
       Response response = await dio.get(
-        '$apiUrl/districts',
+        'https://emtelek.com/api/districts',
         options: Options(
           headers: {
             'Authorization': basicAuth,
@@ -435,5 +440,84 @@ class SettingsCubit extends Cubit<SettingsState> {
     sortBy = value;
     print('sortBy: $sortBy');
     emit(SortBy());
+  }
+
+  String? sypRate;
+  String? tryRate;
+  Future<void> fetchExchangeRates() async {
+    try {
+      emit(ExchangeLoading());
+
+      Response response = await dio.post(
+        'https://emtelek.com/api/exchangerates', // هنا حط رابطك الصحيح
+        options: Options(
+          headers: {
+            'Authorization': basicAuth,
+          },
+        ),
+      );
+
+      Map<String, dynamic> decodedResponse = response.data;
+
+      if (decodedResponse['status'] == 'success' &&
+          decodedResponse['data'] != null) {
+        ExchangeRateModel exchangeRate =
+            ExchangeRateModel.fromJson(decodedResponse['data']);
+
+        sypRate = exchangeRate.sypRate;
+        tryRate = exchangeRate.tryRate;
+
+        print('SYP Rate: $sypRate');
+        print('TRY Rate: $tryRate');
+
+        emit(ExchangeSuccess());
+      } else {
+        emit(ExchangeError('Unexpected response format'));
+      }
+    } catch (e) {
+      print('API Error: $e');
+      emit(ExchangeError('Failed to load exchange rates'));
+    }
+  }
+
+  double convertToAppCurrency({
+    required double adPrice,
+    required String adCurrencyCode,
+  }) {
+    // سعر عملة الإعلان
+    double adCurrencyRate;
+    if (adCurrencyCode == 'USD') {
+      adCurrencyRate = 1;
+    } else if (adCurrencyCode == 'TRY') {
+      adCurrencyRate = double.tryParse(tryRate!) ?? 0.0;
+    } else if (adCurrencyCode == 'SYP') {
+      adCurrencyRate = double.tryParse(sypRate!) ?? 0.0;
+    } else {
+      throw Exception('Unsupported ad currency');
+    }
+
+    // سعر عملة التطبيق
+    double appCurrencyRate;
+    if (appCurrencyCode == 'USD') {
+      appCurrencyRate = 1;
+    } else if (appCurrencyCode == 'TRY') {
+      appCurrencyRate = double.tryParse(tryRate!) ?? 0.0;
+    } else if (appCurrencyCode == 'SYP') {
+      appCurrencyRate = double.tryParse(sypRate!) ?? 0.0;
+    } else {
+      throw Exception('Unsupported app currency');
+    }
+
+    // إذا العملتين نفس الشيء، رجع السعر مباشرة
+    if (adCurrencyCode == appCurrencyCode) {
+      return adPrice;
+    } else {
+      // التحويل: سعر الإعلان إلى الدولار ➔ ثم إلى عملة التطبيق
+      double priceInUSD =
+          adCurrencyCode == 'USD' ? adPrice : adPrice / adCurrencyRate;
+      double convertedPrice =
+          appCurrencyCode == 'USD' ? priceInUSD : priceInUSD * appCurrencyRate;
+      return convertedPrice;
+    }
   }
 }

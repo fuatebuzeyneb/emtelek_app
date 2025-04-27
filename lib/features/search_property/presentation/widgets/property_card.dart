@@ -8,6 +8,10 @@ import 'package:emtelek/features/search_property/domain/property_cubit/property_
 import 'package:emtelek/features/search_property/presentation/pages/property_details_page.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/common_pages/image_viewer_page.dart';
+import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
+import 'package:emtelek/shared/helper/founctions/formatter.dart';
+import 'package:emtelek/shared/services/cache_hekper.dart';
+import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
@@ -87,8 +91,12 @@ class PropertyCard extends StatelessWidget {
                     children: [
                       TextWidget(
                         isHaveOverflow: true,
-                        text: adsModel[index].price.toString() +
-                            adsModel[index].isFavorite.toString(),
+                        text: Formatter.formatNumber(
+                            //adsModel.price
+                            BlocProvider.of<SettingsCubit>(context)
+                                .convertToAppCurrency(
+                                    adCurrencyCode: adsModel[index].currency,
+                                    adPrice: adsModel[index].price)),
                         fontSize: 18,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
@@ -96,7 +104,8 @@ class PropertyCard extends StatelessWidget {
                       6.toWidth,
                       TextWidget(
                         isHaveOverflow: true,
-                        text: adsModel[index].currency.toString(),
+                        text: getIt<CacheHelper>()
+                            .getDataString(key: 'currencyCode')!,
                         fontSize: 18,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,

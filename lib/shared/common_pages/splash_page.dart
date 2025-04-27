@@ -35,8 +35,13 @@ class _SplashPageState extends State<SplashPage> {
       saveLanguage('ar');
     }
 
+    if (getIt<CacheHelper>().getDataString(key: 'currencyCode') == null) {
+      saveCurrencyCode('SYP');
+    }
+
     await homeCubit.getHomeData();
     await settingsCubit.openBox();
+    await settingsCubit.fetchExchangeRates();
 
     if (!mounted) return;
     setState(() {

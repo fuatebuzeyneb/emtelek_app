@@ -23,3 +23,12 @@ final class LocationFilterSelect extends SettingsState {}
 final class PriceFilterRange extends SettingsState {}
 
 final class SortBy extends SettingsState {}
+
+final class ExchangeLoading extends SettingsState {}
+
+final class ExchangeSuccess extends SettingsState {}
+
+final class ExchangeError extends SettingsState {
+  final String message;
+  ExchangeError(this.message);
+}

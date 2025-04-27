@@ -73,12 +73,12 @@ class CurrencyConversionBottomSheet extends StatelessWidget {
                           TextWidget(
                             text: S.of(context).SyrianPound,
                             fontSize: 16,
-                            color: settingsCubit.currencyCode == 'SYP'
+                            color: settingsCubit.appCurrencyCode == 'SYP'
                                 ? Colors.black
                                 : Colors.grey,
                             fontWeight: FontWeight.bold,
                           ),
-                          settingsCubit.currencyCode == 'SYP'
+                          settingsCubit.appCurrencyCode == 'SYP'
                               ? Icon(
                                   Icons.check,
                                   size: 20,
@@ -108,12 +108,12 @@ class CurrencyConversionBottomSheet extends StatelessWidget {
                           TextWidget(
                             text: S.of(context).USDollar,
                             fontSize: 16,
-                            color: settingsCubit.currencyCode == 'USD'
+                            color: settingsCubit.appCurrencyCode == 'USD'
                                 ? Colors.black
                                 : Colors.grey,
                             fontWeight: FontWeight.bold,
                           ),
-                          settingsCubit.currencyCode == 'USD'
+                          settingsCubit.appCurrencyCode == 'USD'
                               ? Icon(
                                   Icons.check,
                                   size: 20,
@@ -133,7 +133,7 @@ class CurrencyConversionBottomSheet extends StatelessWidget {
                   6.toHeight,
                   GestureDetector(
                     onTap: () {
-                      settingsCubit.selectCurrencyCodeFunction(value: 'TRL');
+                      settingsCubit.selectCurrencyCodeFunction(value: 'TRY');
                     },
                     child: Container(
                       color: Colors.transparent,
@@ -143,12 +143,12 @@ class CurrencyConversionBottomSheet extends StatelessWidget {
                           TextWidget(
                             text: S.of(context).TurkishLira,
                             fontSize: 16,
-                            color: settingsCubit.currencyCode == 'TRL'
+                            color: settingsCubit.appCurrencyCode == 'TRY'
                                 ? Colors.black
                                 : Colors.grey,
                             fontWeight: FontWeight.bold,
                           ),
-                          settingsCubit.currencyCode == 'TRL'
+                          settingsCubit.appCurrencyCode == 'TRY'
                               ? Icon(
                                   Icons.check,
                                   size: 20,

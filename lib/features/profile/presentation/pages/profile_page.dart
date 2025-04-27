@@ -58,7 +58,10 @@ class ProfilePage extends StatelessWidget {
                           horizontal: 16, vertical: 8),
                       child: Row(
                         children: [
-                          CircleProfileImageWidget(),
+                          CircleProfileImageWidget(
+                            showEditImage: false,
+                            heightAndWidth: context.height * 0.08,
+                          ),
                           16.toWidth,
                           getIt<CacheHelper>().getDataString(key: 'token') !=
                                   null

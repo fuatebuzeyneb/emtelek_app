@@ -36,7 +36,11 @@ class AdsModel {
   String? complexName;
   bool? isFinished;
   bool? isFavorite;
-  List<Feature>? features; // ✅ أضفنا هذه
+  List<Feature>? features;
+  List<int>? attachmentIds;
+  List<String>? attachmentNames;
+  List<int>? isDeletedList;
+  String? clientImage;
 
   AdsModel({
     required this.token,
@@ -75,9 +79,31 @@ class AdsModel {
     this.isFinished,
     this.isFavorite,
     this.features, // ✅ أضفنا هذه
+    this.attachmentIds,
+    this.attachmentNames,
+    this.isDeletedList,
+    this.clientImage,
   });
 
   factory AdsModel.fromJson(Map<String, dynamic> json) {
+    List<int> tempAttachmentIds = [];
+    List<String> tempAttachmentNames = [];
+    List<int> tempIsDeletedList = [];
+
+    // معالجة ال Images حسب نوعها
+    if (json['Images'] is Map<String, dynamic>) {
+      final Map<String, dynamic> imagesMap = json['Images'];
+
+      imagesMap.forEach((key, value) {
+        if (value is Map<String, dynamic>) {
+          tempAttachmentIds.add(value['AttachmentId'] ?? 0);
+          tempAttachmentNames.add(value['AttachmentName'] ?? '');
+          tempIsDeletedList.add(value['IsDeleted'] ?? 0);
+        }
+      });
+    } else {
+      // Images is either `false` or `null`, لا نفعل شيء
+    }
     return AdsModel(
       token: json['Token'] ?? '',
       adId: json['AdId'],
@@ -102,6 +128,7 @@ class AdsModel {
       clientId: json['data']['client']['ClientId'],
       firstName: json['data']['client']['FirstName'],
       lastName: json['data']['client']['LastName'],
+      clientImage: json['data']['client']['Image'],
       phoneNumber: json['data']['client']['PhoneNumber'] ?? '',
       email: json['data']['client']['Email'] ?? '',
       subscriptionDate: json['data']['client']['SubscriptionDate'] ?? '',
@@ -110,7 +137,7 @@ class AdsModel {
       districtId: json['data']['district']['DistrictId'],
       districtCityId: json['data']['district']['CityId'],
       districtName: json['data']['district']['DistrictName'],
-      totalArea: json['data']['info']['TotalArea'] ?? "",
+      totalArea: json['data']['info']['TotalArea'] ?? 0,
       netOrBuildingArea: json['data']['info']['NetArea'] ?? '',
       roomCount: json['data']['info']['RoomCount'] ?? 0,
       floorNumber: json['data']['info']['FloorNumber'] ?? 0,
@@ -127,6 +154,9 @@ class AdsModel {
               .map((featureJson) => Feature.fromJson(featureJson))
               .toList()
           : [],
+      attachmentIds: tempAttachmentIds,
+      attachmentNames: tempAttachmentNames,
+      isDeletedList: tempIsDeletedList,
     );
   }
 
@@ -167,6 +197,9 @@ class AdsModel {
       'ComplexName': complexName,
       'IsFinished': isFinished,
       'Features': features?.map((feature) => feature.toJson()).toList(),
+      'AttachmentIds': attachmentIds,
+      'AttachmentNames': attachmentNames,
+      'IsDeletedList': isDeletedList,
     };
   }
 }

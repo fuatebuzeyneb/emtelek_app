@@ -55,7 +55,7 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-      printClientDetails(data);
+
       saveToken(data.token!);
       saveEmail(data.data!.email!);
       savePassword(password);

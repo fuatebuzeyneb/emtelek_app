@@ -55,7 +55,10 @@ class ProfileSettingsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           12.toHeight,
-                          CircleProfileImageWidget(),
+                          CircleProfileImageWidget(
+                            showEditImage: true,
+                            heightAndWidth: context.height * 0.1,
+                          ),
                           12.toHeight,
                           TextFieldWidget(
                             initialValue:

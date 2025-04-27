@@ -209,8 +209,13 @@ class PropertyDetailsPage extends StatelessWidget {
                                 children: [
                                   TextWidget(
                                     isHaveOverflow: true,
-                                    text:
-                                        Formatter.formatNumber(adsModel.price),
+                                    text: Formatter.formatNumber(
+                                        //adsModel.price
+                                        BlocProvider.of<SettingsCubit>(context)
+                                            .convertToAppCurrency(
+                                                adCurrencyCode:
+                                                    adsModel.currency,
+                                                adPrice: adsModel.price)),
                                     fontSize: 18,
                                     color: Colors.green,
                                     fontWeight: FontWeight.bold,
@@ -218,8 +223,8 @@ class PropertyDetailsPage extends StatelessWidget {
                                   6.toWidth,
                                   TextWidget(
                                     isHaveOverflow: true,
-                                    text: Formatter.convertCurrencySymbol(
-                                        adsModel.currency),
+                                    text: getIt<CacheHelper>()
+                                        .getDataString(key: 'currencyCode')!,
                                     fontSize: 18,
                                     color: Colors.green,
                                     fontWeight: FontWeight.bold,
@@ -1081,7 +1086,14 @@ class PropertyDetailsPage extends StatelessWidget {
                                           TextWidget(
                                             isHaveOverflow: true,
                                             text: Formatter.formatNumber(
-                                                adsModel.price),
+                                                //adsModel.price
+                                                BlocProvider.of<SettingsCubit>(
+                                                        context)
+                                                    .convertToAppCurrency(
+                                                        adCurrencyCode:
+                                                            adsModel.currency,
+                                                        adPrice:
+                                                            adsModel.price)),
                                             fontSize: 16,
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,
@@ -1089,9 +1101,11 @@ class PropertyDetailsPage extends StatelessWidget {
                                           6.toWidth,
                                           TextWidget(
                                             isHaveOverflow: true,
-                                            text:
-                                                Formatter.convertCurrencySymbol(
-                                                    adsModel.currency),
+                                            text: getIt<CacheHelper>()
+                                                .getDataString(
+                                                    key: 'currencyCode')!,
+                                            // Formatter.convertCurrencySymbol(
+                                            //     adsModel.currency),
                                             fontSize: 16,
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,

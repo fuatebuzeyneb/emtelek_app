@@ -1,11 +1,11 @@
 import 'package:emtelek/core/api/api_consumer.dart';
 import 'package:emtelek/core/api/end_points.dart';
+import 'package:emtelek/features/profile/data/models/account_response_model.dart';
 import 'package:emtelek/shared/models/auth-and-profile-models/clients_response_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 
 abstract class AuthRepository {
   Future<void> signUp({
@@ -17,7 +17,7 @@ abstract class AuthRepository {
     required int accountType,
   });
 
-  Future<ClientsResponseModel> signIn({
+  Future<AccountResponseModel> signIn({
     required String email,
     required String password,
   });
@@ -66,7 +66,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<ClientsResponseModel> signIn({
+  Future<AccountResponseModel> signIn({
     required String email,
     required String password,
   }) async {
@@ -78,7 +78,7 @@ class AuthRepositoryImpl implements AuthRepository {
         "Password": password,
       },
     );
-    return ClientsResponseModel.fromJson(response);
+    return AccountResponseModel.fromJson(response);
   }
 
   @override
