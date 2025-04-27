@@ -9,6 +9,8 @@ import 'package:emtelek/core/constants/app_colors.dart';
 
 import 'package:emtelek/features/search_property/presentation/pages/property_details_page.dart';
 import 'package:emtelek/shared/helper/founctions/formatter.dart';
+import 'package:emtelek/shared/services/cache_hekper.dart';
+import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -82,15 +84,20 @@ class ProductCardHomeWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           TextWidget(
-                            text: Formatter.formatNumber(adsModel.price),
+                            text: Formatter.formatNumber(
+                                //adsModel.price
+                                BlocProvider.of<SettingsCubit>(context)
+                                    .convertToAppCurrency(
+                                        adCurrencyCode: adsModel.currency,
+                                        adPrice: adsModel.price)),
                             fontSize: 14,
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
                           ),
                           2.toWidth,
                           TextWidget(
-                            text: Formatter.convertCurrencySymbol(
-                                adsModel.currency),
+                            text: getIt<CacheHelper>()
+                                .getDataString(key: 'currencyCode')!,
                             fontSize: 12,
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,

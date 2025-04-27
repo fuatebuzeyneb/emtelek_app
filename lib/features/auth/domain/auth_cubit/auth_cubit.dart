@@ -62,12 +62,13 @@ class AuthCubit extends Cubit<AuthState> {
       saveFirstName(data.data!.firstName!);
       saveLastName(data.data!.lastName!);
       saveClientId(data.data!.clientId!);
-      savePhoneNumber(data.data!.phoneNumber!);
+      saveJoinDate(data.data!.subscriptionDate!);
+      // savePhoneNumber(data.data!.phoneNumber!);
 
-      if (data.addressData != null) {
-        saveAddress(data.addressData!.address!);
-        saveDistrictId(data.addressData!.districtId!);
-      }
+      // if (data.addressData != null) {
+      //   saveAddress(data.addressData!.address!);
+      //   saveDistrictId(data.addressData!.districtId!);
+      // }
 
       emit(SignInSuccuss());
     } on ServerException catch (e) {
@@ -95,7 +96,7 @@ class AuthCubit extends Cubit<AuthState> {
         saveEmail(user.email ?? '');
         saveFirstName(user.displayName?.split(' ').first ?? '');
         saveLastName(user.displayName?.split(' ').last ?? '');
-        savePhoneNumber(user.phoneNumber ?? '');
+        // savePhoneNumber(user.phoneNumber ?? '');
 
         //final isUserExists = await authRepository.checkIfUserExists(user.email ?? '');
 

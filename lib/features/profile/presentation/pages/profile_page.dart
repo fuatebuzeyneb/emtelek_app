@@ -98,10 +98,10 @@ class ProfilePage extends StatelessWidget {
                                             ),
                                           ],
                                         )),
-                                    6.toHeight,
+                                    8.toHeight,
                                     TextWidget(
                                         text:
-                                            '${S.of(context).JoinedOn} December 2024',
+                                            '${S.of(context).JoinedOn} ${getIt<CacheHelper>().getDataString(key: 'joinDate')?.substring(0, 10) ?? ''}',
                                         fontSize: 14,
                                         color: Colors.grey,
                                         fontWeight: FontWeight.bold),

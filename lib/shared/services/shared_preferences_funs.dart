@@ -29,26 +29,26 @@ void saveClientId(int value) {
   getIt<CacheHelper>().saveData(key: 'clientId', value: value);
 }
 
-void saveAddress(String value) {
-  getIt<CacheHelper>().saveData(key: 'address', value: value);
+// void saveAddress(String value) {
+//   getIt<CacheHelper>().saveData(key: 'address', value: value);
+// }
+
+// void savePhoneNumber(String value) {
+//   getIt<CacheHelper>().saveData(key: 'phoneNumber', value: value);
+// }
+
+// void saveDistrictId(int value) {
+//   getIt<CacheHelper>().saveData(key: 'districtId', value: value);
+// }
+
+void saveJoinDate(String value) {
+  getIt<CacheHelper>().saveData(key: 'joinDate', value: value);
 }
 
-void savePhoneNumber(String value) {
-  getIt<CacheHelper>().saveData(key: 'phoneNumber', value: value);
-}
-
-void saveDistrictId(int value) {
-  getIt<CacheHelper>().saveData(key: 'districtId', value: value);
-}
-
-void saveUserImage(int value) {
+void saveUserImage(String value) {
   getIt<CacheHelper>().saveData(key: 'userImage', value: value);
 }
 
 void saveCurrencyCode(String value) {
   getIt<CacheHelper>().saveData(key: 'currencyCode', value: value);
-}
-
-void saveCurrencyRate(int value) {
-  getIt<CacheHelper>().saveData(key: 'currencyRate', value: value);
 }

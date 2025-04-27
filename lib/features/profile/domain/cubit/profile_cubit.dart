@@ -12,6 +12,7 @@ import 'package:emtelek/shared/models/auth-and-profile-models/clients_response_m
 import 'package:emtelek/features/add_listing/data/models/property_add_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
+import 'package:emtelek/shared/services/shared_preferences_funs.dart';
 import 'package:meta/meta.dart';
 
 part 'profile_state.dart';
@@ -164,8 +165,26 @@ class ProfileCubit extends Cubit<ProfileState> {
         'Address': addressValue,
       };
 
-      await profileRepository.editAccountSettings(
-          accountResponseModel: requestBody);
+      final response = await profileRepository.editAccountSettings(
+        accountResponseModel: requestBody,
+      );
+
+      await getIt<CacheHelper>().removeData(key: 'token');
+      await getIt<CacheHelper>().removeData(key: 'password');
+      await getIt<CacheHelper>().removeData(key: 'email');
+      await getIt<CacheHelper>().removeData(key: 'joinDate');
+      await getIt<CacheHelper>().removeData(key: 'firstName');
+      await getIt<CacheHelper>().removeData(key: 'lastName');
+      await getIt<CacheHelper>().removeData(key: 'clientId');
+
+      saveToken(response.token!);
+      saveEmail(response.data!.email!);
+      savePassword('123456'); // انت هنا حاط باسورد ثابت
+      saveFirstName(response.data!.firstName!);
+      saveLastName(response.data!.lastName!);
+      saveClientId(response.data!.clientId!);
+      saveJoinDate(response.data!.subscriptionDate!);
+      saveUserImage(response.data!.image!);
       emit(EditAccountSettingsSuccess());
     } catch (e) {
       emit(EditAccountSettingsFailure(errorMassage: e.toString()));
