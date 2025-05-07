@@ -20,7 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyAdCardWidget extends StatelessWidget {
   final int index;
-  final List<AdsModel> myAdsList;
+  final List<AdModel> myAdsList;
   const MyAdCardWidget({
     super.key,
     required this.index,
@@ -51,7 +51,7 @@ class MyAdCardWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextWidget(
-                        text: myAdsList[index].adTitle +
+                        text: myAdsList[index].adTitle! +
                             ' ' +
                             "${myAdsList[index].categoryId}",
                         color: Colors.black,
@@ -62,14 +62,15 @@ class MyAdCardWidget extends StatelessWidget {
                         children: [
                           TextWidget(
                             text: Formatter.convertCurrencySymbol(
-                                myAdsList[index].currency),
+                                myAdsList[index].currency!),
                             color: Colors.black87,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                           8.toWidth,
                           TextWidget(
-                            text: myAdsList[index].price.toStringAsFixed(2),
+                            text: double.parse(myAdsList[index].price!)
+                                .toStringAsFixed(2),
                             color: Colors.black87,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -103,10 +104,10 @@ class MyAdCardWidget extends StatelessWidget {
                   TextWidget(
                     text: context
                         .read<SettingsCubit>()
-                        .getStatusInfo(myAdsList[index].status)['text'],
+                        .getStatusInfo(myAdsList[index].status!)['text'],
                     color: context
                         .read<SettingsCubit>()
-                        .getStatusInfo(myAdsList[index].status)['color'],
+                        .getStatusInfo(myAdsList[index].status!)['color'],
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   )
@@ -136,7 +137,7 @@ class MyAdCardWidget extends StatelessWidget {
                     onTap: () {
                       pageTransition(context,
                           page: PropertyDetailsPage(
-                            adsModel: myAdsList[index],
+                            adModel: myAdsList[index],
                           ));
                     },
                     color: Colors.grey,

@@ -3,8 +3,8 @@ import 'package:emtelek/features/profile/data/models/ads_model.dart';
 class HomeModel {
   final int carbrandsCount;
   final int districtsCount;
-  final List<AdsModel> propertiesRent;
-  final List<AdsModel> propertiesSell;
+  final List<AdModel> propertiesRent;
+  final List<AdModel> propertiesSell;
   final bool vehicles;
 
   HomeModel(
@@ -24,12 +24,12 @@ class HomeModel {
       districtsCount: json['districts_count'] ?? 0,
       propertiesRent: propertiesRentJson is Map<String, dynamic>
           ? propertiesRentJson.values
-              .map((e) => AdsModel.fromJson(e as Map<String, dynamic>))
+              .map((e) => AdModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
       propertiesSell: propertiesSellJson is Map<String, dynamic>
           ? propertiesSellJson.values
-              .map((e) => AdsModel.fromJson(e as Map<String, dynamic>))
+              .map((e) => AdModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
     );

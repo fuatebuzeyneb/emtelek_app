@@ -67,7 +67,7 @@ class ButtonWidget extends StatelessWidget {
               Center(
                 child: TextWidget(
                   //   fontFamily: 'Tajawal',
-                  text: text!,
+                  text: text ?? 'jkk',
                   color: colorText!,
                   fontSize: fontSize!,
                   fontWeight: FontWeight.bold,

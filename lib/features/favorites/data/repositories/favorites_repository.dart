@@ -5,7 +5,7 @@ import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 
 abstract class FavoritesRepository {
-  Future<List<AdsModel>> getMyFavoriteAds();
+  Future<List<AdModel>> getMyFavoriteAds();
 
   Future<void> removeFavoriteAd({required int adId});
 
@@ -18,7 +18,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   FavoritesRepositoryImpl({required this.api});
 
   @override
-  Future<List<AdsModel>> getMyFavoriteAds() async {
+  Future<List<AdModel>> getMyFavoriteAds() async {
     try {
       final data = {
         "Token": getIt<CacheHelper>().getDataString(key: 'token'),
@@ -50,7 +50,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
       }
 
       List<dynamic> adsJson = adsData.values.toList();
-      return adsJson.map((json) => AdsModel.fromJson(json)).toList();
+      return adsJson.map((json) => AdModel.fromJson(json)).toList();
     } catch (e) {
       print("Error in getMyAds2: $e"); // طباعة الخطأ لمزيد من التحليل
       throw Exception("No ads found"); // رمي استثناء واحد فقط

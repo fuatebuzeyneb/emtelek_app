@@ -22,10 +22,10 @@ class PropertyCard extends StatelessWidget {
   const PropertyCard({
     super.key,
     required this.index,
-    required this.adsModel,
+    required this.adModel,
   });
   final int index;
-  final List<AdsModel> adsModel;
+  final List<AdModel> adModel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class PropertyCard extends StatelessWidget {
       onTap: () {
         pageTransition(context,
             page: PropertyDetailsPage(
-              adsModel: adsModel[index],
+              adModel: adModel[index],
               //adsModel[index],
             ));
       },
@@ -60,7 +60,7 @@ class PropertyCard extends StatelessWidget {
                   onTap: () {
                     pageTransition(context,
                         page: PropertyDetailsPage(
-                          adsModel: adsModel[index],
+                          adModel: adModel[index],
                         ));
                   },
                   child: ClipRRect(
@@ -76,7 +76,7 @@ class PropertyCard extends StatelessWidget {
                   top: 10,
                   left: 8,
                   child: FavoriteWidget(
-                    adsModel: adsModel[index],
+                    adModel: adModel[index],
                   ),
                 ),
               ],
@@ -95,8 +95,9 @@ class PropertyCard extends StatelessWidget {
                             //adsModel.price
                             BlocProvider.of<SettingsCubit>(context)
                                 .convertToAppCurrency(
-                                    adCurrencyCode: adsModel[index].currency,
-                                    adPrice: adsModel[index].price)),
+                                    adCurrencyCode: adModel[index].currency!,
+                                    adPrice:
+                                        double.parse(adModel[index].price!))),
                         fontSize: 18,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
@@ -118,7 +119,7 @@ class PropertyCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextWidget(
                     isHaveOverflow: true,
-                    text: adsModel[index].adTitle.toString(),
+                    text: adModel[index].adTitle.toString(),
                     fontSize: 16,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -140,7 +141,7 @@ class PropertyCard extends StatelessWidget {
                         padding: EdgeInsets.only(top: 6),
                         child: TextWidget(
                           isHaveOverflow: true,
-                          text: adsModel[index].roomCount.toString() +
+                          text: adModel[index].info!.roomCount.toString() +
                               ' ' +
                               S.of(context).Room,
                           fontSize: 14,
@@ -160,7 +161,7 @@ class PropertyCard extends StatelessWidget {
                         padding: EdgeInsets.only(top: 6),
                         child: TextWidget(
                           isHaveOverflow: true,
-                          text: adsModel[index].bathroomCount.toString() +
+                          text: adModel[index].info!.bathroomCount.toString() +
                               ' ' +
                               S.of(context).Bathroom,
                           fontSize: 14,
@@ -180,7 +181,7 @@ class PropertyCard extends StatelessWidget {
                         padding: EdgeInsets.only(top: 6),
                         child: TextWidget(
                           isHaveOverflow: true,
-                          text: adsModel[index].totalArea.toString() +
+                          text: adModel[index].info!.totalArea.toString() +
                               ' ' +
                               S.of(context).SquareMeter,
                           fontSize: 14,
@@ -204,11 +205,11 @@ class PropertyCard extends StatelessWidget {
                     Expanded(
                       child: TextWidget(
                         textAlign: TextAlign.right,
-                        text: adsModel[index].address.toString() +
+                        text: adModel[index].info!.address.toString() +
                             ' , ' +
-                            adsModel[index].districtName.toString() +
+                            adModel[index].district!.districtName.toString() +
                             ' , ' +
-                            adsModel[index].cityName.toString(),
+                            adModel[index].city!.cityName.toString(),
 
                         fontSize: 14,
                         color: Colors.black,

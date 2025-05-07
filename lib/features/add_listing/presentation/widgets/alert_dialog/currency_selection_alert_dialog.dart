@@ -73,8 +73,7 @@ class CurrencySelectionAlertDialog extends StatelessWidget {
                       Radio<String>(
                         activeColor: AppColors.primary,
                         value: option['value'],
-                        groupValue:
-                            propertyAddAdCubit.propertyAdModel.adModel.currency,
+                        groupValue: propertyAddAdCubit.adModel.currency,
                         onChanged: (value) {
                           propertyAddAdCubit.setPropertyField(
                               'adModelCurrency', option['value']);

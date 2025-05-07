@@ -314,8 +314,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                     padding: EdgeInsets.only(
                                         top: context.height * 0.02),
                                     child: TextWidget(
-                                      text: propertyAddAdCubit
-                                          .propertyAdModel.adModel.currency!,
+                                      text: 'u',
                                       fontSize: 16,
                                       color: Colors.black38,
                                     ),
@@ -339,8 +338,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                   height: 0.059,
                                   color: Colors.black,
                                   borderColor: Colors.black,
-                                  text: propertyAddAdCubit
-                                      .propertyAdModel.adModel.currency,
+                                  text: propertyAddAdCubit.adModel.currency,
                                   fontSize: 16,
                                 ),
                               ),
@@ -428,19 +426,19 @@ class AddAdDetailsPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       TextWidget(
-                                        text: propertyAddAdCubit.propertyAdModel
-                                                    .roomCount ==
+                                        text: propertyAddAdCubit
+                                                    .adModel.info!.roomCount ==
                                                 null
                                             ? ''
                                             : propertyAddAdCubit
-                                                .propertyAdModel.roomCount
+                                                .adModel.info!.roomCount
                                                 .toString(),
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       propertyAddAdCubit
-                                                  .propertyAdModel.roomCount ==
+                                                  .adModel.info!.roomCount ==
                                               null
                                           ? SizedBox()
                                           : Spacer(),
@@ -484,18 +482,18 @@ class AddAdDetailsPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       TextWidget(
-                                        text: propertyAddAdCubit.propertyAdModel
+                                        text: propertyAddAdCubit.adModel.info!
                                                     .bathroomCount ==
                                                 null
                                             ? ''
                                             : propertyAddAdCubit
-                                                .propertyAdModel.bathroomCount
+                                                .adModel.info!.bathroomCount
                                                 .toString(),
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      propertyAddAdCubit.propertyAdModel
+                                      propertyAddAdCubit.adModel.info!
                                                   .bathroomCount ==
                                               null
                                           ? SizedBox()
@@ -542,19 +540,19 @@ class AddAdDetailsPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       TextWidget(
-                                        text: propertyAddAdCubit.propertyAdModel
+                                        text: propertyAddAdCubit.adModel.info!
                                                     .floorNumber ==
                                                 null
                                             ? ''
                                             : propertyAddAdCubit
-                                                .propertyAdModel.floorNumber
+                                                .adModel.info!.floorNumber
                                                 .toString(),
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      propertyAddAdCubit.propertyAdModel
-                                                  .floorNumber ==
+                                      propertyAddAdCubit
+                                                  .adModel.info!.floorNumber ==
                                               null
                                           ? SizedBox()
                                           : Spacer(),
@@ -600,19 +598,19 @@ class AddAdDetailsPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       TextWidget(
-                                        text: propertyAddAdCubit.propertyAdModel
-                                                    .floorCount ==
+                                        text: propertyAddAdCubit
+                                                    .adModel.info!.floorCount ==
                                                 null
                                             ? ''
                                             : propertyAddAdCubit
-                                                .propertyAdModel.floorCount
+                                                .adModel.info!.floorCount
                                                 .toString(),
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       propertyAddAdCubit
-                                                  .propertyAdModel.floorCount ==
+                                                  .adModel.info!.floorCount ==
                                               null
                                           ? SizedBox()
                                           : Spacer(),
@@ -656,20 +654,18 @@ class AddAdDetailsPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       TextWidget(
-                                        text: propertyAddAdCubit.propertyAdModel
+                                        text: propertyAddAdCubit.adModel.info!
                                                     .balconyCount ==
                                                 null
                                             ? ''
                                             : propertyAddAdCubit
-                                                .propertyAdModel.balconyCount
+                                                .adModel.info!.balconyCount
                                                 .toString(),
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      propertyAddAdCubit.propertyAdModel
-                                                  .balconyCount ==
-                                              null
+                                      propertyAddAdCubit.adModel.info == null
                                           ? SizedBox()
                                           : Spacer(),
                                       TextWidget(
@@ -730,21 +726,17 @@ class AddAdDetailsPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       TextWidget(
-                                        text: propertyAddAdCubit.propertyAdModel
+                                        text: propertyAddAdCubit.adModel.info!
                                                     .constructionDate !=
                                                 null
-                                            ? DateFormat('dd - MM - yyy')
-                                                .format(propertyAddAdCubit
-                                                    .propertyAdModel
-                                                    .constructionDate!)
+                                            ? propertyAddAdCubit
+                                                .adModel.info!.constructionDate!
                                             : '',
                                         fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      propertyAddAdCubit.propertyAdModel
-                                                  .constructionDate ==
-                                              null
+                                      propertyAddAdCubit.adModel.info == null
                                           ? SizedBox()
                                           : Spacer(),
                                       TextWidget(
@@ -786,7 +778,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       propertyAddAdCubit
-                                                  .propertyAdModel.furnished ==
+                                                  .adModel.info!.furnish ==
                                               null
                                           ? TextWidget(
                                               text: S
@@ -796,9 +788,8 @@ class AddAdDetailsPage extends StatelessWidget {
                                               color: Colors.black38,
                                             )
                                           : TextWidget(
-                                              text: propertyAddAdCubit
-                                                          .propertyAdModel
-                                                          .furnished ==
+                                              text: propertyAddAdCubit.adModel
+                                                          .info!.furnish ==
                                                       true
                                                   ? S.of(context).Furnished
                                                   : S.of(context).Unfurnished,
@@ -875,9 +866,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                   const EdgeInsets.symmetric(horizontal: 12),
                               child: Row(
                                 children: [
-                                  propertyAddAdCubit.propertyAdModel.adModel
-                                              .sellerType ==
-                                          null
+                                  propertyAddAdCubit.adModel.sellerType == null
                                       ? TextWidget(
                                           text: S.of(context).PropertyOwner,
                                           fontSize: 16,
@@ -885,9 +874,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                         )
                                       : TextWidget(
                                           text: propertyAddAdCubit
-                                                      .propertyAdModel
-                                                      .adModel
-                                                      .sellerType ==
+                                                      .adModel.sellerType ==
                                                   1
                                               ? S.of(context).Owner
                                               : S.of(context).Agent,
@@ -965,27 +952,25 @@ class AddAdDetailsPage extends StatelessWidget {
                               child: Row(
                                 children: [
                                   TextWidget(
-                                    text: propertyAddAdCubit.propertyAdModel
-                                                .adModel.districtId !=
+                                    text: propertyAddAdCubit
+                                                .adModel.district.districtId !=
                                             null
                                         ? settingsCubit
                                             .globalDistricts[propertyAddAdCubit
-                                                    .propertyAdModel
                                                     .adModel
+                                                    .district
                                                     .districtId! -
                                                 1]
                                             .districtName
                                         : S.of(context).Region,
                                     fontSize: 16,
-                                    color: propertyAddAdCubit.propertyAdModel
-                                                .adModel.districtId !=
+                                    color: propertyAddAdCubit
+                                                .adModel.district.districtId !=
                                             null
                                         ? Colors.black
                                         : Colors.black38,
                                     fontWeight: propertyAddAdCubit
-                                                .propertyAdModel
-                                                .adModel
-                                                .districtId !=
+                                                .adModel.district.districtId !=
                                             null
                                         ? FontWeight.bold
                                         : null,
@@ -1022,8 +1007,7 @@ class AddAdDetailsPage extends StatelessWidget {
                             ),
                           ),
                           8.toHeight,
-                          propertyAddAdCubit.propertyAdModel.adModel.location ==
-                                  null
+                          propertyAddAdCubit.adModel.location == null
                               ? ButtonWidget(
                                   height: 0.15,
                                   width: 1,
@@ -1056,9 +1040,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                         options: MapOptions(
                                           initialCenter: settingsCubit
                                               .parseLatLng(propertyAddAdCubit
-                                                  .propertyAdModel
-                                                  .adModel
-                                                  .location!),
+                                                  .adModel.location!),
                                         ),
                                         mapController: MapController(),
                                         children: [
@@ -1074,9 +1056,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                                 point:
                                                     settingsCubit.parseLatLng(
                                                         propertyAddAdCubit
-                                                            .propertyAdModel
-                                                            .adModel
-                                                            .location!),
+                                                            .adModel.location!),
                                                 child: const Icon(
                                                   Icons.location_on,
                                                   color: Colors.red,
@@ -1123,23 +1103,19 @@ class AddAdDetailsPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ButtonWidget(
                   onTap: () {
-                    if (propertyAddAdCubit.propertyAdModel.adModel.title == null ||
-                        propertyAddAdCubit.propertyAdModel.adModel.phone ==
+                    if (propertyAddAdCubit.adModel.adTitle == null ||
+                        propertyAddAdCubit.adModel.client!.phoneNumber ==
                             null ||
-                        propertyAddAdCubit.propertyAdModel.adModel.price ==
+                        propertyAddAdCubit.adModel.price == null ||
+                        propertyAddAdCubit.adModel.currency == null ||
+                        propertyAddAdCubit.adModel.info!.totalArea == null ||
+                        propertyAddAdCubit.adModel.info!.roomCount == null ||
+                        propertyAddAdCubit.adModel.info!.bathroomCount ==
                             null ||
-                        propertyAddAdCubit.propertyAdModel.adModel.currency ==
+                        propertyAddAdCubit.adModel.sellerType == null ||
+                        propertyAddAdCubit.adModel.district!.districtId ==
                             null ||
-                        propertyAddAdCubit.propertyAdModel.totalArea == null ||
-                        propertyAddAdCubit.propertyAdModel.roomCount == null ||
-                        propertyAddAdCubit.propertyAdModel.bathroomCount ==
-                            null ||
-                        propertyAddAdCubit.propertyAdModel.adModel.sellerType ==
-                            null ||
-                        propertyAddAdCubit.propertyAdModel.adModel.districtId ==
-                            null ||
-                        propertyAddAdCubit.propertyAdModel.adModel.location ==
-                            null) {
+                        propertyAddAdCubit.adModel.location == null) {
                       SnackbarUtils.showSnackbar(
                           context, S.of(context).AddAdWarning, 2);
                     } else {

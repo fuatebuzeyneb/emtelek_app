@@ -1,11 +1,18 @@
+import 'package:dio/dio.dart';
 import 'package:emtelek/core/api/api_consumer.dart';
 import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/features/add_listing/data/models/feature_model.dart';
 import 'package:emtelek/features/add_listing/data/models/property_add_model.dart';
+import 'package:emtelek/features/profile/data/models/ads_model.dart';
+import 'package:emtelek/features/profile/data/models/featur_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class PropertyRepository {
-  Future<PropertyAdModel> addAdProperty(
-      {required PropertyAdModel propertyAdModel});
+  Future<AdModel> addAdProperty({
+    required AdModel propertyAdModel,
+    required List<XFile> images,
+    required XFile mainImage,
+  });
 
   Future<List<FeatureModel>> getFeatures();
 }
@@ -16,23 +23,74 @@ class PropertyRepositoryImpl implements PropertyRepository {
   PropertyRepositoryImpl({required this.api});
 
   @override
-  Future<PropertyAdModel> addAdProperty(
-      {required PropertyAdModel propertyAdModel}) async {
-    // طباعة الـ Request (البيانات التي يتم إرسالها)
-    print("🔵 Request to API: ${propertyAdModel.toJson()}");
+  // Future<AdModel> addAdProperty({required AdModel propertyAdModel}) async {
+  //   // طباعة الـ Request (البيانات التي يتم إرسالها)
+  //   print("🔵 Request to API: ${propertyAdModel.toJson()}");
 
-    // إرسال الطلب عبر POST
+  //   // إرسال الطلب عبر POST
+  //   final response = await api.post(
+  //     '${EndPoints.baseUrl}${EndPoints.adsAdd}',
+  //     isFormData: true,
+  //     data: propertyAdModel.toJson(),
+  //   );
+
+  //   // طباعة الـ Response (البيانات التي يتم استلامها)
+  //   print("🔵 Response from API: $response");
+
+  //   // تحويل الاستجابة إلى PropertyAdModel
+  //   return AdModel.fromJson(response);
+  // }
+
+  Future<AdModel> addAdProperty(
+      {required AdModel propertyAdModel,
+      required List<XFile> images,
+      required XFile mainImage}) async {
+    // طباعة الـ Request (البيانات التي يتم إرسالها)
+    final formData = FormData();
+
+    // 1. نضيف الحقول النصية يدويًا من toJson()
+    final dataMap = propertyAdModel.toJson();
+    dataMap.forEach((key, value) {
+      if (value != null && value.toString().isNotEmpty) {
+        formData.fields.add(MapEntry(key, value.toString()));
+      }
+    });
+
+    // 2. نضيف الصور المتعددة
+    for (final image in images) {
+      formData.files.add(MapEntry(
+        'Images[]',
+        await MultipartFile.fromFile(image.path, filename: image.name),
+      ));
+    }
+
+    // 3. نضيف الصورة الرئيسية
+    formData.files.add(MapEntry(
+      'MainImage',
+      await MultipartFile.fromFile(mainImage.path, filename: mainImage.name),
+    ));
+
+    print(images[0]);
+
+    // طباعة قبل الإرسال
+    print("🔵 Fields: ${formData.fields}");
+    for (var file in formData.files) {
+      final multipart = file.value as MultipartFile;
+      print('📷 Field: ${file.key} | File: ${multipart.filename}');
+    }
+
+    // 4. إرسال الطلب
     final response = await api.post(
       '${EndPoints.baseUrl}${EndPoints.adsAdd}',
-      isFormData: true,
-      data: propertyAdModel.toJson(),
+      data: formData,
+      isFormData: false,
     );
 
     // طباعة الـ Response (البيانات التي يتم استلامها)
     print("🔵 Response from API: $response");
 
     // تحويل الاستجابة إلى PropertyAdModel
-    return PropertyAdModel.fromJson(response);
+    return AdModel.fromJson(response);
   }
 
   @override

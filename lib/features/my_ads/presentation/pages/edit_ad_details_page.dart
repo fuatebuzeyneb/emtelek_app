@@ -317,7 +317,9 @@ class EditAdDetailsPage extends StatelessWidget {
                                     8.toHeight,
                                     TextFieldWidget(
                                       initialValue: myAdsCubit
-                                          .myAds[indexForEdit].phoneNumber,
+                                          .myAds[indexForEdit]
+                                          .client!
+                                          .phoneNumber,
                                       paddingVertical: 0,
                                       hint: S.of(context).PhoneNumber,
                                       onChanged: (value) {
@@ -369,7 +371,7 @@ class EditAdDetailsPage extends StatelessWidget {
                                     12.toHeight,
                                     TextFieldWidget(
                                       initialValue: myAdsCubit
-                                          .myAds[indexForEdit].totalArea
+                                          .myAds[indexForEdit].info!.totalArea
                                           .toString(),
                                       paddingVertical: 0,
                                       hint: S.of(context).TotalArea,
@@ -392,7 +394,7 @@ class EditAdDetailsPage extends StatelessWidget {
                                     12.toHeight,
                                     TextFieldWidget(
                                       initialValue: myAdsCubit
-                                          .myAds[indexForEdit].netOrBuildingArea
+                                          .myAds[indexForEdit].info!.netArea
                                           .toString(),
                                       paddingVertical: 0,
                                       onChanged: (value) {
@@ -456,31 +458,18 @@ class EditAdDetailsPage extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 TextWidget(
-                                                  text: myAdsCubit.adsModel
-                                                              .roomCount !=
+                                                  text: myAdsCubit.adModel.info!
+                                                              .roomCount ==
                                                           null
-                                                      ? myAdsCubit
-                                                          .adsModel.roomCount
-                                                          .toString()
-                                                      : myAdsCubit
-                                                                  .myAds[
-                                                                      indexForEdit]
-                                                                  .roomCount ==
-                                                              null
-                                                          ? ''
-                                                          : myAdsCubit
-                                                              .myAds[
-                                                                  indexForEdit]
-                                                              .roomCount
-                                                              .toString(),
+                                                      ? '99'
+                                                      : myAdsCubit.adModel.info!
+                                                          .roomCount
+                                                          .toString(),
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                                myAdsCubit.adsModel.roomCount ==
-                                                        null
-                                                    ? SizedBox()
-                                                    : Spacer(),
+                                                Spacer(),
                                                 TextWidget(
                                                   text: S
                                                       .of(context)
@@ -523,28 +512,30 @@ class EditAdDetailsPage extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 TextWidget(
-                                                  text: myAdsCubit.adsModel
+                                                  text: myAdsCubit.adModel.info!
                                                               .bathroomCount !=
                                                           null
-                                                      ? myAdsCubit.adsModel
+                                                      ? myAdsCubit.adModel.info!
                                                           .bathroomCount
                                                           .toString()
                                                       : myAdsCubit
                                                                   .myAds[
                                                                       indexForEdit]
+                                                                  .info!
                                                                   .bathroomCount ==
                                                               null
                                                           ? ''
                                                           : myAdsCubit
                                                               .myAds[
                                                                   indexForEdit]
+                                                              .info!
                                                               .bathroomCount
                                                               .toString(),
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                                myAdsCubit.adsModel
+                                                myAdsCubit.adModel.info!
                                                             .bathroomCount ==
                                                         null
                                                     ? SizedBox()
@@ -594,28 +585,30 @@ class EditAdDetailsPage extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 TextWidget(
-                                                  text: myAdsCubit.adsModel
+                                                  text: myAdsCubit.adModel.info!
                                                               .floorNumber !=
                                                           null
-                                                      ? myAdsCubit
-                                                          .adsModel.floorNumber
+                                                      ? myAdsCubit.adModel.info!
+                                                          .floorNumber
                                                           .toString()
                                                       : myAdsCubit
                                                                   .myAds[
                                                                       indexForEdit]
+                                                                  .info!
                                                                   .floorNumber ==
                                                               null
                                                           ? ''
                                                           : myAdsCubit
                                                               .myAds[
                                                                   indexForEdit]
+                                                              .info!
                                                               .floorNumber
                                                               .toString(),
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                                myAdsCubit.adsModel
+                                                myAdsCubit.adModel.info!
                                                             .floorNumber ==
                                                         null
                                                     ? SizedBox()
@@ -665,28 +658,30 @@ class EditAdDetailsPage extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 TextWidget(
-                                                  text: myAdsCubit.adsModel
+                                                  text: myAdsCubit.adModel.info!
                                                               .floorCount !=
                                                           null
-                                                      ? myAdsCubit
-                                                          .adsModel.floorCount
+                                                      ? myAdsCubit.adModel.info!
+                                                          .floorCount
                                                           .toString()
                                                       : myAdsCubit
                                                                   .myAds[
                                                                       indexForEdit]
+                                                                  .info!
                                                                   .floorCount ==
                                                               null
                                                           ? ''
                                                           : myAdsCubit
                                                               .myAds[
                                                                   indexForEdit]
+                                                              .info!
                                                               .floorCount
                                                               .toString(),
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                                myAdsCubit.adsModel
+                                                myAdsCubit.adModel.info!
                                                             .floorCount ==
                                                         null
                                                     ? SizedBox()
@@ -734,28 +729,30 @@ class EditAdDetailsPage extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 TextWidget(
-                                                  text: myAdsCubit.adsModel
+                                                  text: myAdsCubit.adModel.info!
                                                               .balconyCount !=
                                                           null
-                                                      ? myAdsCubit
-                                                          .adsModel.balconyCount
+                                                      ? myAdsCubit.adModel.info!
+                                                          .balconyCount
                                                           .toString()
                                                       : myAdsCubit
                                                                   .myAds[
                                                                       indexForEdit]
+                                                                  .info!
                                                                   .balconyCount ==
                                                               null
                                                           ? ''
                                                           : myAdsCubit
                                                               .myAds[
                                                                   indexForEdit]
+                                                              .info!
                                                               .balconyCount
                                                               .toString(),
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                                myAdsCubit.adsModel
+                                                myAdsCubit.adModel.info!
                                                             .balconyCount ==
                                                         null
                                                     ? SizedBox()
@@ -825,14 +822,14 @@ class EditAdDetailsPage extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 TextWidget(
-                                                  text: myAdsCubit.adsModel
+                                                  text: myAdsCubit.adModel.info!
                                                           .constructionDate ??
                                                       '',
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                                myAdsCubit.adsModel
+                                                myAdsCubit.adModel.info!
                                                             .constructionDate ==
                                                         null
                                                     ? SizedBox()
@@ -876,7 +873,7 @@ class EditAdDetailsPage extends StatelessWidget {
                                                 horizontal: 12),
                                             child: Row(
                                               children: [
-                                                // myAdsCubit.adsModel
+                                                // myAdsCubit.adModel
                                                 //               .balconyCount !=
                                                 //           null
                                                 //       ? myAdsCubit
@@ -894,7 +891,7 @@ class EditAdDetailsPage extends StatelessWidget {
                                                 //               .balconyCount
                                                 //               .toString(),
                                                 myAdsCubit.myAds[indexForEdit]
-                                                            .furnish ==
+                                                            .info!.furnish ==
                                                         null
                                                     ? TextWidget(
                                                         text: S
@@ -905,10 +902,13 @@ class EditAdDetailsPage extends StatelessWidget {
                                                       )
                                                     : TextWidget(
                                                         text: myAdsCubit
-                                                                    .adsModel
+                                                                    .adModel
+                                                                    .info!
                                                                     .furnish !=
                                                                 null
-                                                            ? myAdsCubit.adsModel
+                                                            ? myAdsCubit
+                                                                        .adModel
+                                                                        .info!
                                                                         .furnish ==
                                                                     'true'
                                                                 ? S
@@ -920,6 +920,7 @@ class EditAdDetailsPage extends StatelessWidget {
                                                             : myAdsCubit
                                                                         .myAds[
                                                                             indexForEdit]
+                                                                        .info!
                                                                         .furnish ==
                                                                     'true'
                                                                 ? S
@@ -967,7 +968,7 @@ class EditAdDetailsPage extends StatelessWidget {
                                             horizontal: 12),
                                         child: Row(
                                           children: [
-                                            // myAdsCubit.adsModel
+                                            // myAdsCubit.adModel
 
                                             //             .sellerType ==
                                             //         null
@@ -978,21 +979,11 @@ class EditAdDetailsPage extends StatelessWidget {
                                             //   )
                                             // :
                                             TextWidget(
-                                              text: myAdsCubit.adsModel
-                                                          .sellerType !=
-                                                      null
-                                                  ? myAdsCubit.adsModel
-                                                              .sellerType ==
-                                                          1
-                                                      ? S.of(context).Owner
-                                                      : S.of(context).Agent
-                                                  : myAdsCubit
-                                                              .myAds[
-                                                                  indexForEdit]
-                                                              .sellerType ==
-                                                          1
-                                                      ? S.of(context).Owner
-                                                      : S.of(context).Agent,
+                                              text: myAdsCubit
+                                                          .adModel.sellerType ==
+                                                      1
+                                                  ? S.of(context).Owner
+                                                  : S.of(context).Agent,
                                               fontSize: 16,
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
@@ -1100,7 +1091,7 @@ class EditAdDetailsPage extends StatelessWidget {
                                     12.toHeight,
                                     TextFieldWidget(
                                       initialValue: myAdsCubit
-                                          .myAds[indexForEdit].address,
+                                          .myAds[indexForEdit].info!.address,
                                       paddingVertical: 8,
                                       maxLines: 2,
                                       hint: S
@@ -1119,7 +1110,9 @@ class EditAdDetailsPage extends StatelessWidget {
                                         padding: const EdgeInsets.only(top: 12),
                                         child: TextFieldWidget(
                                           initialValue: myAdsCubit
-                                              .myAds[indexForEdit].complexName,
+                                              .myAds[indexForEdit]
+                                              .info!
+                                              .complexName,
                                           onChanged: (value) {
                                             myAdsCubit.updatePropertyField(
                                                 'complexName', value);
@@ -1133,7 +1126,7 @@ class EditAdDetailsPage extends StatelessWidget {
                                       ),
                                     ),
                                     8.toHeight,
-                                    // myAdsCubit.adsModel
+                                    // myAdsCubit.adModel
                                     //                           .location ==
                                     //         null
                                     //     ? ButtonWidget(
@@ -1170,7 +1163,7 @@ class EditAdDetailsPage extends StatelessWidget {
                                               initialCenter: settingsCubit
                                                   .parseLatLng(myAdsCubit
                                                       .myAds[indexForEdit]
-                                                      .location),
+                                                      .location!),
                                             ),
                                             mapController: MapController(),
                                             children: [
@@ -1186,7 +1179,7 @@ class EditAdDetailsPage extends StatelessWidget {
                                                     point: settingsCubit
                                                         .parseLatLng(myAdsCubit
                                                             .myAds[indexForEdit]
-                                                            .location),
+                                                            .location!),
                                                     child: const Icon(
                                                       Icons.location_on,
                                                       color: Colors.red,

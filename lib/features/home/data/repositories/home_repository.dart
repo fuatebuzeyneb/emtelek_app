@@ -7,7 +7,7 @@ import 'package:emtelek/shared/services/service_locator.dart';
 
 abstract class HomeRepository {
   Future<HomeModel> getHomeAds();
-  Future<List<AdsModel>> getSearchAds({required String searchQuery});
+  Future<List<AdModel>> getSearchAds({required String searchQuery});
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -43,7 +43,7 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<List<AdsModel>> getSearchAds({required String searchQuery}) async {
+  Future<List<AdModel>> getSearchAds({required String searchQuery}) async {
     try {
       final data = {
         "Token": getIt<CacheHelper>().getDataString(key: 'token'),
@@ -75,7 +75,7 @@ class HomeRepositoryImpl implements HomeRepository {
       }
 
       List<dynamic> adsJson = adsMap.values.toList();
-      return adsJson.map((json) => AdsModel.fromJson(json)).toList();
+      return adsJson.map((json) => AdModel.fromJson(json)).toList();
       //return [];
     } catch (e) {
       print("Error in getMyAds7: $e"); // طباعة الخطأ لمزيد من التحليل

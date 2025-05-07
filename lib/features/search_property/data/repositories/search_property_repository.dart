@@ -6,7 +6,7 @@ import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 
 abstract class SearchPropertyRepository {
-  Future<List<AdsModel>> getFilteredAds(PropertyFilterRequestModel filter);
+  Future<List<AdModel>> getFilteredAds(PropertyFilterRequestModel filter);
   Future<void> saveSearchFilter(
     PropertyFilterRequestModel filter,
   );
@@ -20,7 +20,7 @@ class SearchPropertyRepositoryImpl implements SearchPropertyRepository {
   SearchPropertyRepositoryImpl({required this.api});
 
   @override
-  Future<List<AdsModel>> getFilteredAds(
+  Future<List<AdModel>> getFilteredAds(
       PropertyFilterRequestModel filter) async {
     try {
       // طباعة البيانات التي سيتم إرسالها
@@ -42,7 +42,7 @@ class SearchPropertyRepositoryImpl implements SearchPropertyRepository {
         Map<String, dynamic> adsMap = response["data"];
         List<dynamic> adsJson = adsMap.values.toList();
 
-        return adsJson.map((json) => AdsModel.fromJson(json)).toList();
+        return adsJson.map((json) => AdModel.fromJson(json)).toList();
       } else {
         print("🚀 Error: Data is empty or invalid");
         return []; // إرجاع قائمة فارغة في حالة عدم وجود بيانات صالحة

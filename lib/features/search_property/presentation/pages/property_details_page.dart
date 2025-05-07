@@ -30,11 +30,11 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PropertyDetailsPage extends StatelessWidget {
-  final AdsModel adsModel;
+  final AdModel adModel;
 
   PropertyDetailsPage({
     super.key,
-    required this.adsModel,
+    required this.adModel,
   });
 
   final int totalImages = 8;
@@ -60,10 +60,10 @@ class PropertyDetailsPage extends StatelessWidget {
     AdDetailsCubit adDetailsCubit = BlocProvider.of<AdDetailsCubit>(context);
     adDetailsCubit.showAppBarFunction(scrollController);
     final int totalFeatures =
-        adsModel.features == null ? 0 : adsModel.features!.length;
+        adModel.features == null ? 0 : adModel.features!.length;
 
-    final List<String> features = List.generate(adsModel.features!.length,
-        (index) => '${adsModel.features?[index].featureName}');
+    final List<String> features = List.generate(adModel.features!.length,
+        (index) => '${adModel.features?[index].featureName}');
     // Alignment alignment =
     //     getIt<CacheHelper>().getDataString(key: 'Lang') == 'ar'
     //         ? Alignment.centerRight
@@ -149,7 +149,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                 left: settingsCubit.locale == 'ar' ? 16 : null,
                                 child: Row(
                                   children: [
-                                    FavoriteWidget(adsModel: adsModel),
+                                    FavoriteWidget(adModel: adModel),
                                     16.toWidth,
                                     ButtonWidget(
                                       borderRadius: 18,
@@ -210,12 +210,13 @@ class PropertyDetailsPage extends StatelessWidget {
                                   TextWidget(
                                     isHaveOverflow: true,
                                     text: Formatter.formatNumber(
-                                        //adsModel.price
+                                        //adModel.price
                                         BlocProvider.of<SettingsCubit>(context)
                                             .convertToAppCurrency(
                                                 adCurrencyCode:
-                                                    adsModel.currency,
-                                                adPrice: adsModel.price)),
+                                                    adModel.currency!,
+                                                adPrice: double.parse(
+                                                    adModel.price!))),
                                     fontSize: 18,
                                     color: Colors.green,
                                     fontWeight: FontWeight.bold,
@@ -237,7 +238,7 @@ class PropertyDetailsPage extends StatelessWidget {
                               alignment: context.textAlignment,
                               child: TextWidget(
                                 isHaveOverflow: true,
-                                text: adsModel.adTitle,
+                                text: adModel.adTitle!,
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -259,7 +260,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                     padding: EdgeInsets.only(top: 6),
                                     child: TextWidget(
                                       isHaveOverflow: true,
-                                      text: '${adsModel.roomCount}'
+                                      text: '${adModel.info!.roomCount}'
                                           ' ${S.of(context).Room}',
                                       fontSize: 14,
                                       color: Colors.black,
@@ -278,7 +279,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                     padding: const EdgeInsets.only(top: 6),
                                     child: TextWidget(
                                       isHaveOverflow: true,
-                                      text: '${adsModel.bathroomCount}'
+                                      text: '${adModel.info!.bathroomCount}'
                                           ' ${S.of(context).Bathroom}',
                                       fontSize: 14,
                                       color: Colors.black,
@@ -297,7 +298,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                     padding: EdgeInsets.only(top: 6),
                                     child: TextWidget(
                                       isHaveOverflow: true,
-                                      text: '${adsModel.totalArea}'
+                                      text: '${adModel.info!.totalArea}'
                                           ' ${S.of(context).SquareMeter}',
                                       fontSize: 14,
                                       color: Colors.black,
@@ -321,7 +322,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                   child: TextWidget(
                                     textAlign: TextAlign.right,
                                     text:
-                                        '${adsModel.address ?? ''} ,${adsModel.cityName} ,${adsModel.districtName}',
+                                        '${adModel.info!.address ?? ''} ,${adModel.city!.cityName} ,${adModel.district!.districtName}',
                                     fontSize: 14,
                                     color: Colors.black,
                                     // fontWeight: FontWeight.bold,
@@ -360,8 +361,8 @@ class PropertyDetailsPage extends StatelessWidget {
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
                                           text: settingsCubit.getCategoryName(
-                                              adsModel
-                                                  .categoryId)!, // totalPrice!,
+                                              adModel
+                                                  .categoryId!)!, // totalPrice!,
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
@@ -393,7 +394,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
                                           text: settingsCubit
-                                              .isForSale(adsModel.categoryId),
+                                              .isForSale(adModel.categoryId!),
 
                                           // totalPrice!,
                                           fontSize: 14,
@@ -426,7 +427,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: adsModel.furnish == true
+                                          text: adModel.info!.furnish == 'yes'
                                               ? S.current.Furnished
                                               : S.current.Unfurnished,
                                           fontSize: 14,
@@ -458,7 +459,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: adsModel.sellerType == 1
+                                          text: adModel.sellerType == 1
                                               ? S.current.Owner
                                               : S.current.Agent, // totalPrice!,
                                           fontSize: 14,
@@ -490,7 +491,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: '${adsModel.totalArea}'
+                                          text: '${adModel.info!.totalArea}'
                                               ' ${S.of(context).SquareMeter}',
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -521,9 +522,11 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: adsModel.floorNumber == null
-                                              ? S.of(context).undefined
-                                              : adsModel.floorNumber.toString(),
+                                          text:
+                                              adModel.info!.floorNumber == null
+                                                  ? S.of(context).undefined
+                                                  : adModel.info!.floorNumber
+                                                      .toString(),
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
@@ -553,10 +556,11 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: adsModel.balconyCount == null
-                                              ? S.of(context).undefined
-                                              : adsModel.balconyCount
-                                                  .toString(),
+                                          text:
+                                              adModel.info!.balconyCount == null
+                                                  ? S.of(context).undefined
+                                                  : adModel.info!.balconyCount
+                                                      .toString(),
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
@@ -586,9 +590,9 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: adsModel.complexName == ''
+                                          text: adModel.info!.complexName == ''
                                               ? S.current.undefined
-                                              : adsModel.complexName!,
+                                              : adModel.info!.complexName!,
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
@@ -618,7 +622,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: adsModel.publishDate.toString(),
+                                          text: adModel.publishDate.toString(),
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
@@ -649,7 +653,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                       ? null
                                       : 3, // عرض النص كاملاً إذا كان موسعاً
                                   textAlign: TextAlign.justify,
-                                  text: adsModel.description ??
+                                  text: adModel.description ??
                                       S.of(context).undefined,
 
                                   fontSize: 12,
@@ -729,7 +733,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Image.asset(
-                                                IconHelper.getIconPath(adsModel
+                                                IconHelper.getIconPath(adModel
                                                     .features![index]
                                                     .featureId),
                                                 height: 25,
@@ -814,9 +818,8 @@ class PropertyDetailsPage extends StatelessWidget {
                               child: TextWidget(
                                 // maxLines: 5,
                                 textAlign: TextAlign.right,
-                                text: adsModel == null
-                                    ? 'شارع الجلاء ,حي أبو رمانة ,منطقة الصالحية ,مدينة دمشق'
-                                    : '${adsModel.address} ,${adsModel.cityName} ,${adsModel.districtName}',
+                                text:
+                                    '${adModel.info!.address} ,${adModel.city!.cityName} ,${adModel.district!.districtName}',
                                 fontSize: 14,
                                 color: Colors.black,
                                 // fontWeight: FontWeight.bold,
@@ -831,7 +834,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                 key: mapKey,
                                 options: MapOptions(
                                   initialCenter: settingsCubit
-                                      .parseLatLng(adsModel.location),
+                                      .parseLatLng(adModel.location!),
                                 ),
                                 children: [
                                   TileLayer(
@@ -843,7 +846,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                     markers: [
                                       Marker(
                                         point: settingsCubit
-                                            .parseLatLng(adsModel.location),
+                                            .parseLatLng(adModel.location!),
                                         child: const Icon(
                                           Icons.location_on,
                                           color: Colors.red,
@@ -865,7 +868,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                 //  void openMaps(LatLng location) async {
                                 // تحويل النص إلى Uri
                                 final Uri url = Uri.parse(
-                                    'https://www.google.com/maps?q=${settingsCubit.parseLatLng(adsModel.location).latitude},${settingsCubit.parseLatLng(adsModel.location).longitude}');
+                                    'https://www.google.com/maps?q=${settingsCubit.parseLatLng(adModel.location!).latitude},${settingsCubit.parseLatLng(adModel.location!).longitude}');
 
                                 // التحقق من إمكانية فتح الرابط باستخدام canLaunchUrl
                                 if (await canLaunchUrl(url)) {
@@ -904,9 +907,8 @@ class PropertyDetailsPage extends StatelessWidget {
                                   ),
                                   8.toHeight,
                                   TextWidget(
-                                    text: adsModel == null
-                                        ? 'احمد عبد الرحيم'
-                                        : '${adsModel.firstName} ${adsModel.lastName}',
+                                    text:
+                                        '${adModel.client!.firstName} ${adModel.client!.lastName}',
                                     fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -1086,14 +1088,14 @@ class PropertyDetailsPage extends StatelessWidget {
                                           TextWidget(
                                             isHaveOverflow: true,
                                             text: Formatter.formatNumber(
-                                                //adsModel.price
+                                                //adModel.price
                                                 BlocProvider.of<SettingsCubit>(
                                                         context)
                                                     .convertToAppCurrency(
                                                         adCurrencyCode:
-                                                            adsModel.currency,
-                                                        adPrice:
-                                                            adsModel.price)),
+                                                            adModel.currency!,
+                                                        adPrice: double.parse(
+                                                            adModel.price!))),
                                             fontSize: 16,
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,
@@ -1105,7 +1107,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                                 .getDataString(
                                                     key: 'currencyCode')!,
                                             // Formatter.convertCurrencySymbol(
-                                            //     adsModel.currency),
+                                            //     adModel.currency),
                                             fontSize: 16,
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,
@@ -1116,9 +1118,9 @@ class PropertyDetailsPage extends StatelessWidget {
                                       TextWidget(
                                         isHaveOverflow: true,
                                         text:
-                                            '${adsModel.roomCount} ${S.of(context).Room}  '
-                                            '${adsModel.bathroomCount} ${S.of(context).Bathroom}  '
-                                            '${adsModel.totalArea} ${S.of(context).SquareMeter}',
+                                            '${adModel.info!.roomCount} ${S.of(context).Room}  '
+                                            '${adModel.info!.bathroomCount} ${S.of(context).Bathroom}  '
+                                            '${adModel.info!.totalArea} ${S.of(context).SquareMeter}',
                                         fontSize: 12,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,

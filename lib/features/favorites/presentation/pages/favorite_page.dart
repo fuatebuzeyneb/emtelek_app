@@ -63,7 +63,7 @@ class FavoritePage extends StatelessWidget {
                               padding: EdgeInsets.only(top: 16),
                               child: PropertyCard(
                                 index: index,
-                                adsModel: favoritesCubit.myFavoriteAds,
+                                adModel: favoritesCubit.myFavoriteAds,
                               ),
                             );
                           },

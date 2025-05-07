@@ -200,7 +200,7 @@ class PropertyCubit extends Cubit<PropertyState> {
   int currentPage = 0;
   bool isFinished = false;
   bool isFetchingMore = false;
-  List<AdsModel> filteredAds = [];
+  List<AdModel> filteredAds = [];
 
   Future<void> applyFilter({
     required List<int> listCityIds,
@@ -280,7 +280,7 @@ class PropertyCubit extends Cubit<PropertyState> {
       );
 
       filteredAds.addAll(result ?? []);
-      isFinished = result.first.isFinished ?? false;
+      // isFinished = result.first.isFinished ?? false;
       currentPage++;
 
       emit(PropertyAdsFilterSuccess());

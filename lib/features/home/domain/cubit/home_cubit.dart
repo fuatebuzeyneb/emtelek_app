@@ -54,8 +54,8 @@ class HomeCubit extends Cubit<HomeState> {
     return super.close();
   }
 
-  List<AdsModel> propertiesRent = [];
-  List<AdsModel> propertiesSell = [];
+  List<AdModel> propertiesRent = [];
+  List<AdModel> propertiesSell = [];
 
   Future<void> getHomeData() async {
     try {
@@ -72,7 +72,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  List<AdsModel> searchTextAds = [];
+  List<AdModel> searchTextAds = [];
 
   Future<void> getSearchTextData({required String searchText}) async {
     try {

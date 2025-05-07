@@ -1,191 +1,161 @@
 import 'package:emtelek/features/profile/data/models/featur_model.dart';
 
-class AdsModel {
-  String token;
-  int adId;
-  String adTitle;
-  dynamic price;
-  String currency;
-  String? description;
-  String location;
-  String publishDate;
-  int status;
-  int categoryId;
+class AdModel {
+  String? token;
+  int? adId;
+  String? adTitle;
+  int? clientId;
+  int? categoryId;
+  String? price;
+  String? currency;
   int? sellerType;
-  int clientId;
-  String firstName;
-  String lastName;
-  String phoneNumber;
-  String? email;
-  String? subscriptionDate;
-  int? cityId;
-  String? cityName;
-  int? districtId;
-  int? districtCityId;
-  String? districtName;
-  dynamic totalArea;
-  dynamic netOrBuildingArea;
-  int? roomCount;
-  int? floorNumber;
-  dynamic floorCount;
-  int? bathroomCount;
-  dynamic furnish;
-  String? constructionDate;
-  String? address;
-  int? balconyCount;
-  String? complexName;
-  bool? isFinished;
+  String? publishDate;
+  String? description;
+  String? location;
+  int? status;
   bool? isFavorite;
-  List<Feature>? features;
-  List<int>? attachmentIds;
-  List<String>? attachmentNames;
-  List<int>? isDeletedList;
-  String? clientImage;
+  List<FeatureModel>? features;
+  List<int>? featureIds;
+  List<ImageModel>? images;
+  String? mainImage;
+  ClientModel client;
+  CityModel? city;
+  DistrictModel district;
+  AdInfoModel info;
 
-  AdsModel({
+  AdModel({
     required this.token,
     required this.adId,
     required this.adTitle,
+    required this.clientId,
+    required this.categoryId,
     required this.price,
     required this.currency,
-    this.description,
-    required this.location,
-    required this.publishDate,
-    required this.status,
     required this.sellerType,
-    required this.categoryId,
-    required this.clientId,
-    required this.firstName,
-    required this.lastName,
-    required this.phoneNumber,
-    this.email,
-    this.subscriptionDate,
-    this.cityId,
-    this.cityName,
-    this.districtId,
-    this.districtCityId,
-    this.districtName,
-    required this.totalArea,
-    this.netOrBuildingArea,
-    this.roomCount,
-    this.floorNumber,
-    this.floorCount,
-    this.bathroomCount,
-    this.furnish,
-    this.constructionDate,
-    this.address,
-    this.balconyCount,
-    this.complexName,
-    this.isFinished,
+    this.featureIds,
+    this.publishDate,
+    required this.description,
+    required this.location,
+    this.status,
     this.isFavorite,
-    this.features, // ✅ أضفنا هذه
-    this.attachmentIds,
-    this.attachmentNames,
-    this.isDeletedList,
-    this.clientImage,
+    this.features,
+    this.images,
+    required this.client,
+    this.city,
+    required this.district,
+    required this.info,
+    this.mainImage,
   });
 
-  factory AdsModel.fromJson(Map<String, dynamic> json) {
-    List<int> tempAttachmentIds = [];
-    List<String> tempAttachmentNames = [];
-    List<int> tempIsDeletedList = [];
-
-    // معالجة ال Images حسب نوعها
-    if (json['Images'] is Map<String, dynamic>) {
-      final Map<String, dynamic> imagesMap = json['Images'];
-
-      imagesMap.forEach((key, value) {
-        if (value is Map<String, dynamic>) {
-          tempAttachmentIds.add(value['AttachmentId'] ?? 0);
-          tempAttachmentNames.add(value['AttachmentName'] ?? '');
-          tempIsDeletedList.add(value['IsDeleted'] ?? 0);
-        }
-      });
-    } else {
-      // Images is either `false` or `null`, لا نفعل شيء
-    }
-    return AdsModel(
-      token: json['Token'] ?? '',
+  factory AdModel.fromJson(Map<String, dynamic> json) {
+    final data = json['data'] ?? {};
+    return AdModel(
+      token: '',
       adId: json['AdId'],
-      adTitle: json['AdTitle'] ?? '',
-      price: (json['Price'] is String)
-          ? double.tryParse(json['Price']) ?? 0.0
-          : json['Price']?.toDouble() ?? 0.0,
-      currency: json['Currency'] ?? '',
+      adTitle: json['AdTitle'],
+      clientId: json['ClientId'],
+      categoryId: json['CategoryId'],
+      price: json['Price'],
+      currency: json['Currency'],
+      sellerType: json['SellerType'],
+      publishDate: json['PublishDate'],
       description: json['Description'] ?? '',
-      location: json['Location'] ?? '',
-      publishDate: json['PublishDate'] ?? '',
-      status: (json['Status'] is String)
-          ? int.tryParse(json['Status']) ?? 0
-          : json['Status'] ?? 0,
-      sellerType: (json['SellerType'] is String)
-          ? int.tryParse(json['SellerType']) ?? 0
-          : json['SellerType'] ?? 0,
+      location: json['Location'],
+      status: json['Status'],
+      mainImage: json['MainImage'],
       isFavorite: json['isFavorite'],
-      categoryId: (json['CategoryId'] is String)
-          ? int.tryParse(json['CategoryId']) ?? 0
-          : json['CategoryId'] ?? 0,
-      clientId: json['data']['client']['ClientId'],
-      firstName: json['data']['client']['FirstName'],
-      lastName: json['data']['client']['LastName'],
-      clientImage: json['data']['client']['Image'],
-      phoneNumber: json['data']['client']['PhoneNumber'] ?? '',
-      email: json['data']['client']['Email'] ?? '',
-      subscriptionDate: json['data']['client']['SubscriptionDate'] ?? '',
-      cityId: json['data']['city']['CityId'],
-      cityName: json['data']['city']['CityName'],
-      districtId: json['data']['district']['DistrictId'],
-      districtCityId: json['data']['district']['CityId'],
-      districtName: json['data']['district']['DistrictName'],
-      totalArea: json['data']['info']['TotalArea'] ?? 0,
-      netOrBuildingArea: json['data']['info']['NetArea'] ?? '',
-      roomCount: json['data']['info']['RoomCount'] ?? 0,
-      floorNumber: json['data']['info']['FloorNumber'] ?? 0,
-      floorCount: json['data']['info']['FloorCount'] ?? '',
-      bathroomCount: json['data']['info']['BathroomCount'] ?? 0,
-      furnish: json['data']['info']['Furnish'],
-      constructionDate: json['data']['info']['ConstructionDate'] ?? '',
-      address: json['data']['info']['Address'] ?? '',
-      balconyCount: json['data']['info']['BalconyCount'] ?? 0,
-      complexName: json['data']['info']['ComplexName'] ?? '',
-      isFinished: json['IsFinished'] ?? true,
       features: (json['Features'] is List)
           ? (json['Features'] as List<dynamic>)
-              .map((featureJson) => Feature.fromJson(featureJson))
+              .map((featureJson) => FeatureModel.fromJson(featureJson))
               .toList()
           : [],
-      attachmentIds: tempAttachmentIds,
-      attachmentNames: tempAttachmentNames,
-      isDeletedList: tempIsDeletedList,
+      images: (json['Images'] as Map)
+          .values
+          .map((e) => ImageModel.fromJson(e))
+          .toList(),
+      client: ClientModel.fromJson(data['client']),
+      city: CityModel.fromJson(data['city']),
+      district: DistrictModel.fromJson(data['district']),
+      info: AdInfoModel.fromJson(data['info']),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'Token': token,
-      'AdId': adId,
       'AdTitle': adTitle,
+      'ClientId': clientId,
+      'CategoryId': categoryId,
       'Price': price,
       'Currency': currency,
+      'SellerType': sellerType,
+      //'PublishDate': publishDate,
       'Description': description,
       'Location': location,
-      'PublishDate': publishDate,
-      'Status': status,
-      'SellerType': sellerType,
-      'CategoryId': categoryId,
-      'ClientId': clientId,
-      'FirstName': firstName,
-      'LastName': lastName,
-      'PhoneNumber': phoneNumber,
-      'Email': email,
-      'SubscriptionDate': subscriptionDate,
-      'CityId': cityId,
-      'CityName': cityName,
-      'DistrictId': districtId,
-      'DistrictCityId': districtCityId,
-      'DistrictName': districtName,
+      //'MainImage': mainImage,
+      if (featureIds!.isEmpty || featureIds == null)
+        'Features': 'null'
+      else
+        'Features[]': featureIds,
+
+      /// 'Images': images,
+      ...district.toJson(),
+      ...info.toJson(),
+    };
+  }
+}
+
+class AdInfoModel {
+  int? adId;
+  String? totalArea;
+  String? netArea;
+  int? roomCount;
+  int? floorNumber;
+  int? floorCount;
+  int? bathroomCount;
+  bool? furnish;
+  String? constructionDate;
+  String? address;
+  int? balconyCount;
+  String? complexName;
+
+  AdInfoModel({
+    this.adId,
+    required this.totalArea,
+    required this.netArea,
+    required this.roomCount,
+    required this.floorNumber,
+    required this.floorCount,
+    required this.bathroomCount,
+    required this.furnish,
+    required this.constructionDate,
+    required this.address,
+    required this.balconyCount,
+    required this.complexName,
+  });
+
+  factory AdInfoModel.fromJson(Map<String, dynamic> json) {
+    return AdInfoModel(
+      adId: json['AdId'],
+      totalArea: (json['TotalArea'] ?? '').toString(),
+      netArea: (json['NetArea'] ?? '').toString(),
+      roomCount: json['RoomCount'],
+      floorNumber: json['FloorNumber'],
+      floorCount: json['FloorCount'],
+      bathroomCount: json['BathroomCount'],
+      furnish: json['Furnish']?.toString().toLowerCase() == 'yes',
+      constructionDate: json['ConstructionDate'] ?? '',
+      address: json['Address'] ?? '',
+      balconyCount: json['BalconyCount'],
+      complexName: json['ComplexName'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      // 'AdId': adId,
       'TotalArea': totalArea,
-      'NetArea': netOrBuildingArea,
+      'NetArea': netArea,
       'RoomCount': roomCount,
       'FloorNumber': floorNumber,
       'FloorCount': floorCount,
@@ -195,11 +165,163 @@ class AdsModel {
       'Address': address,
       'BalconyCount': balconyCount,
       'ComplexName': complexName,
-      'IsFinished': isFinished,
-      'Features': features?.map((feature) => feature.toJson()).toList(),
-      'AttachmentIds': attachmentIds,
-      'AttachmentNames': attachmentNames,
-      'IsDeletedList': isDeletedList,
+    };
+  }
+}
+
+class CityModel {
+  final int cityId;
+  final String cityName;
+
+  CityModel({required this.cityId, required this.cityName});
+
+  factory CityModel.fromJson(Map<String, dynamic> json) {
+    return CityModel(
+      cityId: json['CityId'],
+      cityName: json['CityName'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'CityId': cityId,
+      'CityName': cityName,
+    };
+  }
+}
+
+class ClientModel {
+  int? clientId;
+  String? firstName;
+  String? lastName;
+  String? phoneNumber;
+  String? email;
+  String? subscriptionDate;
+  String? image;
+  int? verified;
+
+  ClientModel({
+    required this.clientId,
+    required this.firstName,
+    required this.lastName,
+    required this.phoneNumber,
+    required this.email,
+    required this.subscriptionDate,
+    required this.image,
+    required this.verified,
+  });
+
+  factory ClientModel.fromJson(Map<String, dynamic> json) {
+    return ClientModel(
+      clientId: json['ClientId'],
+      firstName: json['FirstName'],
+      lastName: json['LastName'],
+      phoneNumber: json['PhoneNumber'],
+      email: json['Email'],
+      subscriptionDate: json['SubscriptionDate'],
+      image: json['Image'],
+      verified: json['Verified'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'ClientId': clientId,
+      'FirstName': firstName,
+      'LastName': lastName,
+      'PhoneNumber': phoneNumber,
+      'Email': email,
+      'SubscriptionDate': subscriptionDate,
+      'Image': image,
+      'Verified': verified,
+    };
+  }
+}
+
+class FeatureModel {
+  final int featureId;
+  final String featureName;
+  final String featureIcon;
+
+  FeatureModel({
+    required this.featureId,
+    required this.featureName,
+    required this.featureIcon,
+  });
+
+  factory FeatureModel.fromJson(Map<String, dynamic> json) {
+    return FeatureModel(
+      featureId: json['FeatureId'],
+      featureName: json['FeatureName'],
+      featureIcon: json['FeatureIcon'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'FeatureId': featureId,
+      'FeatureName': featureName,
+      'FeatureIcon': featureIcon,
+    };
+  }
+}
+
+class ImageModel {
+  final int attachmentId;
+  final int adId;
+  final String attachmentName;
+  final int isDeleted;
+
+  ImageModel({
+    required this.attachmentId,
+    required this.adId,
+    required this.attachmentName,
+    required this.isDeleted,
+  });
+
+  factory ImageModel.fromJson(Map<String, dynamic> json) {
+    return ImageModel(
+      attachmentId: json['AttachmentId'],
+      adId: json['AdId'],
+      attachmentName: json['AttachmentName'],
+      isDeleted: json['IsDeleted'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'AttachmentId': attachmentId,
+      'AdId': adId,
+      'AttachmentName': attachmentName,
+      'IsDeleted': isDeleted,
+    };
+  }
+}
+
+class DistrictModel {
+  int? districtId;
+  int? cityId;
+  String? districtName;
+
+  DistrictModel({
+    required this.districtId,
+    this.cityId,
+    this.districtName,
+  });
+
+  factory DistrictModel.fromJson(Map<String, dynamic> json) {
+    return DistrictModel(
+      districtId: json['DistrictId'],
+      cityId: json['CityId'],
+      districtName: json['DistrictName'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'DistrictId': districtId,
+      // 'CityId': cityId,
+      // 'DistrictName': districtName,
     };
   }
 }

@@ -12,7 +12,6 @@ class NumberSelectionAlertDialog extends StatelessWidget {
     required this.fieldKey,
     required this.startIndex,
     required this.itemCount,
-
     required this.isEdit,
   });
 
@@ -25,8 +24,7 @@ class NumberSelectionAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     PropertyAddAdCubit propertyAddAdCubit =
         BlocProvider.of<PropertyAddAdCubit>(context);
-           MyAdsCubit myAdsCubit =
-        BlocProvider.of<MyAdsCubit>(context);
+    MyAdsCubit myAdsCubit = BlocProvider.of<MyAdsCubit>(context);
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       surfaceTintColor: Colors.transparent,
@@ -48,14 +46,11 @@ class NumberSelectionAlertDialog extends StatelessWidget {
               // text: (index + 1).toString(),
               // colorText: Colors.black38,
               onTap: () {
-                                           if (isEdit==false) {
-  propertyAddAdCubit.setPropertyField(
-      fieldKey, value);
-}else{
-  myAdsCubit.updatePropertyField(
-      fieldKey, value);
-  
-}
+                if (isEdit == false) {
+                  propertyAddAdCubit.setPropertyField(fieldKey, value);
+                } else {
+                  myAdsCubit.updatePropertyField(fieldKey, value);
+                }
                 Navigator.pop(context);
               },
               child: Column(
@@ -72,35 +67,45 @@ class NumberSelectionAlertDialog extends StatelessWidget {
                             child: Radio(
                               value: value,
                               groupValue: fieldKey == 'roomCount'
-    ? (isEdit == false 
-        ? propertyAddAdCubit.propertyAdModel.roomCount 
-        : myAdsCubit.adsModel.roomCount)
-    : fieldKey == 'bathroomCount'
-        ? (isEdit == false 
-            ? propertyAddAdCubit.propertyAdModel.bathroomCount 
-            : myAdsCubit.adsModel.bathroomCount)
-        : fieldKey == 'floorNumber'
-            ? (isEdit == false 
-                ? propertyAddAdCubit.propertyAdModel.floorNumber 
-                : myAdsCubit.adsModel.floorNumber)
-            : fieldKey == 'floorCount'
-                ? (isEdit == false 
-                    ? propertyAddAdCubit.propertyAdModel.floorCount 
-                    : myAdsCubit.adsModel.floorCount)
-                : fieldKey == 'balconyCount'
-                    ? (isEdit == false 
-                        ? propertyAddAdCubit.propertyAdModel.balconyCount 
-                        : myAdsCubit.adsModel.balconyCount)
-                    : 0,
+                                  ? (isEdit == false
+                                      ? propertyAddAdCubit
+                                          .adModel.info!.roomCount
+                                      : myAdsCubit.adModel.info!.roomCount)
+                                  : fieldKey == 'bathroomCount'
+                                      ? (isEdit == false
+                                          ? propertyAddAdCubit
+                                              .adModel.info!.bathroomCount
+                                          : myAdsCubit
+                                              .adModel.info!.bathroomCount)
+                                      : fieldKey == 'floorNumber'
+                                          ? (isEdit == false
+                                              ? propertyAddAdCubit
+                                                  .adModel.info!.floorNumber
+                                              : myAdsCubit
+                                                  .adModel.info!.floorNumber)
+                                          : fieldKey == 'floorCount'
+                                              ? (isEdit == false
+                                                  ? propertyAddAdCubit
+                                                      .adModel.info!.floorCount
+                                                  : myAdsCubit
+                                                      .adModel.info!.floorCount)
+                                              : fieldKey == 'balconyCount'
+                                                  ? (isEdit == false
+                                                      ? propertyAddAdCubit
+                                                          .adModel
+                                                          .info!
+                                                          .balconyCount
+                                                      : myAdsCubit.adModel.info!
+                                                          .balconyCount)
+                                                  : 0,
                               onChanged: (value) {
-                                if (isEdit==false) {
-  propertyAddAdCubit.setPropertyField(
-      fieldKey, value);
-}else{
-  myAdsCubit.updatePropertyField(
-      fieldKey, value);
-  
-}
+                                if (isEdit == false) {
+                                  propertyAddAdCubit.setPropertyField(
+                                      fieldKey, value);
+                                } else {
+                                  myAdsCubit.updatePropertyField(
+                                      fieldKey, value);
+                                }
                                 Navigator.pop(context);
                               },
                             ),

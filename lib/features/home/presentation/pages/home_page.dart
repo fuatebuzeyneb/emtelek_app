@@ -257,7 +257,7 @@ class HomePage extends StatelessWidget {
                                       return Padding(
                                         padding: EdgeInsets.only(left: 8.0),
                                         child: ProductCardHomeWidget(
-                                          adsModel:
+                                          adModel:
                                               homeCubit.propertiesRent[index],
                                         ),
                                       );
@@ -295,7 +295,7 @@ class HomePage extends StatelessWidget {
                                       return Padding(
                                         padding: EdgeInsets.only(left: 8.0),
                                         child: ProductCardHomeWidget(
-                                          adsModel:
+                                          adModel:
                                               homeCubit.propertiesSell[index],
                                         ),
                                       );

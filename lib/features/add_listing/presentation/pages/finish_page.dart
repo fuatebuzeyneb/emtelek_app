@@ -115,8 +115,7 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                  .propertyAdModel.adModel.title ??
+                          text: propertyAddAdCubit.adModel.adTitle ??
                               S.of(context).undefined,
                           fontSize: 14,
                           color: Colors.black,
@@ -132,9 +131,9 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                  .propertyAdModel.adModel.phone ??
-                              S.of(context).undefined,
+                          text:
+                              propertyAddAdCubit.adModel.client!.phoneNumber ??
+                                  S.of(context).undefined,
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -149,12 +148,9 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                      .propertyAdModel.adModel.price ==
-                                  null
+                          text: propertyAddAdCubit.adModel.price == null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit.propertyAdModel.adModel.price
-                                  .toString(),
+                              : propertyAddAdCubit.adModel.price.toString(),
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -169,8 +165,7 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                  .propertyAdModel.adModel.currency ??
+                          text: propertyAddAdCubit.adModel.currency ??
                               S.of(context).undefined,
                           fontSize: 14,
                           color: Colors.black,
@@ -186,11 +181,11 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit.propertyAdModel.totalArea ==
-                                  null
-                              ? S.of(context).undefined
-                              : propertyAddAdCubit.propertyAdModel.totalArea
-                                  .toString(),
+                          text:
+                              propertyAddAdCubit.adModel.info!.totalArea == null
+                                  ? S.of(context).undefined
+                                  : propertyAddAdCubit.adModel.info!.totalArea
+                                      .toString(),
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -205,12 +200,9 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                      .propertyAdModel.netOrBuildingArea ==
-                                  null
+                          text: propertyAddAdCubit.adModel.info!.netArea == null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit
-                                  .propertyAdModel.netOrBuildingArea
+                              : propertyAddAdCubit.adModel.info!.netArea
                                   .toString(),
                           fontSize: 14,
                           color: Colors.black,
@@ -226,8 +218,7 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                  .propertyAdModel.adModel.description ??
+                          text: propertyAddAdCubit.adModel.description ??
                               S.of(context).undefined,
                           fontSize: 14,
                           color: Colors.black,
@@ -243,10 +234,30 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit.propertyAdModel.roomCount ==
+                          text:
+                              propertyAddAdCubit.adModel.info!.roomCount == null
+                                  ? S.of(context).undefined
+                                  : propertyAddAdCubit.adModel.info!.roomCount
+                                      .toString(),
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                    4.toHeight,
+                    Row(
+                      children: [
+                        TextWidget(
+                            text: '${S.of(context).NumberOfBathrooms}: ',
+                            fontSize: 18,
+                            color: Colors.black),
+                        TextWidget(
+                          text: propertyAddAdCubit
+                                      .adModel.info!.bathroomCount ==
                                   null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit.propertyAdModel.roomCount
+                              : propertyAddAdCubit.adModel.info!.bathroomCount
                                   .toString(),
                           fontSize: 14,
                           color: Colors.black,
@@ -263,30 +274,10 @@ class FinishPage extends StatelessWidget {
                             color: Colors.black),
                         TextWidget(
                           text: propertyAddAdCubit
-                                      .propertyAdModel.bathroomCount ==
+                                      .adModel.info!.bathroomCount ==
                                   null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit.propertyAdModel.bathroomCount
-                                  .toString(),
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
-                    ),
-                    4.toHeight,
-                    Row(
-                      children: [
-                        TextWidget(
-                            text: '${S.of(context).NumberOfBathrooms}: ',
-                            fontSize: 18,
-                            color: Colors.black),
-                        TextWidget(
-                          text: propertyAddAdCubit
-                                      .propertyAdModel.bathroomCount ==
-                                  null
-                              ? S.of(context).undefined
-                              : propertyAddAdCubit.propertyAdModel.bathroomCount
+                              : propertyAddAdCubit.adModel.info!.bathroomCount
                                   .toString(),
                           fontSize: 14,
                           color: Colors.black,
@@ -302,11 +293,10 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                      .propertyAdModel.floorNumber ==
+                          text: propertyAddAdCubit.adModel.info!.floorNumber ==
                                   null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit.propertyAdModel.floorNumber
+                              : propertyAddAdCubit.adModel.info!.floorNumber
                                   .toString(),
                           fontSize: 14,
                           color: Colors.black,
@@ -322,10 +312,10 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit.propertyAdModel.floorCount ==
+                          text: propertyAddAdCubit.adModel.info!.floorCount ==
                                   null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit.propertyAdModel.floorCount
+                              : propertyAddAdCubit.adModel.info!.floorCount
                                   .toString(),
                           fontSize: 14,
                           color: Colors.black,
@@ -341,11 +331,10 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                      .propertyAdModel.balconyCount ==
+                          text: propertyAddAdCubit.adModel.info!.balconyCount ==
                                   null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit.propertyAdModel.balconyCount
+                              : propertyAddAdCubit.adModel.info!.balconyCount
                                   .toString(),
                           fontSize: 14,
                           color: Colors.black,
@@ -362,11 +351,11 @@ class FinishPage extends StatelessWidget {
                             color: Colors.black),
                         TextWidget(
                           text: propertyAddAdCubit
-                                      .propertyAdModel.constructionDate ==
+                                      .adModel.info!.constructionDate ==
                                   null
                               ? S.of(context).undefined
                               : propertyAddAdCubit
-                                  .propertyAdModel.constructionDate
+                                  .adModel.info!.constructionDate
                                   .toString(),
                           fontSize: 14,
                           color: Colors.black,
@@ -382,11 +371,10 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit.propertyAdModel.furnished ==
-                                  null
+                          text: propertyAddAdCubit.adModel.info!.furnish == null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit.propertyAdModel.furnished ==
-                                      true
+                              : propertyAddAdCubit.adModel.info!.furnish ==
+                                      'yes'
                                   ? S.of(context).Furnished
                                   : S.of(context).Unfurnished,
                           fontSize: 14,
@@ -403,13 +391,9 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                      .propertyAdModel.adModel.sellerType ==
-                                  null
+                          text: propertyAddAdCubit.adModel.sellerType == null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit
-                                          .propertyAdModel.adModel.sellerType ==
-                                      1
+                              : propertyAddAdCubit.adModel.sellerType == 1
                                   ? S.of(context).Owner
                                   : S.of(context).Agent,
                           fontSize: 14,
@@ -444,15 +428,15 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                      .propertyAdModel.adModel.districtId !=
-                                  null
-                              ? settingsCubit
-                                  .globalDistricts[propertyAddAdCubit
-                                          .propertyAdModel.adModel.districtId! -
-                                      1]
-                                  .districtName
-                              : S.of(context).undefined,
+                          text:
+                              propertyAddAdCubit.adModel.district!.districtId !=
+                                      null
+                                  ? settingsCubit
+                                      .globalDistricts[propertyAddAdCubit
+                                              .adModel.district!.districtId! -
+                                          1]
+                                      .districtName
+                                  : S.of(context).undefined,
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -467,12 +451,9 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                      .propertyAdModel.adModel.address ==
-                                  null
+                          text: propertyAddAdCubit.adModel.info!.address == null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit
-                                  .propertyAdModel.adModel.address
+                              : propertyAddAdCubit.adModel.info!.address
                                   .toString(),
                           fontSize: 14,
                           color: Colors.black,
@@ -488,11 +469,10 @@ class FinishPage extends StatelessWidget {
                             fontSize: 18,
                             color: Colors.black),
                         TextWidget(
-                          text: propertyAddAdCubit
-                                      .propertyAdModel.complexName ==
+                          text: propertyAddAdCubit.adModel.info!.complexName ==
                                   null
                               ? S.of(context).undefined
-                              : propertyAddAdCubit.propertyAdModel.complexName
+                              : propertyAddAdCubit.adModel.info!.complexName
                                   .toString(),
                           fontSize: 14,
                           color: Colors.black,
@@ -500,7 +480,7 @@ class FinishPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    propertyAddAdCubit.propertyAdModel.adModel.location == null
+                    propertyAddAdCubit.adModel.location == null
                         ? ButtonWidget(
                             height: 0.15,
                             width: 1,
@@ -518,8 +498,7 @@ class FinishPage extends StatelessWidget {
                               key: const Key('map'),
                               options: MapOptions(
                                 initialCenter: settingsCubit.parseLatLng(
-                                    propertyAddAdCubit
-                                        .propertyAdModel.adModel.location!),
+                                    propertyAddAdCubit.adModel.location!),
                               ),
                               mapController: MapController(),
                               children: [
@@ -532,8 +511,7 @@ class FinishPage extends StatelessWidget {
                                   markers: [
                                     Marker(
                                       point: settingsCubit.parseLatLng(
-                                          propertyAddAdCubit.propertyAdModel
-                                              .adModel.location!),
+                                          propertyAddAdCubit.adModel.location!),
                                       child: const Icon(
                                         Icons.location_on,
                                         color: Colors.red,
@@ -557,7 +535,7 @@ class FinishPage extends StatelessWidget {
               onTap: () {
                 propertyAddAdCubit.setPropertyField(
                     'adModelCategoryId', propertyAddAdCubit.categoryForAdType);
-
+                print("🚀 addAdPropertyFunc STARTED");
                 propertyAddAdCubit.addAdPropertyFunc();
               },
               text: S.of(context).Apply,

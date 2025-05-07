@@ -64,7 +64,7 @@ class DistrictSelectionAlertDialog extends StatelessWidget {
                                   .filteredDistricts[index].districtId,
                               groupValue: forWitchType == 1
                                   ? propertyAddAdCubit
-                                      .propertyAdModel.adModel.districtId
+                                      .adModel.district!.districtId
                                   : context,
                               onChanged: (value) {
                                 if (forWitchType == 1) {

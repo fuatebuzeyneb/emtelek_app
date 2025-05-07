@@ -3,11 +3,12 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:emtelek/core/errors/exceptions.dart';
 import 'package:emtelek/features/add_listing/data/models/feature_model.dart';
-import 'package:emtelek/features/add_listing/data/models/property_add_model.dart';
+
 import 'package:emtelek/features/add_listing/data/repositories/property_repository.dart';
+import 'package:emtelek/features/profile/data/models/ads_model.dart';
+import 'package:emtelek/features/profile/data/models/featur_model.dart';
 import 'package:emtelek/generated/l10n.dart';
-import 'package:emtelek/shared/models/add-ads-models/add_ad_model.dart';
-import 'package:emtelek/shared/models/district-model/district_model.dart';
+
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,6 +32,7 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
 
   //just for testing
   List<XFile> imagesProperty = [];
+  XFile? mainImage;
 
   void addAllImages(List<XFile> image) {
     imagesProperty.clear();
@@ -38,90 +40,129 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
     emit(PropertyAddAdInitial());
   }
 
-  PropertyAdModel propertyAdModel = PropertyAdModel(
-      totalArea: null,
-      netOrBuildingArea: null,
-      roomCount: null,
-      bathroomCount: null,
-      floorCount: null,
-      floorNumber: null,
-      balconyCount: null,
-      constructionDate: null,
-      furnished: null,
-      complexName: null,
-      features: [],
-      adModel: AddAdModel(
-        title: null,
-        price: null,
-        location: null,
-        image: null,
-        description: null,
-        phone: null,
-        currency: 'USD',
-        email: null,
-        districtId: null,
-        clientId: getIt<CacheHelper>().getData(key: 'clientId')!,
-        sellerType: null,
-        categoryId: null,
-        token: getIt<CacheHelper>().getDataString(key: 'token')!,
+  // PropertyAdModel propertyAdModel = PropertyAdModel(
+  //     totalArea: null,
+  //     netOrBuildingArea: null,
+  //     roomCount: null,
+  //     bathroomCount: null,
+  //     floorCount: null,
+  //     floorNumber: null,
+  //     balconyCount: null,
+  //     constructionDate: null,
+  //     furnished: null,
+  //     complexName: null,
+  //     features: [],
+  //     adModel: AddAdModel(
+  //       title: null,
+  //       price: null,
+  //       location: null,
+  //       image: null,
+  //       description: null,
+  //       phone: null,
+  //       currency: 'USD',
+  //       email: null,
+  //       districtId: null,
+  //       clientId: getIt<CacheHelper>().getData(key: 'clientId')!,
+  //       sellerType: null,
+  //       categoryId: null,
+  //       token: getIt<CacheHelper>().getDataString(key: 'token')!,
+  //       address: null,
+  //     ));
+  List<FeatureModel> features = [];
+  List<int> selectedFeatures = [];
+  late AdModel adModel = AdModel(
+    price: null,
+    location: null,
+    description: null,
+    currency: null,
+    clientId: getIt<CacheHelper>().getData(key: 'clientId')!,
+    sellerType: null,
+    categoryId: null,
+    token: getIt<CacheHelper>().getDataString(key: 'token')!,
+    adId: null,
+    adTitle: null,
+    // publishDate: null,
+    featureIds: selectedFeatures,
+    client: ClientModel(
+      clientId: null,
+      phoneNumber: null,
+      email: null,
+      firstName: null,
+      lastName: null,
+      subscriptionDate: null,
+      image: null,
+      verified: null,
+    ),
+    district: DistrictModel(districtId: null),
+    info: AdInfoModel(
+        totalArea: null,
+        netArea: null,
+        roomCount: null,
+        floorNumber: null,
+        floorCount: null,
+        bathroomCount: null,
+        furnish: null,
+        constructionDate: null,
         address: null,
-      ));
+        balconyCount: null,
+        complexName: null),
+  );
 
   void setPropertyField(String field, dynamic value) {
     if (field == 'totalArea') {
-      propertyAdModel.totalArea = value;
+      adModel.info.totalArea = value;
     } else if (field == 'netOrBuildingArea') {
-      propertyAdModel.netOrBuildingArea = value;
+      adModel.info.netArea = value;
     } else if (field == 'roomCount') {
-      propertyAdModel.roomCount = value;
+      adModel.info.roomCount = value;
     } else if (field == 'bathroomCount') {
-      propertyAdModel.bathroomCount = value;
+      adModel.info.bathroomCount = value;
     } else if (field == 'floorCount') {
-      propertyAdModel.floorCount = value;
+      adModel.info.floorCount = value;
     } else if (field == 'floorNumber') {
-      propertyAdModel.floorNumber = value;
+      adModel.info.floorNumber = value;
     } else if (field == 'balconyCount') {
-      propertyAdModel.balconyCount = value;
+      adModel.info.balconyCount = value;
     } else if (field == 'constructionDate') {
-      propertyAdModel.constructionDate = value;
+      adModel.info.constructionDate = value;
     } else if (field == 'furnished') {
-      propertyAdModel.furnished = value;
+      adModel.info.furnish = value;
     } else if (field == 'complexName') {
-      propertyAdModel.complexName = value;
+      adModel.info.complexName = value;
     } else if (field == 'adModelTitle') {
-      propertyAdModel.adModel.title = value;
+      adModel.adTitle = value;
     } else if (field == 'adModelPrice') {
-      propertyAdModel.adModel.price = value;
+      adModel.price = value;
     } else if (field == 'adModelLocation') {
-      propertyAdModel.adModel.location = value;
+      adModel.location = value;
     } else if (field == 'adModelImage') {
-      propertyAdModel.adModel.image = value;
+      adModel.images = value;
     } else if (field == 'adModelDescription') {
-      propertyAdModel.adModel.description = value;
+      adModel.description = value;
     } else if (field == 'adModelPhone') {
-      propertyAdModel.adModel.phone = value;
+      adModel.client.phoneNumber = value;
     } else if (field == 'adModelCurrency') {
-      propertyAdModel.adModel.currency = value;
+      adModel.currency = value;
     } else if (field == 'adModelEmail') {
-      propertyAdModel.adModel.email = value;
+      adModel.client.email = value;
     } else if (field == 'adModelDistrictId') {
-      propertyAdModel.adModel.districtId = value;
+      adModel.district.districtId = value;
     } else if (field == 'adModelClientId') {
-      propertyAdModel.adModel.clientId = value;
+      adModel.client.clientId = value;
     } else if (field == 'adModelSellerType') {
-      propertyAdModel.adModel.sellerType = value;
+      adModel.sellerType = value;
     } else if (field == 'adModelCategoryId') {
-      propertyAdModel.adModel.categoryId = value;
+      adModel.categoryId = value;
     } else if (field == 'adModelAddress') {
-      propertyAdModel.adModel.address = value;
+      adModel.info.address = value;
     } else if (field == 'adModelToken') {
-      propertyAdModel.adModel.token = value;
+      adModel.token = value;
     } else if (field == 'featuresAdd') {
-      propertyAdModel.features!.add(value);
+      selectedFeatures.add(value);
     } else if (field == 'featuresRemove') {
-      propertyAdModel.features!.remove(value);
+      selectedFeatures.remove(value);
     }
-    print('propertyAdModel: $propertyAdModel');
+    print('addAdModel: $adModel');
     emit(PropertyAddAdInitial());
   }
 
@@ -134,8 +175,13 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
   Future<void> addAdPropertyFunc() async {
     try {
       emit(PropertyAddAdLoading());
+      print("🔵 1111");
+      // تأكد من أن قائمة الصور لا تكون فارغة
+
       final data = await propertyRepository.addAdProperty(
-        propertyAdModel: propertyAdModel,
+        propertyAdModel: adModel,
+        images: imagesProperty,
+        mainImage: imagesProperty.first,
       );
 
       print("🔵 PropertyAddAdCubit.addAdProperty data: $data");
@@ -143,10 +189,10 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
       emit(PropertyAddAdSuccess());
     } on ServerException catch (e) {
       emit(PropertyAddAdFailure(errorMassage: e.errorModel.errorMessage));
+    } catch (e) {
+      emit(PropertyAddAdFailure(errorMassage: e.toString()));
     }
   }
-
-  List<FeatureModel> features = [];
 
   Future<void> getFeatures() async {
     try {

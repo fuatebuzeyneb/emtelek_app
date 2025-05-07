@@ -791,7 +791,7 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: PropertyCard(
                           index: index,
-                          adsModel: propertyCubit.filteredAds,
+                          adModel: propertyCubit.filteredAds,
                         ),
                       );
                     } else {

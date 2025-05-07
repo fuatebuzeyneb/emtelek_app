@@ -12,9 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FavoriteWidget extends StatelessWidget {
   const FavoriteWidget({
     super.key,
-    required this.adsModel,
+    required this.adModel,
   });
-  final AdsModel adsModel;
+  final AdModel adModel;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritesCubit, FavoritesState>(
@@ -26,13 +26,13 @@ class FavoriteWidget extends StatelessWidget {
           width: 0,
           onTap: () {
             if (getIt<CacheHelper>().getDataString(key: 'token') != null) {
-              adsModel.isFavorite = !adsModel.isFavorite!;
-              if (adsModel.isFavorite == true) {
+              adModel.isFavorite = !adModel.isFavorite!;
+              if (adModel.isFavorite == true) {
                 BlocProvider.of<FavoritesCubit>(context)
-                    .addFavorite(adId: adsModel.adId);
+                    .addFavorite(adId: adModel.adId!);
               } else {
                 BlocProvider.of<FavoritesCubit>(context)
-                    .removeFavorite(adId: adsModel.adId);
+                    .removeFavorite(adId: adModel.adId!);
               }
             } else {
               showModalBottomSheet(
@@ -47,7 +47,7 @@ class FavoriteWidget extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(6.0),
             child: Icon(
-              adsModel.isFavorite == true
+              adModel.isFavorite == true
                   ? Icons.favorite
                   : Icons.favorite_border,
               size: 22,

@@ -9,7 +9,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   final FavoritesRepository favoritesRepository;
   FavoritesCubit(this.favoritesRepository) : super(FavoritesInitial());
 
-  List<AdsModel> myFavoriteAds = [];
+  List<AdModel> myFavoriteAds = [];
 
   Future<void> getFavoritesData() async {
     try {

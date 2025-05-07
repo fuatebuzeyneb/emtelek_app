@@ -65,7 +65,7 @@ class SearchTextPage extends StatelessWidget {
                                     padding: const EdgeInsets.only(bottom: 16),
                                     child: PropertyCard(
                                         index: index,
-                                        adsModel: homeCubit.searchTextAds),
+                                        adModel: homeCubit.searchTextAds),
                                   );
                                 },
                               ),

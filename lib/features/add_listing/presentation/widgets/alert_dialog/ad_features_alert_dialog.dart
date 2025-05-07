@@ -59,28 +59,22 @@ class AdFeaturesAlertDialog extends StatelessWidget {
                                         child: Checkbox(
                                           activeColor: AppColors.primary,
                                           value: propertyAddAdCubit
-                                              .propertyAdModel.features!
+                                              .selectedFeatures
                                               .contains(propertyAddAdCubit
                                                   .features[index].featureId),
                                           onChanged: (value) {
+                                            final id = propertyAddAdCubit
+                                                .features[index].featureId;
                                             if (propertyAddAdCubit
-                                                .propertyAdModel.features!
-                                                .contains(propertyAddAdCubit
-                                                    .features[index]
-                                                    .featureId)) {
+                                                .selectedFeatures
+                                                .contains(id)) {
                                               propertyAddAdCubit
                                                   .setPropertyField(
-                                                      'featuresRemove',
-                                                      propertyAddAdCubit
-                                                          .features[index]
-                                                          .featureId);
+                                                      'featuresRemove', id);
                                             } else {
                                               propertyAddAdCubit
                                                   .setPropertyField(
-                                                      'featuresAdd',
-                                                      propertyAddAdCubit
-                                                          .features[index]
-                                                          .featureId);
+                                                      'featuresAdd', id);
                                             }
                                           },
                                         ),

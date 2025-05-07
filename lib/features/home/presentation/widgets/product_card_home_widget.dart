@@ -17,12 +17,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductCardHomeWidget extends StatelessWidget {
-  const ProductCardHomeWidget({super.key, required this.adsModel});
+  const ProductCardHomeWidget({super.key, required this.adModel});
 
   // final int index;
   // final int witchType; // 1 for sale property, 2 for rent property, 3 vehicles
 
-  final AdsModel adsModel;
+  final AdModel adModel;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class ProductCardHomeWidget extends StatelessWidget {
         onTap: () {
           pageTransition(context,
               page: PropertyDetailsPage(
-                adsModel: adsModel,
+                adModel: adModel,
               ));
         },
         child: Container(
@@ -88,8 +88,8 @@ class ProductCardHomeWidget extends StatelessWidget {
                                 //adsModel.price
                                 BlocProvider.of<SettingsCubit>(context)
                                     .convertToAppCurrency(
-                                        adCurrencyCode: adsModel.currency,
-                                        adPrice: adsModel.price)),
+                                        adCurrencyCode: adModel.currency!,
+                                        adPrice: double.parse(adModel.price!))),
                             fontSize: 14,
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
@@ -106,8 +106,9 @@ class ProductCardHomeWidget extends StatelessWidget {
                       ),
                       1.toHeight,
                       TextWidget(
-                        text: '${adsModel.roomCount} ${S.of(context).Room}  '
-                            '${adsModel.bathroomCount} ${S.of(context).Bathroom}',
+                        text:
+                            '${adModel.info!.roomCount} ${S.of(context).Room}  '
+                            '${adModel.info!.bathroomCount} ${S.of(context).Bathroom}',
                         fontSize: 10,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -117,7 +118,7 @@ class ProductCardHomeWidget extends StatelessWidget {
                         maxLines: 2,
                         isHaveOverflow: true,
                         text:
-                            '${adsModel.address}, ${adsModel.districtName},  ${adsModel.cityName}',
+                            '${adModel.info!.address}, ${adModel.district!.districtName},  ${adModel.city!.cityName}',
                         fontSize: 10,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,

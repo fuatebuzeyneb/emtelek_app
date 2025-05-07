@@ -59,12 +59,12 @@ class FurnishedOrUnfurnishedAlertDialog extends StatelessWidget {
                           child: Radio(
                             value: true,
                             groupValue: isEdit
-                                ? myAdsCubit.myAds[myAdsCubit.editIndex]
+                                ? myAdsCubit.myAds[myAdsCubit.editIndex].info!
                                             .furnish ==
-                                        'true'
+                                        "yes"
                                     ? true
                                     : false
-                                : propertyAddAdCubit.propertyAdModel.furnished,
+                                : propertyAddAdCubit.adModel.info!.furnish,
                             onChanged: (value) {
                               if (isEdit) {
                                 propertyAddAdCubit.setPropertyField(
@@ -122,12 +122,12 @@ class FurnishedOrUnfurnishedAlertDialog extends StatelessWidget {
                           child: Radio(
                             value: false,
                             groupValue: isEdit
-                                ? myAdsCubit.myAds[myAdsCubit.editIndex]
+                                ? myAdsCubit.myAds[myAdsCubit.editIndex].info!
                                             .furnish ==
-                                        true
+                                        "yes"
                                     ? true
                                     : false
-                                : propertyAddAdCubit.propertyAdModel.furnished,
+                                : propertyAddAdCubit.adModel.info!.furnish,
                             onChanged: (value) {
                               if (isEdit) {
                                 propertyAddAdCubit.setPropertyField(

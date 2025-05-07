@@ -24,7 +24,7 @@ class MyAdsCubit extends Cubit<MyAdsState> {
   //   editIndex = index;
   // }
 
-  List<AdsModel> myAds = [];
+  List<AdModel> myAds = [];
 
   Future<void> getMyAds() async {
     print('----------------------------------');
@@ -46,14 +46,13 @@ class MyAdsCubit extends Cubit<MyAdsState> {
     }
   }
 
-  late AdsModel adsModel;
+  late AdModel adModel;
 
   void setEditIndex({required int index}) {
     print('index: $index');
     editIndex = index;
 
-    // تحديث adsModel بناءً على الإندكس الجديد
-    adsModel = AdsModel(
+    adModel = AdModel(
       token: getIt<CacheHelper>().getDataString(key: 'token')!,
       adId: myAds[editIndex].adId,
       adTitle: myAds[editIndex].adTitle,
@@ -66,83 +65,113 @@ class MyAdsCubit extends Cubit<MyAdsState> {
       sellerType: myAds[editIndex].sellerType,
       categoryId: myAds[editIndex].categoryId,
       clientId: myAds[editIndex].clientId,
-      firstName: myAds[editIndex].firstName,
-      lastName: myAds[editIndex].lastName,
-      phoneNumber: myAds[editIndex].phoneNumber,
-      email: myAds[editIndex].email,
-      subscriptionDate: myAds[editIndex].subscriptionDate,
-      districtId: myAds[editIndex].districtId,
-      totalArea: myAds[editIndex].totalArea,
-      netOrBuildingArea: myAds[editIndex].netOrBuildingArea,
-      roomCount: myAds[editIndex].roomCount,
-      floorNumber: myAds[editIndex].floorNumber,
-      floorCount: myAds[editIndex].floorCount,
-      bathroomCount: myAds[editIndex].bathroomCount,
-      constructionDate: myAds[editIndex].constructionDate,
-      address: myAds[editIndex].address,
-      balconyCount: myAds[editIndex].balconyCount,
-      complexName: myAds[editIndex].complexName,
+      features: myAds[editIndex].features,
+      images: myAds[editIndex].images,
+      client: myAds[editIndex].client,
+      city: myAds[editIndex].city,
+      district: myAds[editIndex].district,
+      isFavorite: myAds[editIndex].isFavorite,
+      info: AdInfoModel(
+        totalArea: myAds[editIndex].info!.totalArea,
+        netArea: myAds[editIndex].info!.netArea,
+        roomCount: myAds[editIndex].info!.roomCount,
+        floorNumber: myAds[editIndex].info!.floorNumber,
+        floorCount: myAds[editIndex].info!.floorCount,
+        bathroomCount: myAds[editIndex].info!.bathroomCount,
+        constructionDate: myAds[editIndex].info!.constructionDate,
+        address: myAds[editIndex].info!.address,
+        balconyCount: myAds[editIndex].info!.balconyCount,
+        complexName: myAds[editIndex].info!.complexName,
+        furnish: myAds[editIndex].info!.furnish,
+      ),
     );
 
-    // إعادة بناء الحالة لتحديث واجهة المستخدم إذا لزم الأمر
     emit(MyAdsInitial());
   }
 
-  // late AdsModel adsModel;
-  void updatePropertyField(
-    String field,
-    dynamic value,
-  ) {
-    if (field == 'totalArea') {
-      adsModel.totalArea = value;
-    } else if (field == 'netOrBuildingArea') {
-      adsModel.netOrBuildingArea = value;
-    } else if (field == 'roomCount') {
-      adsModel.roomCount = value;
-    } else if (field == 'bathroomCount') {
-      adsModel.bathroomCount = value;
-    } else if (field == 'floorCount') {
-      adsModel.floorCount = value;
-    } else if (field == 'floorNumber') {
-      adsModel.floorNumber = value;
-    } else if (field == 'balconyCount') {
-      adsModel.balconyCount = value;
-    } else if (field == 'constructionDate') {
-      adsModel.constructionDate = value;
-    } else if (field == 'furnished') {
-      print('furnished====: $value');
-      adsModel.furnish = value;
-    } else if (field == 'complexName') {
-      adsModel.complexName = value;
-    } else if (field == 'adModelTitle') {
-      adsModel.adTitle = value;
-    } else if (field == 'adModelPrice') {
-      adsModel.price = value;
-    } else if (field == 'adModelLocation') {
-      adsModel.location = value;
-    }
-    // else if (field == 'adModelImage') {
-    //  adsModel.image = value;
-    // }
-    else if (field == 'adModelDescription') {
-      adsModel.description = value;
-    } else if (field == 'adModelPhone') {
-      print('adModelPhone====: $value');
-      adsModel.phoneNumber = value;
-    } else if (field == 'adModelCurrency') {
-      adsModel.currency = value;
-    } else if (field == 'adModelEmail') {
-      adsModel.email = value;
-    } else if (field == 'adModelDistrictId') {
-      adsModel = value;
-    } else if (field == 'adModelClientId') {
-      adsModel.clientId = value;
-    } else if (field == 'adModelSellerType') {
-      adsModel.sellerType = value;
-    } else if (field == 'adModelCategoryId') {
-      adsModel.categoryId = value;
-    } else if (field == 'adModelAddress') {
-      adsModel.address = value;
+  void updatePropertyField(String field, dynamic value) {
+    switch (field) {
+      case 'totalArea':
+        adModel.info!.totalArea = value;
+        break;
+      case 'netOrBuildingArea':
+        adModel.info!.netArea = value;
+        break;
+      case 'roomCount':
+        adModel.info!.roomCount = value;
+        break;
+      case 'bathroomCount':
+        adModel.info!.bathroomCount = value;
+        break;
+      case 'floorCount':
+        adModel.info!.floorCount = value;
+        break;
+      case 'floorNumber':
+        adModel.info!.floorNumber = value;
+        break;
+      case 'balconyCount':
+        adModel.info!.balconyCount = value;
+        break;
+      case 'constructionDate':
+        adModel.info!.constructionDate = value;
+        break;
+      case 'furnished':
+        adModel.info!.furnish = value;
+        break;
+      case 'complexName':
+        adModel.info!.complexName = value;
+        break;
+      case 'adModelTitle':
+        adModel.adTitle = value;
+        break;
+      case 'adModelPrice':
+        adModel.price = value;
+        break;
+      case 'adModelLocation':
+        adModel.location = value;
+        break;
+      case 'adModelDescription':
+        adModel.description = value;
+        break;
+      case 'adModelPhone':
+        adModel.client!.phoneNumber = value;
+        break;
+      case 'adModelCurrency':
+        adModel.currency = value;
+        break;
+      case 'adModelEmail':
+        adModel.client!.email = value;
+        break;
+      // case 'adModelDistrictId':
+      //   adModel.districtId = value;
+      //   break;
+      case 'adModelClientId':
+        adModel.clientId = value;
+        break;
+      case 'adModelSellerType':
+        adModel.sellerType = value;
+        break;
+      case 'adModelCategoryId':
+        adModel.categoryId = value;
+        break;
+      case 'adModelAddress':
+        adModel.info!.address = value;
+        break;
+      case 'adModelCity':
+        adModel.city = value;
+        break;
+      case 'adModelDistrict':
+        adModel.district = value;
+        break;
+      case 'adModelIsFavorite':
+        adModel.isFavorite = value;
+        break;
+      case 'adModelFeatures':
+        adModel.features = value;
+        break;
+      case 'adModelImages':
+        adModel.images = value;
+        break;
     }
 
     emit(MyAdsInitial());
@@ -154,7 +183,7 @@ class MyAdsCubit extends Cubit<MyAdsState> {
 
       // إنشاء النسخة المعدلة من PropertyAdModel
       await myAdsRepository.updateAdProperty(
-        adsModel: adsModel,
+        adModel: adModel,
       );
 
       //  print("🔵 PropertyUpdateAdCubit.updateAdProperty data: $updatedData");
@@ -171,7 +200,7 @@ class MyAdsCubit extends Cubit<MyAdsState> {
 
       // إنشاء النسخة المعدلة من PropertyAdModel
       await myAdsRepository.deleteAdProperty(
-        adId: myAds[editIndex].adId,
+        adId: myAds[editIndex].adId!,
       );
 
       emit(PropertyDeleteAdSuccess());

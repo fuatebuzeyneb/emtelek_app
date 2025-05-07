@@ -90,7 +90,7 @@ class _SelectLocationState extends State<SelectLocation> {
       // قم بفحص إذا كان `location` غير فارغ قبل محاولة تحليله
       if (myAdsCubit.myAds[myAdsCubit.editIndex].location != null) {
         currentLocation = settingsCubit.parseLatLng(
-          myAdsCubit.myAds[myAdsCubit.editIndex].location,
+          myAdsCubit.myAds[myAdsCubit.editIndex].location!,
         );
         selectedLocation =
             currentLocation; // تعيين الموقع المحدد كالموقع الحالي

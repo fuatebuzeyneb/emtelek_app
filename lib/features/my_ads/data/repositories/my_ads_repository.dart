@@ -9,9 +9,9 @@ import 'package:emtelek/shared/services/service_locator.dart';
 
 // تعريف الواجهة (Interface)
 abstract class MyAdsRepository {
-  Future<List<AdsModel>> getMyAds();
+  Future<List<AdModel>> getMyAds();
   Future<AllResponseModel> updateAdProperty({
-    required AdsModel adsModel,
+    required AdModel adModel,
   });
 
   Future<AllResponseModel> deleteAdProperty({
@@ -25,7 +25,7 @@ class MyAdsRepositoryImpl implements MyAdsRepository {
   MyAdsRepositoryImpl({required this.api});
 
   @override
-  Future<List<AdsModel>> getMyAds() async {
+  Future<List<AdModel>> getMyAds() async {
     try {
       final data = {
         "Token": getIt<CacheHelper>().getDataString(key: 'token'),
@@ -54,7 +54,7 @@ class MyAdsRepositoryImpl implements MyAdsRepository {
       }
 
       List<dynamic> adsJson = adsMap.values.toList();
-      return adsJson.map((json) => AdsModel.fromJson(json)).toList();
+      return adsJson.map((json) => AdModel.fromJson(json)).toList();
       //return [];
     } catch (e) {
       print("Error in getMyAds4: $e"); // طباعة الخطأ لمزيد من التحليل
@@ -64,16 +64,16 @@ class MyAdsRepositoryImpl implements MyAdsRepository {
 
   @override
   Future<AllResponseModel> updateAdProperty({
-    required AdsModel adsModel,
+    required AdModel adModel,
   }) async {
     // طباعة الـ Request (البيانات التي يتم إرسالها)
-    print("🔵 Request to API: ${adsModel.toJson()}");
+    print("🔵 Request to API: ${adModel.toJson()}");
 
     // إرسال الطلب عبر PUT أو PATCH (حسب الـ API الخاص بك)
     final response = await api.post(
       '${EndPoints.baseUrl}${EndPoints.adsEdit}', // أو حسب بنية الـ API لديك
       isFormData: true,
-      data: adsModel.toJson(),
+      data: adModel.toJson(),
     );
 
     // طباعة الـ Response (البيانات التي تم استلامها)
