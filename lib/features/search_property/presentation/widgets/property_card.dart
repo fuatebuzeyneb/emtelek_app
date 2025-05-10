@@ -1,3 +1,4 @@
+import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
@@ -68,8 +69,11 @@ class PropertyCard extends StatelessWidget {
                         topLeft: Radius.circular(8),
                         topRight: Radius.circular(8),
                       ),
-                      child: Image.asset(
-                        'assets/images/example.png',
+                      child: Image.network(
+                        '${EndPoints.adImageUrl}${adModel[index].mainImage!}',
+                        height: context.height * 0.3,
+                        width: context.width * 1,
+                        fit: BoxFit.cover,
                       )),
                 ),
                 Positioned(
@@ -126,50 +130,82 @@ class PropertyCard extends StatelessWidget {
                   ),
                 ),
                 4.toHeight,
-                Align(
-                  alignment: Alignment.centerRight,
+                Visibility(
+                  visible: [12, 26, 8, 27, 18, 14]
+                      .contains(adModel[index].categoryId),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/icons/bed.png',
+                          height: 20,
+                          width: 20,
+                          color: Colors.black,
+                        ),
+                        6.toWidth,
+                        Padding(
+                          padding: EdgeInsets.only(top: 6),
+                          child: TextWidget(
+                            isHaveOverflow: true,
+                            text: adModel[index].info!.roomCount.toString() +
+                                ' ' +
+                                S.of(context).Room,
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        12.toWidth,
+                        Image.asset(
+                          'assets/icons/bath.png',
+                          height: 20,
+                          width: 20,
+                          color: Colors.black,
+                        ),
+                        6.toWidth,
+                        Padding(
+                          padding: EdgeInsets.only(top: 6),
+                          child: TextWidget(
+                            isHaveOverflow: true,
+                            text:
+                                adModel[index].info!.bathroomCount.toString() +
+                                    ' ' +
+                                    S.of(context).Bathroom,
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        12.toWidth,
+                        Image.asset(
+                          'assets/icons/ruler.png',
+                          height: 20,
+                          width: 20,
+                          color: Colors.black,
+                        ),
+                        6.toWidth,
+                        Padding(
+                          padding: EdgeInsets.only(top: 6),
+                          child: TextWidget(
+                            isHaveOverflow: true,
+                            text: adModel[index].info!.totalArea.toString() +
+                                ' ' +
+                                S.of(context).SquareMeter,
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ), //حي أبو رمانة - شارع الجلاء
+                  ),
+                ),
+                Visibility(
+                  visible: ![12, 26, 8, 27, 18, 14]
+                      .contains(adModel[index].categoryId),
                   child: Row(
                     children: [
-                      Image.asset(
-                        'assets/icons/bed.png',
-                        height: 20,
-                        width: 20,
-                        color: Colors.black,
-                      ),
-                      6.toWidth,
-                      Padding(
-                        padding: EdgeInsets.only(top: 6),
-                        child: TextWidget(
-                          isHaveOverflow: true,
-                          text: adModel[index].info!.roomCount.toString() +
-                              ' ' +
-                              S.of(context).Room,
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      12.toWidth,
-                      Image.asset(
-                        'assets/icons/bath.png',
-                        height: 20,
-                        width: 20,
-                        color: Colors.black,
-                      ),
-                      6.toWidth,
-                      Padding(
-                        padding: EdgeInsets.only(top: 6),
-                        child: TextWidget(
-                          isHaveOverflow: true,
-                          text: adModel[index].info!.bathroomCount.toString() +
-                              ' ' +
-                              S.of(context).Bathroom,
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      12.toWidth,
                       Image.asset(
                         'assets/icons/ruler.png',
                         height: 20,
@@ -190,7 +226,7 @@ class PropertyCard extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ), //حي أبو رمانة - شارع الجلاء
+                  ),
                 ),
                 12.toHeight,
                 Row(

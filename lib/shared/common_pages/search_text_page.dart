@@ -17,20 +17,9 @@ class SearchTextPage extends StatelessWidget {
   Widget build(BuildContext context) {
     HomeCubit homeCubit = BlocProvider.of<HomeCubit>(context);
     return Scaffold(
-        appBar: AppBar(
-          shadowColor: Colors.white,
-          elevation: 2,
-          surfaceTintColor: Colors.white,
-          automaticallyImplyLeading: false,
-          title: AppBarWidget(
+        appBar: AppBarWidget(
             title: S.of(context).Search,
-            onTap: () {
-              homeCubit.searchTextAds = [];
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: AppColors.appBarBackground,
-        ),
+            isHaveBackButton: true), //     homeCubit.searchTextAds = [];
         body: Padding(
           padding: EdgeInsets.only(top: 20, bottom: 12, left: 12, right: 12),
           child: Column(

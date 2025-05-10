@@ -22,19 +22,8 @@ class ProfileSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ProfileCubit profileCubit = BlocProvider.of<ProfileCubit>(context);
     return Scaffold(
-      appBar: AppBar(
-        shadowColor: Colors.white,
-        elevation: 2,
-        surfaceTintColor: Colors.white,
-        automaticallyImplyLeading: false,
-        title: AppBarWidget(
-          title: S.of(context).AccountSettings,
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: AppColors.appBarBackground,
-      ),
+      appBar: AppBarWidget(
+          title: S.of(context).AccountSettings, isHaveBackButton: true),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           // TODO: implement listener

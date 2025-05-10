@@ -80,20 +80,8 @@ class EditAdDetailsPage extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            shadowColor: Colors.white,
-            elevation: 2,
-            surfaceTintColor: Colors.white,
-            automaticallyImplyLeading: false,
-            title: AppBarWidget(
-              title: S.of(context).AddYourAd,
-              onTap: () {
-                // settingsCubit.categoryForAdType = null;
-                Navigator.pop(context);
-              },
-            ),
-            backgroundColor: AppColors.appBarBackground,
-          ),
+          appBar: AppBarWidget(
+              title: S.of(context).AddYourAd, isHaveBackButton: true),
           body: state is PropertyUpdateAdLoading
               ? const Center(child: LoadingWidget())
               : state is PropertyUpdateAdFailure
@@ -822,9 +810,9 @@ class EditAdDetailsPage extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 TextWidget(
-                                                  text: myAdsCubit.adModel.info!
-                                                          .constructionDate ??
-                                                      '',
+                                                  text:
+                                                      '${myAdsCubit.adModel.info!.constructionDate}' ??
+                                                          '',
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,

@@ -1,4 +1,5 @@
 import 'package:emtelek/features/profile/data/models/featur_model.dart';
+import 'package:emtelek/shared/helper/founctions/formatter.dart';
 
 class AdModel {
   String? token;
@@ -24,18 +25,18 @@ class AdModel {
   AdInfoModel info;
 
   AdModel({
-    required this.token,
-    required this.adId,
-    required this.adTitle,
-    required this.clientId,
-    required this.categoryId,
-    required this.price,
-    required this.currency,
-    required this.sellerType,
+    this.token,
+    this.adId,
+    this.adTitle,
+    this.clientId,
+    this.categoryId,
+    this.price,
+    this.currency,
+    this.sellerType,
     this.featureIds,
     this.publishDate,
-    required this.description,
-    required this.location,
+    this.description,
+    this.location,
     this.status,
     this.isFavorite,
     this.features,
@@ -114,24 +115,24 @@ class AdInfoModel {
   int? floorCount;
   int? bathroomCount;
   bool? furnish;
-  String? constructionDate;
+  DateTime? constructionDate;
   String? address;
   int? balconyCount;
   String? complexName;
 
   AdInfoModel({
     this.adId,
-    required this.totalArea,
-    required this.netArea,
-    required this.roomCount,
-    required this.floorNumber,
-    required this.floorCount,
-    required this.bathroomCount,
-    required this.furnish,
-    required this.constructionDate,
-    required this.address,
-    required this.balconyCount,
-    required this.complexName,
+    this.totalArea,
+    this.netArea,
+    this.roomCount,
+    this.floorNumber,
+    this.floorCount,
+    this.bathroomCount,
+    this.furnish,
+    this.constructionDate,
+    this.address,
+    this.balconyCount,
+    this.complexName,
   });
 
   factory AdInfoModel.fromJson(Map<String, dynamic> json) {
@@ -144,7 +145,8 @@ class AdInfoModel {
       floorCount: json['FloorCount'],
       bathroomCount: json['BathroomCount'],
       furnish: json['Furnish']?.toString().toLowerCase() == 'yes',
-      constructionDate: json['ConstructionDate'] ?? '',
+      constructionDate:
+          Formatter.parseConstructionDate(json['ConstructionDate']),
       address: json['Address'] ?? '',
       balconyCount: json['BalconyCount'],
       complexName: json['ComplexName'] ?? '',
@@ -201,14 +203,14 @@ class ClientModel {
   int? verified;
 
   ClientModel({
-    required this.clientId,
-    required this.firstName,
-    required this.lastName,
-    required this.phoneNumber,
-    required this.email,
-    required this.subscriptionDate,
-    required this.image,
-    required this.verified,
+    this.clientId,
+    this.firstName,
+    this.lastName,
+    this.phoneNumber,
+    this.email,
+    this.subscriptionDate,
+    this.image,
+    this.verified,
   });
 
   factory ClientModel.fromJson(Map<String, dynamic> json) {
@@ -304,7 +306,7 @@ class DistrictModel {
   String? districtName;
 
   DistrictModel({
-    required this.districtId,
+    this.districtId,
     this.cityId,
     this.districtName,
   });

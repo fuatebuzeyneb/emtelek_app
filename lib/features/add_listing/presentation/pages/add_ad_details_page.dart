@@ -20,6 +20,7 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/shared/common_pages/image_picker.dart';
 import 'package:emtelek/shared/common_pages/select_location.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
+import 'package:emtelek/shared/helper/founctions/formatter.dart';
 import 'package:emtelek/shared/models/district-model/district_model.dart';
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
 
@@ -76,20 +77,8 @@ class AddAdDetailsPage extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            shadowColor: Colors.white,
-            elevation: 2,
-            surfaceTintColor: Colors.white,
-            automaticallyImplyLeading: false,
-            title: AppBarWidget(
-              title: S.of(context).AddYourAd,
-              onTap: () {
-                propertyAddAdCubit.categoryForAdType = null;
-                Navigator.pop(context);
-              },
-            ),
-            backgroundColor: AppColors.appBarBackground,
-          ),
+          appBar: AppBarWidget(
+              title: S.of(context).AddYourAd, isHaveBackButton: true),
           body: Column(
             children: [
               Expanded(
@@ -314,7 +303,8 @@ class AddAdDetailsPage extends StatelessWidget {
                                     padding: EdgeInsets.only(
                                         top: context.height * 0.02),
                                     child: TextWidget(
-                                      text: 'u',
+                                      text:
+                                          '${propertyAddAdCubit.adModel.currency}',
                                       fontSize: 16,
                                       color: Colors.black38,
                                     ),
@@ -729,8 +719,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                         text: propertyAddAdCubit.adModel.info!
                                                     .constructionDate !=
                                                 null
-                                            ? propertyAddAdCubit
-                                                .adModel.info!.constructionDate!
+                                            ? '${Formatter.convertArabicNumbersToEnglish(DateFormat('dd/MM/yyy').format(propertyAddAdCubit.adModel.info!.constructionDate!))}'
                                             : '',
                                         fontSize: 18,
                                         color: Colors.black,
@@ -1103,24 +1092,25 @@ class AddAdDetailsPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ButtonWidget(
                   onTap: () {
-                    if (propertyAddAdCubit.adModel.adTitle == null ||
-                        propertyAddAdCubit.adModel.client!.phoneNumber ==
-                            null ||
-                        propertyAddAdCubit.adModel.price == null ||
-                        propertyAddAdCubit.adModel.currency == null ||
-                        propertyAddAdCubit.adModel.info!.totalArea == null ||
-                        propertyAddAdCubit.adModel.info!.roomCount == null ||
-                        propertyAddAdCubit.adModel.info!.bathroomCount ==
-                            null ||
-                        propertyAddAdCubit.adModel.sellerType == null ||
-                        propertyAddAdCubit.adModel.district!.districtId ==
-                            null ||
-                        propertyAddAdCubit.adModel.location == null) {
-                      SnackbarUtils.showSnackbar(
-                          context, S.of(context).AddAdWarning, 2);
-                    } else {
-                      Navigator.pushNamed(context, FinishPage.id);
-                    }
+                    // if (propertyAddAdCubit.adModel.adTitle == null ||
+                    //     propertyAddAdCubit.adModel.client!.phoneNumber ==
+                    //         null ||
+                    //     propertyAddAdCubit.adModel.price == null ||
+                    //     propertyAddAdCubit.adModel.currency == null ||
+                    //     propertyAddAdCubit.adModel.info!.totalArea == null ||
+                    //     propertyAddAdCubit.adModel.info!.roomCount == null ||
+                    //     propertyAddAdCubit.adModel.info!.bathroomCount ==
+                    //         null ||
+                    //     propertyAddAdCubit.adModel.sellerType == null ||
+                    //     propertyAddAdCubit.adModel.district!.districtId ==
+                    //         null ||
+                    //     propertyAddAdCubit.adModel.location == null) {
+                    //   SnackbarUtils.showSnackbar(
+                    //       context, S.of(context).AddAdWarning, 2);
+                    // } else {
+                    //   Navigator.pushNamed(context, FinishPage.id);
+                    // }
+                    Navigator.pushNamed(context, FinishPage.id);
                   },
                   text: S.of(context).Apply,
                   height: 0.06,

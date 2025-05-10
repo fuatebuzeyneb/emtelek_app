@@ -21,19 +21,8 @@ class MySearchesPage extends StatelessWidget {
     PropertyCubit propertyCubit = context.read<PropertyCubit>();
     return Scaffold(
         backgroundColor: Colors.grey.shade100,
-        appBar: AppBar(
-          shadowColor: Colors.white,
-          elevation: 2,
-          surfaceTintColor: Colors.white,
-          automaticallyImplyLeading: false,
-          title: AppBarWidget(
-            title: S.of(context).MySearches,
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: AppColors.appBarBackground,
-        ),
+        appBar: AppBarWidget(
+            title: S.of(context).MySearches, isHaveBackButton: true),
         body: BlocBuilder<PropertyCubit, PropertyState>(
           builder: (context, state) {
             return state is PropertyGetFilterSearchLoading

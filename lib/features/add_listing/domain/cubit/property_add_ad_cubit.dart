@@ -73,8 +73,8 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
   late AdModel adModel = AdModel(
     price: null,
     location: null,
-    description: null,
-    currency: null,
+    description: '',
+    currency: 'USD',
     clientId: getIt<CacheHelper>().getData(key: 'clientId')!,
     sellerType: null,
     categoryId: null,
@@ -96,7 +96,7 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
     district: DistrictModel(districtId: null),
     info: AdInfoModel(
         totalArea: null,
-        netArea: null,
+        netArea: '',
         roomCount: null,
         floorNumber: null,
         floorCount: null,

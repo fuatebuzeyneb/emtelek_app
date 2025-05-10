@@ -33,4 +33,33 @@ class Formatter {
     }
     return input;
   }
+
+  static String convertArabicNumbersToEnglish(String input) {
+    const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    for (int i = 0; i < arabicNumbers.length; i++) {
+      input = input.replaceAll(arabicNumbers[i], englishNumbers[i]);
+    }
+
+    return input;
+  }
+
+  static DateTime? parseConstructionDate(dynamic value) {
+    try {
+      String str = value?.toString().trim() ?? '';
+      str = convertArabicNumbersToEnglish(str);
+      if (str.isEmpty) return null;
+
+      if (str.length == 4 && int.tryParse(str) != null) {
+        // إذا كانت فقط سنة مثل 2009
+        return DateTime(int.parse(str));
+      }
+
+      return DateTime.parse(str); // تاريخ كامل
+    } catch (e) {
+      print('⚠️ خطأ في التحويل إلى تاريخ: $e');
+      return null;
+    }
+  }
 }

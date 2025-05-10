@@ -1,3 +1,4 @@
+import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
@@ -62,8 +63,8 @@ class ProductCardHomeWidget extends StatelessWidget {
                     topLeft: Radius.circular(8),
                     topRight: Radius.circular(8),
                   ),
-                  child: Image.asset(
-                    'assets/images/example.png',
+                  child: Image.network(
+                    '${EndPoints.adImageUrl}${adModel.mainImage!}',
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),
@@ -105,20 +106,36 @@ class ProductCardHomeWidget extends StatelessWidget {
                         ],
                       ),
                       1.toHeight,
-                      TextWidget(
-                        text:
-                            '${adModel.info!.roomCount} ${S.of(context).Room}  '
-                            '${adModel.info!.bathroomCount} ${S.of(context).Bathroom}',
-                        fontSize: 10,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                      Visibility(
+                        visible: [12, 26, 8, 27, 18, 14]
+                            .contains(adModel.categoryId),
+                        child: TextWidget(
+                          text:
+                              '${adModel.info.roomCount} ${S.of(context).Room}  '
+                              '${adModel.info.bathroomCount} ${S.of(context).Bathroom}',
+                          fontSize: 10,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Visibility(
+                        visible: ![12, 26, 8, 27, 18, 14]
+                            .contains(adModel.categoryId),
+                        child: TextWidget(
+                          text:
+                              '${S.current.Area} ${adModel.info.totalArea} ${S.of(context).SquareMeter}',
+                          fontSize: 10,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       1.toHeight,
                       TextWidget(
+                        textAlign: TextAlign.start,
                         maxLines: 2,
                         isHaveOverflow: true,
                         text:
-                            '${adModel.info!.address}, ${adModel.district!.districtName},  ${adModel.city!.cityName}',
+                            '${adModel.info.address}, ${adModel.district.districtName},  ${adModel.city!.cityName}',
                         fontSize: 10,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/core/extensions/alignment_extension.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
@@ -37,22 +38,20 @@ class PropertyDetailsPage extends StatelessWidget {
     required this.adModel,
   });
 
-  final int totalImages = 8;
-
   final Key mapKey = UniqueKey();
 
   final ScrollController scrollController = ScrollController();
 
-  final List<String> imageUrls = [
-    'assets/images/example.png',
-    'assets/images/example1.webp',
-    'assets/images/example2.webp',
-    'assets/images/example3.webp',
-    'assets/images/example.png',
-    'assets/images/example1.webp',
-    'assets/images/example2.webp',
-    'assets/images/example3.webp',
-  ];
+  // final List<String> imageUrls = [
+  //   'assets/images/example.png',
+  //   'assets/images/example1.webp',
+  //   'assets/images/example2.webp',
+  //   'assets/images/example3.webp',
+  //   'assets/images/example.png',
+  //   'assets/images/example1.webp',
+  //   'assets/images/example2.webp',
+  //   'assets/images/example3.webp',
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +86,9 @@ class PropertyDetailsPage extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   pageTransition(context,
-                                      page: const ImageGalleryPage());
+                                      page: ImageGalleryPage(
+                                        adModel: adModel,
+                                      ));
                                 },
                                 child: SizedBox(
                                     height: context.height * 0.34,
@@ -97,10 +98,10 @@ class PropertyDetailsPage extends StatelessWidget {
                                         adDetailsCubit
                                             .currentPageFunction(value);
                                       },
-                                      children: imageUrls
+                                      children: adModel.images!
                                           .map(
-                                            (imageUrl) => Image.asset(
-                                              imageUrl,
+                                            (img) => Image.network(
+                                              "${EndPoints.adImageUrl}${img.attachmentName}", // أو img.path حسب اسم المتغير في ImageModel
                                               fit: BoxFit.cover,
                                             ),
                                           )
@@ -133,7 +134,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                         padding: const EdgeInsets.only(top: 4),
                                         child: TextWidget(
                                           text:
-                                              '${adDetailsCubit.currentPage + 1} / $totalImages',
+                                              '${adDetailsCubit.currentPage + 1} / ${adModel.images!.length}',
                                           color: Colors.white,
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -245,48 +246,84 @@ class PropertyDetailsPage extends StatelessWidget {
                               ),
                             ),
                             4.toHeight,
-                            Align(
-                              alignment: context.textAlignment,
+                            Visibility(
+                              visible: [12, 26, 8, 27, 18, 14]
+                                  .contains(adModel.categoryId),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/bed.png',
+                                      height: 20,
+                                      width: 20,
+                                      color: Colors.black,
+                                    ),
+                                    6.toWidth,
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 6),
+                                      child: TextWidget(
+                                        isHaveOverflow: true,
+                                        text:
+                                            adModel.info!.roomCount.toString() +
+                                                ' ' +
+                                                S.of(context).Room,
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    12.toWidth,
+                                    Image.asset(
+                                      'assets/icons/bath.png',
+                                      height: 20,
+                                      width: 20,
+                                      color: Colors.black,
+                                    ),
+                                    6.toWidth,
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 6),
+                                      child: TextWidget(
+                                        isHaveOverflow: true,
+                                        text: adModel.info!.bathroomCount
+                                                .toString() +
+                                            ' ' +
+                                            S.of(context).Bathroom,
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    12.toWidth,
+                                    Image.asset(
+                                      'assets/icons/ruler.png',
+                                      height: 20,
+                                      width: 20,
+                                      color: Colors.black,
+                                    ),
+                                    6.toWidth,
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 6),
+                                      child: TextWidget(
+                                        isHaveOverflow: true,
+                                        text:
+                                            adModel.info!.totalArea.toString() +
+                                                ' ' +
+                                                S.of(context).SquareMeter,
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ), //حي أبو رمانة - شارع الجلاء
+                              ),
+                            ),
+                            Visibility(
+                              visible: ![12, 26, 8, 27, 18, 14]
+                                  .contains(adModel.categoryId),
                               child: Row(
                                 children: [
-                                  Image.asset(
-                                    'assets/icons/bed.png',
-                                    height: 20,
-                                    width: 20,
-                                    color: Colors.black,
-                                  ),
-                                  6.toWidth,
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 6),
-                                    child: TextWidget(
-                                      isHaveOverflow: true,
-                                      text: '${adModel.info!.roomCount}'
-                                          ' ${S.of(context).Room}',
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  12.toWidth,
-                                  Image.asset(
-                                    'assets/icons/bath.png',
-                                    height: 20,
-                                    width: 20,
-                                    color: Colors.black,
-                                  ),
-                                  6.toWidth,
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 6),
-                                    child: TextWidget(
-                                      isHaveOverflow: true,
-                                      text: '${adModel.info!.bathroomCount}'
-                                          ' ${S.of(context).Bathroom}',
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  12.toWidth,
                                   Image.asset(
                                     'assets/icons/ruler.png',
                                     height: 20,
@@ -298,15 +335,16 @@ class PropertyDetailsPage extends StatelessWidget {
                                     padding: EdgeInsets.only(top: 6),
                                     child: TextWidget(
                                       isHaveOverflow: true,
-                                      text: '${adModel.info!.totalArea}'
-                                          ' ${S.of(context).SquareMeter}',
+                                      text: adModel.info!.totalArea.toString() +
+                                          ' ' +
+                                          S.of(context).SquareMeter,
                                       fontSize: 14,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
-                              ), //حي أبو رمانة - شارع الجلاء
+                              ),
                             ),
                             8.toHeight,
                             Row(
@@ -501,106 +539,132 @@ class PropertyDetailsPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                TableRow(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: Container(
-                                        alignment: context
-                                            .textAlignment, // محاذاة النص إلى اليسار
-                                        child: TextWidget(
-                                          text: 'رقم الطابق:', // totalPrice!,
-                                          fontSize: 16,
-                                          //  fontWeight: FontWeight.bold,
-                                          color: Colors.black87,
-                                        ),
+                                ![12, 26, 8, 27, 18, 14]
+                                        .contains(adModel.categoryId)
+                                    ? TableRow(
+                                        children: [SizedBox(), SizedBox()])
+                                    : TableRow(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8),
+                                            child: Container(
+                                              alignment: context
+                                                  .textAlignment, // محاذاة النص إلى اليسار
+                                              child: TextWidget(
+                                                text:
+                                                    'رقم الطابق:', // totalPrice!,
+                                                fontSize: 16,
+                                                //  fontWeight: FontWeight.bold,
+                                                color: Colors.black87,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8),
+                                            child: Container(
+                                              alignment: context
+                                                  .textAlignment, // محاذاة النص إلى اليسار
+                                              child: TextWidget(
+                                                text: adModel.info!
+                                                            .floorNumber ==
+                                                        null
+                                                    ? S.of(context).undefined
+                                                    : adModel.info!.floorNumber
+                                                        .toString(),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: Container(
-                                        alignment: context
-                                            .textAlignment, // محاذاة النص إلى اليسار
-                                        child: TextWidget(
-                                          text:
-                                              adModel.info!.floorNumber == null
-                                                  ? S.of(context).undefined
-                                                  : adModel.info!.floorNumber
-                                                      .toString(),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
+                                ![12, 26, 8, 27, 18, 14]
+                                        .contains(adModel.categoryId)
+                                    ? TableRow(
+                                        children: [SizedBox(), SizedBox()])
+                                    : TableRow(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8),
+                                            child: Container(
+                                              alignment: context
+                                                  .textAlignment, // محاذاة النص إلى اليسار
+                                              child: const TextWidget(
+                                                text:
+                                                    'عدد الشرف:', // totalPrice!,
+                                                fontSize: 16,
+                                                //  fontWeight: FontWeight.bold,
+                                                color: Colors.black87,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8),
+                                            child: Container(
+                                              alignment: context
+                                                  .textAlignment, // محاذاة النص إلى اليسار
+                                              child: TextWidget(
+                                                text: adModel.info!
+                                                            .balconyCount ==
+                                                        null
+                                                    ? S.of(context).undefined
+                                                    : adModel.info!.balconyCount
+                                                        .toString(),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                TableRow(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: Container(
-                                        alignment: context
-                                            .textAlignment, // محاذاة النص إلى اليسار
-                                        child: const TextWidget(
-                                          text: 'عدد الشرف:', // totalPrice!,
-                                          fontSize: 16,
-                                          //  fontWeight: FontWeight.bold,
-                                          color: Colors.black87,
-                                        ),
+                                ![12, 26, 8, 27, 18, 14]
+                                        .contains(adModel.categoryId)
+                                    ? TableRow(
+                                        children: [SizedBox(), SizedBox()])
+                                    : TableRow(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8),
+                                            child: Container(
+                                              alignment: context
+                                                  .textAlignment, // محاذاة النص إلى اليسار
+                                              child: const TextWidget(
+                                                text:
+                                                    'اسم البناء:', // totalPrice!,
+                                                fontSize: 16,
+                                                //  fontWeight: FontWeight.bold,
+                                                color: Colors.black87,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8),
+                                            child: Container(
+                                              alignment: context
+                                                  .textAlignment, // محاذاة النص إلى اليسار
+                                              child: TextWidget(
+                                                text:
+                                                    adModel.info!.complexName ==
+                                                            ''
+                                                        ? S.current.undefined
+                                                        : adModel
+                                                            .info!.complexName!,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: Container(
-                                        alignment: context
-                                            .textAlignment, // محاذاة النص إلى اليسار
-                                        child: TextWidget(
-                                          text:
-                                              adModel.info!.balconyCount == null
-                                                  ? S.of(context).undefined
-                                                  : adModel.info!.balconyCount
-                                                      .toString(),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                TableRow(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: Container(
-                                        alignment: context
-                                            .textAlignment, // محاذاة النص إلى اليسار
-                                        child: const TextWidget(
-                                          text: 'اسم البناء:', // totalPrice!,
-                                          fontSize: 16,
-                                          //  fontWeight: FontWeight.bold,
-                                          color: Colors.black87,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: Container(
-                                        alignment: context
-                                            .textAlignment, // محاذاة النص إلى اليسار
-                                        child: TextWidget(
-                                          text: adModel.info!.complexName == ''
-                                              ? S.current.undefined
-                                              : adModel.info!.complexName!,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
                                 TableRow(
                                   children: [
                                     Padding(
@@ -946,7 +1010,7 @@ class PropertyDetailsPage extends StatelessWidget {
                 boxShadowOpacity: 0.7,
                 borderRadius: 0,
                 color: Colors.white,
-                height: 0.07,
+                height: 0.1,
                 width: 1,
                 showElevation: true,
                 onTap: () {},
@@ -954,6 +1018,7 @@ class PropertyDetailsPage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ButtonWidget(
@@ -1115,16 +1180,26 @@ class PropertyDetailsPage extends StatelessWidget {
                                         ],
                                       ),
                                       2.toHeight,
-                                      TextWidget(
-                                        isHaveOverflow: true,
-                                        text:
-                                            '${adModel.info!.roomCount} ${S.of(context).Room}  '
-                                            '${adModel.info!.bathroomCount} ${S.of(context).Bathroom}  '
-                                            '${adModel.info!.totalArea} ${S.of(context).SquareMeter}',
-                                        fontSize: 12,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      ![12, 26, 8, 27, 18, 14]
+                                              .contains(adModel.categoryId)
+                                          ? TextWidget(
+                                              isHaveOverflow: true,
+                                              text:
+                                                  '${S.current.Area} ${adModel.info!.totalArea} ${S.of(context).SquareMeter}',
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            )
+                                          : TextWidget(
+                                              isHaveOverflow: true,
+                                              text:
+                                                  '${adModel.info!.roomCount} ${S.of(context).Room}  '
+                                                  '${adModel.info!.bathroomCount} ${S.of(context).Bathroom}  '
+                                                  '${adModel.info!.totalArea} ${S.of(context).SquareMeter}',
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                     ],
                                   ),
                                 ],

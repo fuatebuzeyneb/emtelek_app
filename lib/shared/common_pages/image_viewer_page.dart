@@ -1,4 +1,6 @@
+import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
+import 'package:emtelek/features/profile/data/models/ads_model.dart';
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
@@ -6,35 +8,13 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class ImageGalleryPage extends StatelessWidget {
-  const ImageGalleryPage({super.key});
+  final AdModel adModel;
+  const ImageGalleryPage({super.key, required this.adModel});
 
   @override
   Widget build(BuildContext context) {
-    final List<String> imageUrls = [
-      'assets/images/example.png',
-      'assets/images/example1.webp',
-      'assets/images/example2.webp',
-      'assets/images/example3.webp',
-      'assets/images/example1.webp',
-      'assets/images/example2.webp',
-      'assets/images/example3.webp',
-      'assets/images/example.png',
-    ];
-
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        shadowColor: Colors.white,
-        elevation: 2,
-        surfaceTintColor: Colors.white,
-        automaticallyImplyLeading: false,
-        title: AppBarWidget(
-            title: 'Image Gallery',
-            onTap: () {
-              Navigator.pop(context);
-            }),
-        backgroundColor: AppColors.appBarBackground,
-      ),
+      appBar: AppBarWidget(title: 'صور الاعلان', isHaveBackButton: true),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: GridView.builder(
@@ -44,7 +24,7 @@ class ImageGalleryPage extends StatelessWidget {
             mainAxisSpacing: 4.0,
             crossAxisSpacing: 4.0,
           ),
-          itemCount: imageUrls.length,
+          itemCount: adModel.images!.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
@@ -52,8 +32,12 @@ class ImageGalleryPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => ImageViewerPage(
-                      imageUrls: imageUrls,
+                      imageUrls: adModel.images!
+                          .map((e) =>
+                              "${EndPoints.adImageUrl}${e.attachmentName}")
+                          .toList(),
                       initialIndex: index,
+                      adModel: adModel,
                     ),
                   ),
                 );
@@ -62,7 +46,8 @@ class ImageGalleryPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
-                    image: AssetImage(imageUrls[index]),
+                    image: NetworkImage(
+                        '${EndPoints.adImageUrl}${adModel.images![index].attachmentName}'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -78,22 +63,27 @@ class ImageGalleryPage extends StatelessWidget {
 class ImageViewerPage extends StatelessWidget {
   final List<String> imageUrls;
   final int initialIndex;
+  final AdModel adModel;
 
   const ImageViewerPage({
     super.key,
     required this.imageUrls,
     required this.initialIndex,
+    required this.adModel,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Image Viewer')),
+      appBar: AppBar(
+        title: const Text('صور الاعلان'),
+      ),
       body: PhotoViewGallery.builder(
         itemCount: imageUrls.length,
         builder: (context, index) {
           return PhotoViewGalleryPageOptions(
-            imageProvider: AssetImage(imageUrls[index]),
+            imageProvider: NetworkImage(
+                '${EndPoints.adImageUrl}${adModel.images![index].attachmentName}'),
             minScale: PhotoViewComputedScale.contained,
             maxScale: PhotoViewComputedScale.covered,
           );

@@ -51,9 +51,12 @@ class PropertyRepositoryImpl implements PropertyRepository {
     // 1. نضيف الحقول النصية يدويًا من toJson()
     final dataMap = propertyAdModel.toJson();
     dataMap.forEach((key, value) {
-      if (value != null && value.toString().isNotEmpty) {
-        formData.fields.add(MapEntry(key, value.toString()));
-      }
+      formData.fields.add(
+        MapEntry(
+          key,
+          value?.toString() ?? '', // لو القيمة null نحولها إلى سلسلة فارغة
+        ),
+      );
     });
 
     // 2. نضيف الصور المتعددة

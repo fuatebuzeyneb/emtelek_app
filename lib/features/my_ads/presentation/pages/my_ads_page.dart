@@ -22,19 +22,8 @@ class MyAdsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          shadowColor: Colors.white,
-          elevation: 2,
-          surfaceTintColor: Colors.white,
-          automaticallyImplyLeading: false,
-          title: AppBarWidget(
-            title: S.of(context).MyAds,
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: AppColors.appBarBackground,
-        ),
+        appBar:
+            AppBarWidget(title: S.of(context).MyAds, isHaveBackButton: true),
         body: BlocConsumer<MyAdsCubit, MyAdsState>(
           listener: (context, state) {
             if (state is PropertyDeleteAdSuccess) {
