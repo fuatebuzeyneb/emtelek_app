@@ -26,7 +26,7 @@ class LitsTitleWidget extends StatelessWidget {
     return Row(children: [
       Expanded(
         child: ButtonWidget(
-          height: 0.055,
+          height: 0.05,
           onTap: onTap ?? () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

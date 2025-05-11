@@ -6,6 +6,7 @@ import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
 import 'package:emtelek/features/my_searchs/presentation/pages/my_searches_page.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/my_ads/presentation/pages/my_ads_page.dart';
+import 'package:emtelek/features/profile/presentation/pages/change_pass_page.dart';
 import 'package:emtelek/features/profile/presentation/pages/profile_settings_page.dart';
 import 'package:emtelek/features/profile/presentation/widgets/circle_profile_image_widget.dart';
 import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
@@ -255,6 +256,13 @@ class ProfilePage extends StatelessWidget {
                           return const CurrencyConversionBottomSheet();
                         },
                       );
+                    },
+                  ),
+                  LitsTitleWidget(
+                    image: 'assets/icons/blog.png',
+                    title: 'تغير كلمة المرور',
+                    onTap: () {
+                      pageTransition(context, page: const ChangePassPage());
                     },
                   ),
                   LitsTitleWidget(

@@ -700,8 +700,7 @@ class PropertyDetailsPage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Container(
-                                alignment: context
-                                    .textAlignment, // محاذاة النص إلى اليسار
+                                alignment: context.textAlignment,
                                 child: const TextWidget(
                                   text: 'وصف الاعلان:', // totalPrice!,
                                   fontSize: 16,
@@ -715,11 +714,10 @@ class PropertyDetailsPage extends StatelessWidget {
                                 return TextWidget(
                                   maxLines: adDetailsCubit.descriptionIsExpanded
                                       ? null
-                                      : 3, // عرض النص كاملاً إذا كان موسعاً
+                                      : 3,
                                   textAlign: TextAlign.justify,
                                   text: adModel.description ??
                                       S.of(context).undefined,
-
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -769,12 +767,11 @@ class PropertyDetailsPage extends StatelessWidget {
                                 return GridView.builder(
                                   padding: EdgeInsets.zero,
                                   shrinkWrap: true,
-                                  physics:
-                                      const NeverScrollableScrollPhysics(), // إيقاف التمرير
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: adDetailsCubit.showAllFeatures ||
                                           totalFeatures <= 8
-                                      ? totalFeatures // عرض جميع الميزات إذا كانت أقل من 8 أو تم الضغط على زر "عرض المزيد"
-                                      : 9, // عرض 8 ميزات مع زر "عرض المزيد" في النهاية
+                                      ? totalFeatures
+                                      : 9,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
@@ -784,7 +781,6 @@ class PropertyDetailsPage extends StatelessWidget {
                                   ),
                                   itemBuilder: (context, index) {
                                     if (index < 8 && index < totalFeatures) {
-                                      // عرض الميزات فقط إذا كانت موجودة
                                       return ButtonWidget(
                                         color: Colors.grey[200]!,
                                         height: 0,
@@ -834,7 +830,6 @@ class PropertyDetailsPage extends StatelessWidget {
                                       );
                                     } else if (index >= 8 &&
                                         adDetailsCubit.showAllFeatures) {
-                                      // عرض الميزات المتبقية مع زر "عرض أقل"
                                       return ButtonWidget(
                                         color: Colors.grey[200]!,
                                         height: 0,

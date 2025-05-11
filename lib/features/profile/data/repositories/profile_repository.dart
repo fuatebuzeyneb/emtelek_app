@@ -2,6 +2,7 @@ import 'package:emtelek/core/api/api_consumer.dart';
 import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/features/profile/data/models/account_response_model.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
+import 'package:emtelek/shared/models/all_response.dart';
 import 'package:emtelek/shared/models/auth-and-profile-models/clients_response_model.dart';
 import 'package:emtelek/features/add_listing/data/models/property_add_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
@@ -17,6 +18,10 @@ abstract class ProfileRepository {
   Future<AccountResponseModel> getAccountSettings();
   Future<AccountResponseModel> editAccountSettings(
       {required Map<String, dynamic> accountResponseModel});
+
+  Future<AllResponseModel> checkPass({required String password});
+  Future<void> changePass(
+      {required String password, required String oldPassword});
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -53,6 +58,43 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return AccountResponseModel.fromJson(response);
     } catch (e) {
       throw Exception("Failed to edit account settings: ${e.toString()}");
+    }
+  }
+
+  @override
+  Future<AllResponseModel> checkPass({required String password}) async {
+    try {
+      final response = await api.post(
+        '${EndPoints.baseUrl}${EndPoints.clientsCheckPass}',
+        isFormData: true,
+        data: {
+          "Token": getIt<CacheHelper>().getDataString(key: 'token'),
+          "ClientId": getIt<CacheHelper>().getData(key: 'clientId'),
+          "Password": password
+        },
+      );
+      return AllResponseModel.fromJson(response);
+    } catch (e) {
+      throw Exception("Failed to load account settings: ${e.toString()}");
+    }
+  }
+
+  @override
+  Future<void> changePass(
+      {required String password, required String oldPassword}) async {
+    try {
+      await api.post(
+        '${EndPoints.baseUrl}${EndPoints.clientsChangePass}',
+        isFormData: true,
+        data: {
+          "Token": getIt<CacheHelper>().getDataString(key: 'token'),
+          "ClientId": getIt<CacheHelper>().getData(key: 'clientId'),
+          "Password": password,
+          "OldPassword": oldPassword
+        },
+      );
+    } catch (e) {
+      throw Exception("Failed to load account settings: ${e.toString()}");
     }
   }
 }

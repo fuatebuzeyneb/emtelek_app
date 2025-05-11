@@ -14,6 +14,7 @@ import 'package:emtelek/features/add_listing/presentation/widgets/alert_dialog/f
 
 import 'package:emtelek/features/add_listing/presentation/widgets/alert_dialog/number_selection_alert_dialog.dart';
 import 'package:emtelek/features/add_listing/presentation/widgets/alert_dialog/seller_type_alert_dialog.dart';
+import 'package:emtelek/features/profile/data/models/ads_model.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
@@ -21,8 +22,12 @@ import 'package:emtelek/shared/common_pages/image_picker.dart';
 import 'package:emtelek/shared/common_pages/select_location.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/shared/helper/founctions/formatter.dart';
-import 'package:emtelek/shared/models/district-model/district_model.dart';
+import 'package:emtelek/shared/services/cache_hekper.dart';
+import 'package:emtelek/shared/services/service_locator.dart';
+
+import 'package:emtelek/shared/widgets/alert_dialog_widget.dart';
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
+import 'package:emtelek/shared/widgets/bottom_nav_bar.dart';
 
 import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/text_field_widget.dart';
@@ -78,7 +83,72 @@ class AddAdDetailsPage extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBarWidget(
-              title: S.of(context).AddYourAd, isHaveBackButton: true),
+            title: S.of(context).AddYourAd,
+            isHaveBackButton: true,
+            onTap: () {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false, // user must tap button!
+                builder: (BuildContext context) {
+                  return AlertDialogWidget(
+                    title: 'تنبيه!!',
+                    subtitle: 'سوف يتم حذف كل البيانات المدخلة',
+                    widget: Icon(
+                      Icons.info,
+                      color: Colors.red,
+                    ),
+                    onYes: () {
+                      Navigator.pop(context);
+                      propertyAddAdCubit.adModel = AdModel(
+                        price: null,
+                        location: null,
+                        description: '',
+                        currency: 'USD',
+                        clientId:
+                            getIt<CacheHelper>().getData(key: 'clientId')!,
+                        sellerType: null,
+                        categoryId: null,
+                        token:
+                            getIt<CacheHelper>().getDataString(key: 'token')!,
+                        adId: null,
+                        adTitle: null,
+                        // publishDate: null,
+                        featureIds: [],
+                        client: ClientModel(
+                          clientId: null,
+                          phoneNumber: null,
+                          email: null,
+                          firstName: null,
+                          lastName: null,
+                          subscriptionDate: null,
+                          image: null,
+                          verified: null,
+                        ),
+                        district: DistrictModel(districtId: null),
+                        info: AdInfoModel(
+                            totalArea: null,
+                            netArea: '',
+                            roomCount: null,
+                            floorNumber: null,
+                            floorCount: null,
+                            bathroomCount: null,
+                            furnish: null,
+                            constructionDate: null,
+                            address: null,
+                            balconyCount: null,
+                            complexName: null),
+                      );
+
+                      pageTransition(context, page: BottomNavBar());
+                    },
+                    onNo: () {
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              );
+            },
+          ),
           body: Column(
             children: [
               Expanded(
@@ -298,6 +368,14 @@ class AddAdDetailsPage extends StatelessWidget {
                                   onChanged: (value) {
                                     propertyAddAdCubit.setPropertyField(
                                         'adModelPrice', value);
+                                    print(
+                                        'price: ${propertyAddAdCubit.adModel.price}');
+                                    print('sypRate: ${settingsCubit.sypRate}');
+                                    print('tryRate: ${settingsCubit.tryRate}');
+                                    print(
+                                        'parsed price: ${double.tryParse(propertyAddAdCubit.adModel.price ?? '0')}');
+                                    print(
+                                        'parsed sypRate: ${double.tryParse(settingsCubit.sypRate ?? '0')}');
                                   },
                                   suffixWidget: Padding(
                                     padding: EdgeInsets.only(
@@ -318,8 +396,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                   onTap: () {
                                     showDialog<void>(
                                       context: context,
-                                      barrierDismissible:
-                                          false, // user must tap button!
+                                      barrierDismissible: true,
                                       builder: (BuildContext context) {
                                         return CurrencySelectionAlertDialog();
                                       },
@@ -333,6 +410,34 @@ class AddAdDetailsPage extends StatelessWidget {
                                 ),
                               ),
                             ],
+                          ),
+                          Visibility(
+                            visible: settingsCubit.sypRate != null &&
+                                settingsCubit.tryRate != null &&
+                                propertyAddAdCubit.adModel.price != null,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      TextWidget(
+                                        text:
+                                            'السعر بالليره السوري:${(double.tryParse(propertyAddAdCubit.adModel.price ?? '0') ?? 0) * (double.tryParse(settingsCubit.sypRate ?? '0') ?? 0)} ل.س',
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      TextWidget(
+                                        text:
+                                            'السعر بالليره التركية: ${(double.tryParse(propertyAddAdCubit.adModel.price ?? '0') ?? 0) * (double.tryParse(settingsCubit.tryRate ?? '0') ?? 0)} ل.ت',
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           12.toHeight,
                           TextFieldWidget(
@@ -395,7 +500,7 @@ class AddAdDetailsPage extends StatelessWidget {
                               child: ButtonWidget(
                                 onTap: () {
                                   showDialog(
-                                      barrierDismissible: false,
+                                      barrierDismissible: true,
                                       context: context,
                                       builder: (context) {
                                         return NumberSelectionAlertDialog(
@@ -451,7 +556,7 @@ class AddAdDetailsPage extends StatelessWidget {
                               child: ButtonWidget(
                                 onTap: () {
                                   showDialog(
-                                      barrierDismissible: false,
+                                      barrierDismissible: true,
                                       context: context,
                                       builder: (context) {
                                         return NumberSelectionAlertDialog(
@@ -509,7 +614,7 @@ class AddAdDetailsPage extends StatelessWidget {
                               child: ButtonWidget(
                                 onTap: () {
                                   showDialog(
-                                      barrierDismissible: false,
+                                      barrierDismissible: true,
                                       context: context,
                                       builder: (context) {
                                         return NumberSelectionAlertDialog(
@@ -567,7 +672,7 @@ class AddAdDetailsPage extends StatelessWidget {
                               child: ButtonWidget(
                                 onTap: () {
                                   showDialog(
-                                      barrierDismissible: false,
+                                      barrierDismissible: true,
                                       context: context,
                                       builder: (context) {
                                         return NumberSelectionAlertDialog(
@@ -623,7 +728,7 @@ class AddAdDetailsPage extends StatelessWidget {
                               child: ButtonWidget(
                                 onTap: () {
                                   showDialog(
-                                      barrierDismissible: false,
+                                      barrierDismissible: true,
                                       context: context,
                                       builder: (context) {
                                         return NumberSelectionAlertDialog(
@@ -655,7 +760,9 @@ class AddAdDetailsPage extends StatelessWidget {
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      propertyAddAdCubit.adModel.info == null
+                                      propertyAddAdCubit
+                                                  .adModel.info!.balconyCount ==
+                                              null
                                           ? SizedBox()
                                           : Spacer(),
                                       TextWidget(
@@ -725,7 +832,9 @@ class AddAdDetailsPage extends StatelessWidget {
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      propertyAddAdCubit.adModel.info == null
+                                      propertyAddAdCubit.adModel.info
+                                                  .constructionDate ==
+                                              null
                                           ? SizedBox()
                                           : Spacer(),
                                       TextWidget(
@@ -749,7 +858,7 @@ class AddAdDetailsPage extends StatelessWidget {
                               child: ButtonWidget(
                                 onTap: () {
                                   showDialog(
-                                      barrierDismissible: false,
+                                      barrierDismissible: true,
                                       context: context,
                                       builder: (context) {
                                         return FurnishedOrUnfurnishedAlertDialog(
@@ -799,7 +908,9 @@ class AddAdDetailsPage extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 12),
                               child: ButtonWidget(
                                 onTap: () {
-                                  propertyAddAdCubit.getFeatures();
+                                  propertyAddAdCubit.features == []
+                                      ? propertyAddAdCubit.getFeatures()
+                                      : null;
                                   showDialog(
                                       barrierDismissible: false,
                                       context: context,
@@ -827,11 +938,48 @@ class AddAdDetailsPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                          propertyAddAdCubit.selectedFeatures.isNotEmpty
+                              ? 12.toHeight
+                              : 0.toHeight,
+                          Row(
+                            children: [
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children:
+                                    propertyAddAdCubit.selectedFeatures.map(
+                                  (id) {
+                                    final featureName = propertyAddAdCubit
+                                        .features
+                                        .firstWhere(
+                                            (feature) =>
+                                                feature.featureId == id,
+                                            orElse: () => FeatureModel(
+                                                featureId: id,
+                                                featureName: 'غير معروف',
+                                                featureIcon: ''))
+                                        .featureName;
+
+                                    return ButtonWidget(
+                                      paddingHorizontal: 12,
+                                      paddingVertical: 6,
+                                      borderRadius: 4,
+                                      height: 0,
+                                      width: 0.2,
+                                      onTap: () {},
+                                      text: featureName,
+                                      color: Colors.grey,
+                                    );
+                                  },
+                                ).toList(),
+                              ),
+                            ],
+                          ),
                           12.toHeight,
                           ButtonWidget(
                             onTap: () {
                               showDialog(
-                                  barrierDismissible: false,
+                                  barrierDismissible: true,
                                   context: context,
                                   builder: (context) {
                                     return SellerTypeAlertDialog(
@@ -881,7 +1029,7 @@ class AddAdDetailsPage extends StatelessWidget {
                               return ButtonWidget(
                                 onTap: () {
                                   showDialog(
-                                      barrierDismissible: false,
+                                      barrierDismissible: true,
                                       context: context,
                                       builder: (context) {
                                         return CitySelectionAlertDialog();
@@ -922,14 +1070,19 @@ class AddAdDetailsPage extends StatelessWidget {
                           12.toHeight,
                           ButtonWidget(
                             onTap: () {
-                              showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context) {
-                                    return DistrictSelectionAlertDialog(
-                                      forWitchType: 1,
-                                    );
-                                  });
+                              if (settingsCubit.cityId == null) {
+                                SnackbarUtils.showSnackbar(
+                                    context, 'برجاء اختيار المدينة اولا');
+                              } else {
+                                showDialog(
+                                    barrierDismissible: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return DistrictSelectionAlertDialog(
+                                        forWitchType: 1,
+                                      );
+                                    });
+                              }
                             },
                             height: 0.06,
                             width: 1,
@@ -1092,25 +1245,28 @@ class AddAdDetailsPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ButtonWidget(
                   onTap: () {
-                    // if (propertyAddAdCubit.adModel.adTitle == null ||
-                    //     propertyAddAdCubit.adModel.client!.phoneNumber ==
-                    //         null ||
-                    //     propertyAddAdCubit.adModel.price == null ||
-                    //     propertyAddAdCubit.adModel.currency == null ||
-                    //     propertyAddAdCubit.adModel.info!.totalArea == null ||
-                    //     propertyAddAdCubit.adModel.info!.roomCount == null ||
-                    //     propertyAddAdCubit.adModel.info!.bathroomCount ==
-                    //         null ||
-                    //     propertyAddAdCubit.adModel.sellerType == null ||
-                    //     propertyAddAdCubit.adModel.district!.districtId ==
-                    //         null ||
-                    //     propertyAddAdCubit.adModel.location == null) {
-                    //   SnackbarUtils.showSnackbar(
-                    //       context, S.of(context).AddAdWarning, 2);
-                    // } else {
-                    //   Navigator.pushNamed(context, FinishPage.id);
-                    // }
-                    Navigator.pushNamed(context, FinishPage.id);
+                    if (propertyAddAdCubit.adModel.adTitle == null ||
+                        propertyAddAdCubit.adModel.client.phoneNumber == null ||
+                        propertyAddAdCubit.adModel.price == null ||
+                        propertyAddAdCubit.adModel.info.totalArea == null ||
+                        propertyAddAdCubit.adModel.sellerType == null ||
+                        propertyAddAdCubit.adModel.district.districtId ==
+                            null ||
+                        propertyAddAdCubit.adModel.location == null) {
+                      if ([8, 14, 26, 27, 12, 18]
+                              .contains(propertyAddAdCubit.categoryForAdType) &&
+                          (propertyAddAdCubit.adModel.info.roomCount == null ||
+                              propertyAddAdCubit.adModel.info.bathroomCount ==
+                                  null)) {
+                        SnackbarUtils.showSnackbar(
+                            context, S.of(context).AddAdWarning, 2);
+                      } else {
+                        Navigator.pushNamed(context, FinishPage.id);
+                      }
+                    } else {
+                      Navigator.pushNamed(context, FinishPage.id);
+                    }
+                    // Navigator.pushNamed(context, FinishPage.id);
                   },
                   text: S.of(context).Apply,
                   height: 0.06,

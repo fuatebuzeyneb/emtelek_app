@@ -115,40 +115,6 @@ class ProfileSettingsPage extends StatelessWidget {
                               child: Row(
                                 children: [
                                   TextWidget(
-                                    text: '${S.of(context).Password}: ',
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                  ),
-                                  TextWidget(
-                                    text: '***************',
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  Spacer(),
-                                  Icon(
-                                    Icons.edit,
-                                    color: Colors.grey,
-                                    size: 22,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          12.toHeight,
-                          ButtonWidget(
-                            onTap: () {},
-                            color: Colors.white,
-                            borderColor: Colors.black54,
-                            width: 1,
-                            borderRadius: 6,
-                            height: 0.06,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Row(
-                                children: [
-                                  TextWidget(
                                     text: '${S.of(context).City}: ',
                                     fontSize: 16,
                                     color: Colors.black,

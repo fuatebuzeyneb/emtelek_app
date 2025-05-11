@@ -44,7 +44,20 @@ class FinishPage extends StatelessWidget {
           progressIndicator: const LoadingWidget(),
           child: Scaffold(
             appBar: AppBarWidget(
-                title: S.of(context).ViewAll, isHaveBackButton: true),
+              title: 'مراجعة الاعلان',
+              isHaveBackButton: false,
+              widget: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: TextWidget(
+                  text: 'تعديل',
+                  fontSize: 16,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             backgroundColor: Colors.grey.shade200,
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),

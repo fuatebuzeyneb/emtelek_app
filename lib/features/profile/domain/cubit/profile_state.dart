@@ -24,3 +24,21 @@ final class EditAccountSettingsFailure extends ProfileState {
 
   EditAccountSettingsFailure({required this.errorMassage});
 }
+
+class CheckPassLoading extends ProfileState {}
+
+class CheckPassSuccess extends ProfileState {}
+
+class CheckPassFailure extends ProfileState {
+  final String errorMassage;
+  CheckPassFailure({required this.errorMassage});
+}
+
+class ChangePassLoading extends ProfileState {}
+
+class ChangePassSuccess extends ProfileState {}
+
+class ChangePassFailure extends ProfileState {
+  final String errorMassage;
+  ChangePassFailure({required this.errorMassage});
+}

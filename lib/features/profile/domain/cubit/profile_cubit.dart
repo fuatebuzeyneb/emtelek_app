@@ -190,4 +190,26 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(EditAccountSettingsFailure(errorMassage: e.toString()));
     }
   }
+
+  Future<void> checkPass({required String password}) async {
+    emit(CheckPassLoading());
+    try {
+      await profileRepository.checkPass(password: password);
+      emit(CheckPassSuccess());
+    } catch (e) {
+      emit(CheckPassFailure(errorMassage: e.toString()));
+    }
+  }
+
+  Future<void> changePass(
+      {required String password, required String oldPassword}) async {
+    emit(ChangePassLoading());
+    try {
+      await profileRepository.changePass(
+          password: password, oldPassword: oldPassword);
+      emit(ChangePassSuccess());
+    } catch (e) {
+      emit(ChangePassFailure(errorMassage: e.toString()));
+    }
+  }
 }
