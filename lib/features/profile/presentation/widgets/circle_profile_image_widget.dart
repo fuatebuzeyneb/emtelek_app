@@ -48,7 +48,7 @@ class _CircleProfileImageWidgetState extends State<CircleProfileImageWidget> {
               image: _selectedImage != null
                   ? FileImage(_selectedImage!) as ImageProvider
                   : BlocProvider.of<ProfileCubit>(context)
-                              .accountData
+                              .userData
                               ?.data
                               ?.image ==
                           null
@@ -56,7 +56,7 @@ class _CircleProfileImageWidgetState extends State<CircleProfileImageWidget> {
                           'https://static.vecteezy.com/system/resources/previews/009/292/244/large_2x/default-avatar-icon-of-social-media-user-vector.jpg',
                         )
                       : NetworkImage(
-                          "${EndPoints.userImageUrl}${BlocProvider.of<ProfileCubit>(context).accountData!.data!.image!}",
+                          "${EndPoints.userImageUrl}${BlocProvider.of<ProfileCubit>(context).userData!.data!.image!}",
                         ),
               fit: BoxFit.cover,
             ),

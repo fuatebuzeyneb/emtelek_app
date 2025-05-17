@@ -5,25 +5,19 @@ sealed class ProfileState {}
 
 final class ProfileInitial extends ProfileState {}
 
-final class GetAccountSettingsLoading extends ProfileState {}
+final class UserDataLoading extends ProfileState {}
+
+final class UserDataFailure extends ProfileState {
+  final String errorMassage;
+
+  UserDataFailure({required this.errorMassage});
+}
 
 final class GetAccountSettingsSuccess extends ProfileState {}
 
-final class GetAccountSettingsFailure extends ProfileState {
-  final String errorMassage;
-
-  GetAccountSettingsFailure({required this.errorMassage});
-}
-
-final class EditAccountSettingsLoading extends ProfileState {}
-
 final class EditAccountSettingsSuccess extends ProfileState {}
 
-final class EditAccountSettingsFailure extends ProfileState {
-  final String errorMassage;
-
-  EditAccountSettingsFailure({required this.errorMassage});
-}
+final class DeleteAccountSettingsSuccess extends ProfileState {}
 
 class CheckPassLoading extends ProfileState {}
 

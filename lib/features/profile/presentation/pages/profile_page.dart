@@ -4,6 +4,7 @@ import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
 import 'package:emtelek/features/my_searchs/presentation/pages/my_searches_page.dart';
+import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/my_ads/presentation/pages/my_ads_page.dart';
 import 'package:emtelek/features/profile/presentation/pages/change_pass_page.dart';
@@ -216,8 +217,14 @@ class ProfilePage extends StatelessWidget {
                           image: 'assets/icons/setting.png',
                           title: S.of(context).AccountSettings,
                           onTap: () {
-                            BlocProvider.of<ProfileCubit>(context)
-                                .getAccountSettings();
+                            BlocProvider.of<ProfileCubit>(context).getUserData(
+                              tokenAndClintIdRequestModel:
+                                  TokenAndClintIdRequestModel(
+                                      clientId: getIt<CacheHelper>()
+                                          .getData(key: 'clientId'),
+                                      token: getIt<CacheHelper>()
+                                          .getDataString(key: 'token')!),
+                            );
                             pageTransition(context,
                                 page: const ProfileSettingsPage());
                           },

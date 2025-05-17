@@ -36,6 +36,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signUp({required SignUpRequestModel signUpRequestModel}) async {
     emit(SignUpLoading());
+
     try {
       final response = await authRepository.signUp(
         signUpRequestModel: signUpRequestModel,
@@ -54,7 +55,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signIn({required LoginRequestModel loginRequestModel}) async {
     try {
       emit(SignInLoading());
-
+      print('loginRequestModel: $loginRequestModel');
       final data = await authRepository.signIn(
         loginRequestModel: loginRequestModel,
       );
