@@ -31,12 +31,12 @@ class FinishPage extends StatelessWidget {
 
     return BlocConsumer<PropertyAddAdCubit, PropertyAddAdState>(
       listener: (context, state) {
-        //   if (state is PropertyAddAdSuccess) {
-        SnackbarUtils.showSnackbar(context, 'تم اضافة الاعلان بنجاح');
-        pageTransition(context, page: const BottomNavBar());
-        // } else if (state is PropertyAddAdFailure) {
-        //   SnackbarUtils.showSnackbar(context, state.errorMassage);
-        // }
+        if (state is PropertyAddAdSuccess) {
+          SnackbarUtils.showSnackbar(context, 'تم اضافة الاعلان بنجاح');
+          pageTransition(context, page: const BottomNavBar());
+        } else if (state is PropertyAddAdFailure) {
+          SnackbarUtils.showSnackbar(context, state.errorMassage);
+        }
       },
       builder: (context, state) {
         return ModalProgressHUD(

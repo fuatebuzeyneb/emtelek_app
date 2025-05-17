@@ -286,7 +286,13 @@ class ProfilePage extends StatelessWidget {
                     title: S.of(context).PrivacyPolicy,
                   ),
                   getIt<CacheHelper>().getDataString(key: 'token') == null
-                      ? const SizedBox()
+                      ? LitsTitleWidget(
+                          image: 'assets/icons/exit.png',
+                          title: 'fsffsdfs',
+                          color: Colors.red,
+                          isHaveArrow: false,
+                          onTap: () {},
+                        )
                       : LitsTitleWidget(
                           image: 'assets/icons/exit.png',
                           title: S.of(context).SignOut,

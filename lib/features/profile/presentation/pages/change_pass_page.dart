@@ -100,9 +100,9 @@ class _ChangePassPageState extends State<ChangePassPage> {
                       final confirmPass = confirmNewPassController.text.trim();
 
                       if (newPass != confirmPass) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('كلمتا المرور غير متطابقتين')),
-                        );
+                        SnackbarUtils.showSnackbar(
+                            context, 'كلمتا المرور غير متطابقتين');
+
                         return;
                       }
 

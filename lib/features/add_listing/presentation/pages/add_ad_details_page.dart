@@ -908,9 +908,8 @@ class AddAdDetailsPage extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 12),
                               child: ButtonWidget(
                                 onTap: () {
-                                  propertyAddAdCubit.features == []
-                                      ? propertyAddAdCubit.getFeatures()
-                                      : null;
+                                  propertyAddAdCubit.getFeatures();
+
                                   showDialog(
                                       barrierDismissible: false,
                                       context: context,
