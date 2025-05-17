@@ -1,3 +1,4 @@
+import 'package:emtelek/features/auth/data/models/sign_up_request_model.dart';
 import 'package:emtelek/shared/widgets/bottom_nav_bar.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
@@ -14,10 +15,32 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
   static const String id = 'SignupView';
+
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
@@ -56,41 +79,31 @@ class SignupPage extends StatelessWidget {
                     TextFieldWidget(
                       hint: S.of(context).FirstName,
                       keyboardType: TextInputType.name,
-                      onChanged: (value) {
-                        context.read<AuthCubit>().firstName = value;
-                      },
+                      controller: firstNameController,
                     ),
                     16.toHeight,
                     TextFieldWidget(
                       hint: S.of(context).LastName,
                       keyboardType: TextInputType.name,
-                      onChanged: (value) {
-                        context.read<AuthCubit>().lastName = value;
-                      },
+                      controller: lastNameController,
                     ),
                     16.toHeight,
                     TextFieldWidget(
                       hint: S.of(context).PhoneNumber,
                       keyboardType: TextInputType.phone,
-                      onChanged: (value) {
-                        context.read<AuthCubit>().phoneNumber = value;
-                      },
+                      controller: phoneController,
                     ),
                     16.toHeight,
                     TextFieldWidget(
                       hint: S.of(context).Email,
                       keyboardType: TextInputType.emailAddress,
-                      onChanged: (value) {
-                        context.read<AuthCubit>().email = value;
-                      },
+                      controller: emailController,
                     ),
                     16.toHeight,
                     TextFieldWidget(
                       hint: S.of(context).Password,
                       keyboardType: TextInputType.text,
-                      onChanged: (value) {
-                        context.read<AuthCubit>().password = value;
-                      },
+                      controller: passwordController,
                     ),
                     16.toHeight,
                     ButtonWidget(
@@ -101,7 +114,14 @@ class SignupPage extends StatelessWidget {
                       colorText: Colors.white,
                       fontSize: 18,
                       onTap: () {
-                        context.read<AuthCubit>().signUp(accountType: 1);
+                        context.read<AuthCubit>().signUp(
+                            signUpRequestModel: SignUpRequestModel(
+                                firstName: firstNameController.text,
+                                lastName: lastNameController.text,
+                                phoneNumber: phoneController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                accountType: '1'));
                       },
                     ),
                     16.toHeight,

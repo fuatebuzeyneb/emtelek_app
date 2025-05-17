@@ -6,8 +6,11 @@ import 'package:dio/dio.dart';
 import 'package:emtelek/core/api/api_consumer.dart';
 import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/core/errors/exceptions.dart';
+import 'package:emtelek/features/auth/data/models/login_request_model.dart';
+import 'package:emtelek/features/auth/data/models/sign_up_request_model.dart';
 import 'package:emtelek/features/auth/data/repositories/auth_repository.dart';
 import 'package:emtelek/generated/l10n.dart';
+import 'package:emtelek/shared/models/base_response_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:emtelek/shared/services/shared_preferences_funs.dart';
@@ -31,46 +34,42 @@ class AuthCubit extends Cubit<AuthState> {
   String password = '';
   String phoneNumber = '';
 
-  Future<void> signUp({required int accountType}) async {
+  Future<void> signUp({required SignUpRequestModel signUpRequestModel}) async {
     emit(SignUpLoading());
     try {
-      await authRepository.signUp(
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phoneNumber,
-        email: email,
-        password: password,
-        accountType: accountType,
+      final response = await authRepository.signUp(
+        signUpRequestModel: signUpRequestModel,
       );
-      emit(SignUpSuccuss());
+
+      if (response.isSuccess) {
+        emit(SignUpSuccuss());
+      } else {
+        emit(SignUpFailure(errorMassage: response.msg ?? "Unknown Error"));
+      }
     } on ServerException catch (e) {
       emit(SignUpFailure(errorMassage: e.errorModel.errorMessage));
     }
   }
 
-  Future<void> signIn() async {
+  Future<void> signIn({required LoginRequestModel loginRequestModel}) async {
     try {
       emit(SignInLoading());
+
       final data = await authRepository.signIn(
-        email: email,
-        password: password,
+        loginRequestModel: loginRequestModel,
       );
 
-      saveToken(data.token!);
-      saveEmail(data.data!.email!);
-      savePassword(password);
-      saveFirstName(data.data!.firstName!);
-      saveLastName(data.data!.lastName!);
-      saveClientId(data.data!.clientId!);
-      saveJoinDate(data.data!.subscriptionDate!);
-      // savePhoneNumber(data.data!.phoneNumber!);
-
-      // if (data.addressData != null) {
-      //   saveAddress(data.addressData!.address!);
-      //   saveDistrictId(data.addressData!.districtId!);
-      // }
-
-      emit(SignInSuccuss());
+      if (data.token != null && data.data != null) {
+        saveToken(data.token!);
+        saveEmail(data.data!.email!);
+        saveFirstName(data.data!.firstName!);
+        saveLastName(data.data!.lastName!);
+        saveClientId(data.data!.clientId!);
+        saveJoinDate(data.data!.subscriptionDate!);
+        emit(SignInSuccuss());
+      } else {
+        emit(SignInFailure(errorMassage: "Invalid login response"));
+      }
     } on ServerException catch (e) {
       emit(SignInFailure(errorMassage: e.errorModel.errorMessage));
     }
@@ -104,14 +103,14 @@ class AuthCubit extends Cubit<AuthState> {
         print('---------------------------------');
         print('User Data: ${user.uid}');
         print('---------------------------------');
-        await authRepository.signUp(
-          firstName: user.displayName?.split(' ').first ?? '',
-          lastName: user.displayName?.split(' ').last ?? '',
-          phoneNumber: user.phoneNumber ?? '',
-          email: user.email ?? '',
-          password: '123456',
-          accountType: 2,
-        );
+        // await authRepository.signUp(
+        //   firstName: user.displayName?.split(' ').first ?? '',
+        //   lastName: user.displayName?.split(' ').last ?? '',
+        //   phoneNumber: user.phoneNumber ?? '',
+        //   email: user.email ?? '',
+        //   password: '123456',
+        //   accountType: 2,
+        // );
         //  }
 
         emit(SignInSuccuss());

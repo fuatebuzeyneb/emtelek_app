@@ -21,6 +21,9 @@ class SnackbarUtils {
         onPressed: () {},
       ),
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
   }
 }

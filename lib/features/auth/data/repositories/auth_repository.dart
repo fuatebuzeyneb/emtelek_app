@@ -1,25 +1,23 @@
 import 'package:emtelek/core/api/api_consumer.dart';
 import 'package:emtelek/core/api/end_points.dart';
+import 'package:emtelek/features/auth/data/models/login_request_model.dart';
+import 'package:emtelek/features/auth/data/models/login_response_model.dart';
+import 'package:emtelek/features/auth/data/models/sign_up_request_model.dart';
 import 'package:emtelek/features/profile/data/models/account_response_model.dart';
 import 'package:emtelek/shared/models/auth-and-profile-models/clients_response_model.dart';
+import 'package:emtelek/shared/models/base_response_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthRepository {
-  Future<void> signUp({
-    required String firstName,
-    required String lastName,
-    required String phoneNumber,
-    required String email,
-    required String password,
-    required int accountType,
+  Future<BaseResponseModel> signUp({
+    required SignUpRequestModel signUpRequestModel,
   });
 
-  Future<AccountResponseModel> signIn({
-    required String email,
-    required String password,
+  Future<LoginResponseModel> signIn({
+    required LoginRequestModel loginRequestModel,
   });
 
   Future<UserCredential> signInWithGoogle();
@@ -43,42 +41,28 @@ class AuthRepositoryImpl implements AuthRepository {
         _googleSignIn = googleSignIn ?? GoogleSignIn();
 
   @override
-  Future<void> signUp({
-    required String firstName,
-    required String lastName,
-    required String phoneNumber,
-    required String email,
-    required String password,
-    required int accountType,
+  Future<BaseResponseModel> signUp({
+    required SignUpRequestModel signUpRequestModel,
   }) async {
-    await api.post(
+    final response = await api.post(
       '${EndPoints.baseUrl}${EndPoints.signUp}',
       isFormData: true,
-      data: {
-        "FirstName": firstName,
-        "LastName": lastName,
-        "PhoneNumber": phoneNumber,
-        "Email": email,
-        "Password": password,
-        "AccountType": accountType,
-      },
+      data: signUpRequestModel.toJson(),
     );
+
+    return BaseResponseModel.fromJson(response);
   }
 
   @override
-  Future<AccountResponseModel> signIn({
-    required String email,
-    required String password,
+  Future<LoginResponseModel> signIn({
+    required LoginRequestModel loginRequestModel,
   }) async {
     final response = await api.post(
       '${EndPoints.baseUrl}${EndPoints.signIn}',
       isFormData: true,
-      data: {
-        "Email": email,
-        "Password": password,
-      },
+      data: loginRequestModel.toJson(),
     );
-    return AccountResponseModel.fromJson(response);
+    return LoginResponseModel.fromJson(response);
   }
 
   @override

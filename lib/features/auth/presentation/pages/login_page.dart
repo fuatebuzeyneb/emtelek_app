@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:emtelek/features/auth/data/models/login_request_model.dart';
 import 'package:emtelek/shared/widgets/bottom_nav_bar.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
@@ -19,16 +22,32 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   static const String id = 'LoginView';
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is SignInFailure) {
-          SnackbarUtils.showSnackbar(context, state.errorMassage, 3);
+          SnackbarUtils.showSnackbar(context, state.errorMassage, 2);
         } else if (state is SignInSuccuss) {
           Navigator.pushNamed(context, BottomNavBar.id);
         }
@@ -55,21 +74,15 @@ class LoginPage extends StatelessWidget {
                     TextWidget(text: S.of(context).Login, fontSize: 20),
                     20.toHeight,
                     TextFieldWidget(
-                      initialValue: context.read<AuthCubit>().email,
                       keyboardType: TextInputType.emailAddress,
                       hint: S.of(context).Email,
-                      onChanged: (value) {
-                        context.read<AuthCubit>().email = value;
-                      },
+                      controller: emailController,
                     ),
                     16.toHeight,
                     TextFieldWidget(
-                      initialValue: context.read<AuthCubit>().password,
                       keyboardType: TextInputType.text,
                       hint: S.of(context).Password,
-                      onChanged: (value) {
-                        context.read<AuthCubit>().password = value;
-                      },
+                      controller: passwordController,
                     ),
                     16.toHeight,
                     GestureDetector(
@@ -95,7 +108,11 @@ class LoginPage extends StatelessWidget {
                         //     context.read<AuthCubit>().email;
                         // context.read<AuthCubit>().password =
                         //     context.read<AuthCubit>().password;
-                        context.read<AuthCubit>().signIn();
+                        context.read<AuthCubit>().signIn(
+                              loginRequestModel: LoginRequestModel(
+                                  email: emailController.text,
+                                  password: passwordController.text),
+                            );
                       },
                     ),
                   ],
