@@ -14,6 +14,7 @@ import 'package:emtelek/features/auth/presentation/pages/forgot_password_page.da
 
 import 'package:emtelek/features/auth/presentation/widgets/bottom_sheets/login_options_bottom_sheet.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
+import 'package:emtelek/shared/widgets/loading_widget.dart';
 import 'package:emtelek/shared/widgets/text_field_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
       builder: (context, state) {
         return ModalProgressHUD(
           inAsyncCall: state is SignInLoading,
+          progressIndicator: const Center(child: LoadingWidget()),
           child: Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,

@@ -6,6 +6,7 @@ import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/profile/presentation/widgets/circle_profile_image_widget.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
+import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
@@ -239,25 +240,48 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                           ButtonWidget(
                             onTap: () {
                               profileCubit.editUserData(
-                                  editUserRequestModel: EditUserRequestModel(
-                                firstName: firstNameController.text,
-                                lastName: lastNameController.text,
-                                phoneNumber: phoneController.text,
-                                image: profileCubit.editImage != null
-                                    ? profileCubit.editImage!.path
-                                        .split('/')
-                                        .last
-                                    : profileCubit.userData!.data.image!,
-                                address: addressController.text,
-                                districtId: profileCubit.editDistrictId ?? 9,
-                                email:
-                                    getIt<CacheHelper>().getData(key: 'email'),
-                              ));
+                                editUserRequestModel: EditUserRequestModel(
+                                  firstName: firstNameController.text,
+                                  lastName: lastNameController.text,
+                                  phoneNumber: phoneController.text,
+                                  image: profileCubit.editImage, // هذا يكفي
+                                  address: addressController.text,
+                                  districtId: profileCubit.editDistrictId ==
+                                          null
+                                      ? profileCubit.userData!.addressData ==
+                                              null
+                                          ? null
+                                          : profileCubit
+                                              .userData!.addressData!.districtId
+                                      : profileCubit.editDistrictId!, // 34,
+                                  email: getIt<CacheHelper>()
+                                      .getData(key: 'email'),
+                                ),
+                              );
                             },
                             color: AppColors.primary,
                             borderRadius: 6,
                             height: 0.06,
                             text: S.of(context).Save,
+                            width: 1,
+                            fontSize: 22,
+                          ),
+                          20.toHeight,
+                          ButtonWidget(
+                            onTap: () {
+                              profileCubit.deleteUserAccount(
+                                tokenAndClintIdRequestModel:
+                                    TokenAndClintIdRequestModel(
+                                        clientId: getIt<CacheHelper>()
+                                            .getData(key: 'clientId'),
+                                        token: getIt<CacheHelper>()
+                                            .getDataString(key: 'token')!),
+                              );
+                            },
+                            color: Colors.red,
+                            borderRadius: 6,
+                            height: 0.06,
+                            text: 'delete account',
                             width: 1,
                             fontSize: 22,
                           )

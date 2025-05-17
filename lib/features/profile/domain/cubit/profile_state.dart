@@ -19,8 +19,6 @@ final class EditAccountSettingsSuccess extends ProfileState {}
 
 final class DeleteAccountSettingsSuccess extends ProfileState {}
 
-class CheckPassLoading extends ProfileState {}
-
 class CheckPassSuccess extends ProfileState {}
 
 class CheckPassFailure extends ProfileState {

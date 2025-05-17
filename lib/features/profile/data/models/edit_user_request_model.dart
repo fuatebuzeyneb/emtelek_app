@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 
@@ -8,8 +9,8 @@ class EditUserRequestModel {
   final String lastName;
   final String phoneNumber;
   final String email;
-  final String image;
-  final int districtId;
+  final File? image;
+  final int? districtId;
   final String address;
 
   EditUserRequestModel({
@@ -30,7 +31,11 @@ class EditUserRequestModel {
       'LastName': lastName,
       'PhoneNumber': phoneNumber,
       'Email': email,
-      'Image': image,
+      if (image != null)
+        'Image': MultipartFile.fromFile(
+          image!.path,
+          filename: image!.path.split('/').last,
+        ),
       'DistrictId': districtId,
       'Address': address,
     };

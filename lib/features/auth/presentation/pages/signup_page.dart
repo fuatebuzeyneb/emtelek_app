@@ -8,6 +8,7 @@ import 'package:emtelek/core/constants/app_colors.dart';
 
 import 'package:emtelek/features/auth/presentation/pages/login_page.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
+import 'package:emtelek/shared/widgets/loading_widget.dart';
 import 'package:emtelek/shared/widgets/text_field_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,7 @@ class _SignupPageState extends State<SignupPage> {
       builder: (context, state) {
         return ModalProgressHUD(
           inAsyncCall: state is SignUpLoading,
+          progressIndicator: const Center(child: LoadingWidget()),
           child: Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,

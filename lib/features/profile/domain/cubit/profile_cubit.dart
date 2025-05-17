@@ -7,6 +7,9 @@ import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/core/errors/exceptions.dart';
 import 'package:emtelek/features/profile/data/models/account_response_model.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
+import 'package:emtelek/features/profile/data/models/change_password_request_model.dart';
+import 'package:emtelek/features/profile/data/models/change_password_response_model.dart';
+import 'package:emtelek/features/profile/data/models/check_password_request_model.dart';
 import 'package:emtelek/features/profile/data/models/edit_user_request_model.dart';
 import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
 import 'package:emtelek/features/profile/data/models/get_user_response_model.dart';
@@ -144,6 +147,13 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       if (response.isSuccess) {
         emit(DeleteAccountSettingsSuccess());
+        await getIt<CacheHelper>().removeData(key: 'token');
+        await getIt<CacheHelper>().removeData(key: 'email');
+        await getIt<CacheHelper>().removeData(key: 'joinDate');
+        await getIt<CacheHelper>().removeData(key: 'firstName');
+        await getIt<CacheHelper>().removeData(key: 'lastName');
+        await getIt<CacheHelper>().removeData(key: 'clientId');
+        await getIt<CacheHelper>().removeData(key: 'userImage');
       } else {
         emit(UserDataFailure(errorMassage: response.msg ?? "Unknown Error"));
       }
@@ -163,6 +173,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     required EditUserRequestModel editUserRequestModel,
   }) async {
     emit(UserDataLoading());
+
     print('editUserRequestModel: $editUserRequestModel');
     try {
       final response = await profileRepository.editUserData(
@@ -175,7 +186,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       await getIt<CacheHelper>().removeData(key: 'firstName');
       await getIt<CacheHelper>().removeData(key: 'lastName');
       await getIt<CacheHelper>().removeData(key: 'clientId');
-
+      await getIt<CacheHelper>().removeData(key: 'userImage');
       saveToken(response.token!);
       saveEmail(response.data!.email!);
 
@@ -190,25 +201,40 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> checkPass({required String password}) async {
-    emit(CheckPassLoading());
+  Future<void> checkPass(
+      {required CheckPasswordRequestModel checkPasswordRequestModel}) async {
     try {
-      await profileRepository.checkPass(password: password);
-      emit(CheckPassSuccess());
-    } catch (e) {
-      emit(CheckPassFailure(errorMassage: e.toString()));
+      final response = await profileRepository.checkPass(
+          checkPasswordRequestModel: checkPasswordRequestModel);
+
+      if (response.msg == 'true') {
+        emit(CheckPassSuccess());
+      } else {
+        emit(CheckPassFailure(errorMassage: response.msg ?? "Unknown Error"));
+      }
+    } on ServerException catch (e) {
+      emit(CheckPassFailure(errorMassage: e.errorModel.errorMessage));
     }
   }
 
-  Future<void> changePass(
-      {required String password, required String oldPassword}) async {
+  Future<ChangePasswordResponseModel?> changePass({
+    required ChangePasswordRequestModel changePasswordRequestModel,
+  }) async {
     emit(ChangePassLoading());
     try {
-      await profileRepository.changePass(
-          password: password, oldPassword: oldPassword);
+      final response = await profileRepository.changePass(
+        changePasswordRequestModel: changePasswordRequestModel,
+      );
+
       emit(ChangePassSuccess());
+
+      await getIt<CacheHelper>().removeData(key: 'token');
+      saveToken(response.token);
+
+      return response;
     } catch (e) {
       emit(ChangePassFailure(errorMassage: e.toString()));
+      return null;
     }
   }
 }

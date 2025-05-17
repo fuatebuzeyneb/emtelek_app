@@ -1,15 +1,23 @@
+import 'dart:async';
+
 import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/snackbar_utils.dart';
+import 'package:emtelek/features/profile/data/models/change_password_request_model.dart';
+import 'package:emtelek/features/profile/data/models/check_password_request_model.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
+import 'package:emtelek/shared/services/cache_hekper.dart';
+import 'package:emtelek/shared/services/service_locator.dart';
 
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
+import 'package:emtelek/shared/widgets/loading_widget.dart';
 import 'package:emtelek/shared/widgets/text_field_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ChangePassPage extends StatefulWidget {
   const ChangePassPage({super.key});
@@ -22,8 +30,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
   final oldPassController = TextEditingController();
   final newPassController = TextEditingController();
   final confirmNewPassController = TextEditingController();
-
-  bool isChecking = false;
+  Timer? _debounce;
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +44,6 @@ class _ChangePassPageState extends State<ChangePassPage> {
           if (state is CheckPassFailure) {
             SnackbarUtils.showSnackbar(
                 context, 'كلمة المرور القديمة غير صحيحة');
-          } else if (state is CheckPassSuccess) {
-            setState(() {
-              isChecking = false;
-            });
-            context.read<ProfileCubit>().changePass(
-                  password: newPassController.text,
-                  oldPassword: oldPassController.text,
-                );
           } else if (state is ChangePassSuccess) {
             SnackbarUtils.showSnackbar(context, 'تم تغيير كلمة المرور بنجاح');
             Navigator.pop(context);
@@ -53,11 +52,9 @@ class _ChangePassPageState extends State<ChangePassPage> {
           }
         },
         builder: (context, state) {
-          final isLoading =
-              state is CheckPassLoading || state is ChangePassLoading;
-
-          return AbsorbPointer(
-            absorbing: isLoading,
+          return ModalProgressHUD(
+            inAsyncCall: state is ChangePassLoading,
+            progressIndicator: const Center(child: LoadingWidget()),
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 24),
@@ -69,6 +66,20 @@ class _ChangePassPageState extends State<ChangePassPage> {
                       fontSize: 16,
                     ),
                     onChanged: (value) {
+                      if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+                      // نبدأ مؤقت جديد
+                      _debounce = Timer(const Duration(seconds: 1), () {
+                        // هنا ترسل الريكويست للتحقق من كلمة المرور
+                        // مثلاً:
+                        context.read<ProfileCubit>().checkPass(
+                                checkPasswordRequestModel:
+                                    CheckPasswordRequestModel(
+                              password: value,
+                            ));
+                      });
+
+                      // ممكن تحدّث الكنترولر لو تحب
                       oldPassController.text = value;
                     },
                   ),
@@ -78,9 +89,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                       text: 'كلمه المرور الجديده',
                       fontSize: 16,
                     ),
-                    onChanged: (value) {
-                      newPassController.text = value;
-                    },
+                    controller: newPassController,
                   ),
                   12.toHeight,
                   TextFieldWidget(
@@ -88,34 +97,29 @@ class _ChangePassPageState extends State<ChangePassPage> {
                       text: 'تاكيد كلمه المرور الجديده',
                       fontSize: 16,
                     ),
-                    onChanged: (value) {
-                      confirmNewPassController.text = value;
-                    },
+                    controller: confirmNewPassController,
                   ),
                   32.toHeight,
                   ButtonWidget(
                     onTap: () {
-                      final oldPass = oldPassController.text.trim();
-                      final newPass = newPassController.text.trim();
-                      final confirmPass = confirmNewPassController.text.trim();
-
-                      if (newPass != confirmPass) {
+                      if (newPassController.text ==
+                          confirmNewPassController.text) {
+                        context.read<ProfileCubit>().changePass(
+                              changePasswordRequestModel:
+                                  ChangePasswordRequestModel(
+                                oldPassword: oldPassController.text,
+                                password: newPassController.text,
+                              ),
+                            );
+                      } else {
                         SnackbarUtils.showSnackbar(
-                            context, 'كلمتا المرور غير متطابقتين');
-
-                        return;
+                            context, 'كلمة المرور غير متطابقة');
                       }
-
-                      setState(() {
-                        isChecking = true;
-                      });
-
-                      context.read<ProfileCubit>().checkPass(password: oldPass);
                     },
                     color: AppColors.primary,
                     borderRadius: 6,
                     height: 0.06,
-                    text: isLoading ? '...جاري المعالجة' : 'تغيير كلمة المرور',
+                    text: 'تغيير كلمة المرور',
                     width: 1,
                     fontSize: 20,
                   ),
