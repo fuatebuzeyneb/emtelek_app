@@ -1,10 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:emtelek/core/errors/exceptions.dart';
 import 'package:emtelek/features/add_listing/data/models/property_add_model.dart';
+import 'package:emtelek/features/my_ads/data/models/ad_model.dart';
+import 'package:emtelek/features/my_ads/data/models/delete_ad_request_model.dart';
+import 'package:emtelek/features/my_ads/data/models/get_my_ads_response_model.dart';
 import 'package:emtelek/features/my_ads/data/repositories/my_ads_repository.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
+
 import 'package:emtelek/shared/models/add-ads-models/add_ad_model.dart';
 import 'package:emtelek/shared/models/all_response.dart';
+import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:intl/intl.dart';
@@ -25,20 +30,20 @@ class MyAdsCubit extends Cubit<MyAdsState> {
   // }
 
   List<AdModel> myAds = [];
-
+  List<GetMyAdsResponseModel> myAdsX = [];
   Future<void> getMyAds() async {
-    print('----------------------------------');
     emit(GetMyAdsLoading());
     try {
-      final rawData = await myAdsRepository.getMyAds();
+      final response = await myAdsRepository.getMyAds(
+        tokenAndClintIdRequestModel: TokenAndClintIdRequestModel(
+          token: getIt<CacheHelper>().getDataString(key: 'token')!,
+          clientId: getIt<CacheHelper>().getData(key: 'clientId'),
+        ),
+      );
+      print('response----------------------: ${response.length}  ');
+      myAdsX = response;
+      print('myAdsX----------------------: ${myAdsX.length}  ');
 
-      if (rawData.isEmpty) {
-        print("No ads data received");
-      }
-
-      myAds = rawData;
-      print(myAds.length);
-      print(myAds[0].adId); // طباعة ID أول إعلان
       emit(GetMyAdsSuccess());
     } catch (e) {
       print("Error in ProfileCubit: $e"); // 🔍 Debugging print statement
@@ -194,14 +199,18 @@ class MyAdsCubit extends Cubit<MyAdsState> {
     }
   }
 
-  Future<void> deleteAdProperty() async {
+  Future<void> deleteAdProperty(
+      {required DeleteAdRequestModel deleteAdRequestModel}) async {
     try {
       emit(PropertyDeleteAdLoading());
 
       // إنشاء النسخة المعدلة من PropertyAdModel
-      await myAdsRepository.deleteAdProperty(
-        adId: myAds[editIndex].adId!,
+      final response = await myAdsRepository.deleteAdProperty(
+        deleteAdRequestModel: deleteAdRequestModel,
       );
+      if (response.status != 'success') {
+        PropertyDeleteAdFailure(errorMassage: response.msg!);
+      }
 
       emit(PropertyDeleteAdSuccess());
     } on ServerException catch (e) {

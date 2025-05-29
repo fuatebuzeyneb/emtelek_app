@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
-import 'package:emtelek/features/search_property/data/models/property_filter_request_mode.dart';
-import 'package:emtelek/features/search_property/data/repositories/search_property_repository.dart';
+import 'package:emtelek/features/property/data/models/property_filter_request_mode.dart';
+import 'package:emtelek/features/property/data/repositories/search_property_repository.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/models/city-model/city_model.dart';
 import 'package:emtelek/shared/models/district-model/district_model.dart';

@@ -3,13 +3,13 @@ import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/core/utils/snackbar_utils.dart';
 import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
-import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/shared/common_pages/search_text_page.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
 
-import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_filter_bottom_sheet.dart';
+import 'package:emtelek/features/property/presentation/widgets/bottom_sheets/property_filter_bottom_sheet.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/loading_widget.dart';
 import 'package:emtelek/shared/widgets/text_field_widget.dart';
@@ -246,24 +246,29 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  width: context.width * 1,
-                                  height: context.height * 0.22,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: homeCubit.propertiesRent.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Padding(
-                                        padding: EdgeInsets.only(left: 8.0),
-                                        child: ProductCardHomeWidget(
-                                          adModel:
-                                              homeCubit.propertiesRent[index],
+                                homeCubit.propertiesRent == null ||
+                                        homeCubit.propertiesRent!.isEmpty
+                                    ? SizedBox()
+                                    : SizedBox(
+                                        width: context.width * 1,
+                                        height: context.height * 0.22,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount:
+                                              homeCubit.propertiesRent!.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 8.0),
+                                              child: ProductCardHomeWidget(
+                                                property: homeCubit
+                                                    .propertiesRent![index],
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      );
-                                    },
-                                  ),
-                                ),
+                                      ),
                                 16.toHeight,
                                 Row(
                                   mainAxisAlignment:
@@ -284,24 +289,29 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  width: context.width * 1,
-                                  height: context.height * 0.22,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: homeCubit.propertiesSell.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Padding(
-                                        padding: EdgeInsets.only(left: 8.0),
-                                        child: ProductCardHomeWidget(
-                                          adModel:
-                                              homeCubit.propertiesSell[index],
+                                homeCubit.propertiesSell == null ||
+                                        homeCubit.propertiesSell!.isEmpty
+                                    ? SizedBox()
+                                    : SizedBox(
+                                        width: context.width * 1,
+                                        height: context.height * 0.22,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount:
+                                              homeCubit.propertiesSell!.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 8.0),
+                                              child: ProductCardHomeWidget(
+                                                property: homeCubit
+                                                    .propertiesSell![index],
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      );
-                                    },
-                                  ),
-                                ),
+                                      ),
                               ],
                             ),
                           );

@@ -10,7 +10,7 @@ import 'package:emtelek/features/my_ads/presentation/pages/my_ads_page.dart';
 import 'package:emtelek/features/profile/presentation/pages/change_pass_page.dart';
 import 'package:emtelek/features/profile/presentation/pages/profile_settings_page.dart';
 import 'package:emtelek/features/profile/presentation/widgets/circle_profile_image_widget.dart';
-import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';

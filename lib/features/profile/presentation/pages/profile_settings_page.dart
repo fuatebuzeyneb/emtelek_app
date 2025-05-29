@@ -68,7 +68,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
           }
         },
         builder: (context, state) {
-          return state is UserDataLoading || state is UserDataLoading
+          return state is UserDataLoading
               ? const Center(
                   child: LoadingWidget(),
                 )

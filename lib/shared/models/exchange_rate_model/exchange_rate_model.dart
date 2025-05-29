@@ -1,7 +1,7 @@
 class ExchangeRateModel {
   final int exchangeId;
-  final String sypRate;
-  final String tryRate;
+  final double sypRate;
+  final double tryRate;
   final String updatedDate;
 
   ExchangeRateModel({

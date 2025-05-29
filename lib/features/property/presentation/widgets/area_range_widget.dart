@@ -1,6 +1,6 @@
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
-import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/widgets/left_hint_text_field_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';

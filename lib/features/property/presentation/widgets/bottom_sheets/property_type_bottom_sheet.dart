@@ -1,8 +1,8 @@
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
-import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
-import 'package:emtelek/features/search_property/presentation/widgets/scroll_property_type_widget.dart';
+import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property/presentation/widgets/scroll_property_type_widget.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/features/auth/presentation/pages/login_page.dart';

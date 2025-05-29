@@ -1,9 +1,13 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:emtelek/features/home/data/models/home_model.dart';
+import 'package:emtelek/features/home/data/models/get_home_response_model.dart';
+import 'package:emtelek/features/home/data/models/property_model.dart';
 import 'package:emtelek/features/home/data/repositories/home_repository.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
+import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
+import 'package:emtelek/shared/services/cache_hekper.dart';
+import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:meta/meta.dart';
 
 part 'home_state.dart';
@@ -54,20 +58,26 @@ class HomeCubit extends Cubit<HomeState> {
     return super.close();
   }
 
-  List<AdModel> propertiesRent = [];
-  List<AdModel> propertiesSell = [];
+  List<Property>? propertiesRent;
+  List<Property>? propertiesSell;
 
   Future<void> getHomeData() async {
+    emit(HomeAdsLoading());
     try {
-      emit(HomeAdsLoading());
-      HomeModel homeModel;
-      homeModel = await homeRepository.getHomeAds();
-      propertiesRent = homeModel.propertiesRent;
-      propertiesSell = homeModel.propertiesSell;
+      final response = await homeRepository.getHomeAds(
+          tokenAndClintIdRequestModel: TokenAndClintIdRequestModel(
+        token: getIt<CacheHelper>().getDataString(key: 'token')!,
+        clientId: getIt<CacheHelper>().getData(key: 'clientId'),
+      ));
+      propertiesRent = response.propertiesRent;
+      propertiesSell = response.propertiesSell;
+
+      print('propertiesSell------------: ${response.propertiesRent?.length}');
+      print('propertiesRent---------: ${response.propertiesSell?.length}');
       emit(HomeAdsSuccess());
       print('ok');
     } catch (e) {
-      print('nooooooo');
+      print('nooooooo $e');
       emit(HomeAdsFailure(errorMassage: e.toString()));
     }
   }

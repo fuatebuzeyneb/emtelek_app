@@ -2,7 +2,7 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
-import 'package:emtelek/features/search_property/presentation/widgets/property_card.dart';
+import 'package:emtelek/features/property/presentation/widgets/property_card.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
 import 'package:emtelek/shared/widgets/loading_widget.dart';
@@ -34,33 +34,33 @@ class SearchTextPage extends StatelessWidget {
                 prefixIcon: Icon(Icons.search, color: Colors.grey),
               ),
               20.toHeight,
-              BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  return state is HomeTextSearchAdsLoading
-                      ? const Center(
-                          child: LoadingWidget(),
-                        )
-                      : state is HomeTextSearchAdsFailure
-                          ? Center(
-                              child: Text(state.errorMassage),
-                            )
-                          : SizedBox(
-                              height: context.height * 0.7,
-                              width: context.width * 1,
-                              child: ListView.builder(
-                                itemCount: homeCubit.searchTextAds.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 16),
-                                    child: PropertyCard(
-                                        index: index,
-                                        adModel: homeCubit.searchTextAds),
-                                  );
-                                },
-                              ),
-                            );
-                },
-              )
+              // BlocBuilder<HomeCubit, HomeState>(
+              //   builder: (context, state) {
+              //     return state is HomeTextSearchAdsLoading
+              //         ? const Center(
+              //             child: LoadingWidget(),
+              //           )
+              //         : state is HomeTextSearchAdsFailure
+              //             ? Center(
+              //                 child: Text(state.errorMassage),
+              //               )
+              //             : SizedBox(
+              //                 height: context.height * 0.7,
+              //                 width: context.width * 1,
+              //                 child: ListView.builder(
+              //                   itemCount: homeCubit.searchTextAds.length,
+              //                   itemBuilder: (BuildContext context, int index) {
+              //                     return Padding(
+              //                       padding: const EdgeInsets.only(bottom: 16),
+              //                       child: PropertyCard(
+              //                           index: index,
+              //                           adDetails: homeCubit.searchTextAds),
+              //                     );
+              //                   },
+              //                 ),
+              //               );
+              //   },
+              // )
             ],
           ),
         ));

@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:emtelek/features/auth/presentation/widgets/bottom_sheets/login_options_bottom_sheet.dart';
 import 'package:emtelek/features/favorites/domain/cubit/favorites_cubit.dart';
-import 'package:emtelek/features/profile/data/models/ads_model.dart';
+import 'package:emtelek/features/home/data/models/property_model.dart';
+
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
@@ -14,7 +13,7 @@ class FavoriteWidget extends StatelessWidget {
     super.key,
     required this.adModel,
   });
-  final AdModel adModel;
+  final Property adModel;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritesCubit, FavoritesState>(

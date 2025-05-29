@@ -2,15 +2,15 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/presentation/widgets/bottom_sheets/login_options_bottom_sheet.dart';
-import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
-import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_bathroom_count_bottom_sheet.dart';
-import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_price_input_bottom_sheet.dart';
-import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_rent_or_sale_bottom_sheet.dart';
-import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_room_count_bottom_sheet.dart';
-import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_save_search_bottom_sheet.dart';
+import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property/presentation/widgets/bottom_sheets/property_bathroom_count_bottom_sheet.dart';
+import 'package:emtelek/features/property/presentation/widgets/bottom_sheets/property_price_input_bottom_sheet.dart';
+import 'package:emtelek/features/property/presentation/widgets/bottom_sheets/property_rent_or_sale_bottom_sheet.dart';
+import 'package:emtelek/features/property/presentation/widgets/bottom_sheets/property_room_count_bottom_sheet.dart';
+import 'package:emtelek/features/property/presentation/widgets/bottom_sheets/property_save_search_bottom_sheet.dart';
 
-import 'package:emtelek/features/search_property/presentation/widgets/bottom_sheets/property_type_bottom_sheet.dart';
-import 'package:emtelek/features/search_property/presentation/widgets/property_card.dart';
+import 'package:emtelek/features/property/presentation/widgets/bottom_sheets/property_type_bottom_sheet.dart';
+import 'package:emtelek/features/property/presentation/widgets/property_card.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
@@ -769,44 +769,44 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
           ),
           16.toHeight,
           // جزء النتائج
-          Expanded(
-            child: BlocConsumer<PropertyCubit, PropertyState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                if (state is PropertyAdsFilterLoading &&
-                    propertyCubit.filteredAds.isEmpty) {
-                  return const Center(child: LoadingWidget());
-                } else if (state is PropertyAdsFilterFailure) {
-                  return Center(child: Text(state.errMessage));
-                }
+          // Expanded(
+          //   child: BlocConsumer<PropertyCubit, PropertyState>(
+          //     listener: (context, state) {},
+          //     builder: (context, state) {
+          //       if (state is PropertyAdsFilterLoading &&
+          //           propertyCubit.filteredAds.isEmpty) {
+          //         return const Center(child: LoadingWidget());
+          //       } else if (state is PropertyAdsFilterFailure) {
+          //         return Center(child: Text(state.errMessage));
+          //       }
 
-                return ListView.builder(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  itemCount: propertyCubit.filteredAds.length +
-                      (propertyCubit.isFetchingMore ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index < propertyCubit.filteredAds.length) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: PropertyCard(
-                          index: index,
-                          adModel: propertyCubit.filteredAds,
-                        ),
-                      );
-                    } else {
-                      return const Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
-                  },
-                );
-              },
-            ),
-          ),
+          //       return ListView.builder(
+          //         controller: _scrollController,
+          //         padding: const EdgeInsets.symmetric(horizontal: 8),
+          //         itemCount: propertyCubit.filteredAds.length +
+          //             (propertyCubit.isFetchingMore ? 1 : 0),
+          //         itemBuilder: (context, index) {
+          //           if (index < propertyCubit.filteredAds.length) {
+          //             return Padding(
+          //               padding: const EdgeInsets.only(bottom: 16),
+          //               child: PropertyCard(
+          //                 index: index,
+          //                 adDetails: propertyCubit.filteredAds,
+          //               ),
+          //             );
+          //           } else {
+          //             return const Center(
+          //               child: Padding(
+          //                 padding: EdgeInsets.symmetric(vertical: 16),
+          //                 child: CircularProgressIndicator(),
+          //               ),
+          //             );
+          //           }
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

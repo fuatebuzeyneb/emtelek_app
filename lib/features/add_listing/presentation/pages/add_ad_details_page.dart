@@ -375,7 +375,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                     print(
                                         'parsed price: ${double.tryParse(propertyAddAdCubit.adModel.price ?? '0')}');
                                     print(
-                                        'parsed sypRate: ${double.tryParse(settingsCubit.sypRate ?? '0')}');
+                                        'parsed sypRate: ${settingsCubit.sypRate ?? 0.0}');
                                   },
                                   suffixWidget: Padding(
                                     padding: EdgeInsets.only(
@@ -423,7 +423,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                     children: [
                                       TextWidget(
                                         text:
-                                            'السعر بالليره السوري:${(double.tryParse(propertyAddAdCubit.adModel.price ?? '0') ?? 0) * (double.tryParse(settingsCubit.sypRate ?? '0') ?? 0)} ل.س',
+                                            'السعر بالليره السوري:${(double.tryParse(propertyAddAdCubit.adModel.price ?? '0') ?? 0) * (settingsCubit.sypRate ?? 0.0) ?? 0.0} ل.س',
                                       ),
                                     ],
                                   ),
@@ -431,7 +431,7 @@ class AddAdDetailsPage extends StatelessWidget {
                                     children: [
                                       TextWidget(
                                         text:
-                                            'السعر بالليره التركية: ${(double.tryParse(propertyAddAdCubit.adModel.price ?? '0') ?? 0) * (double.tryParse(settingsCubit.tryRate ?? '0') ?? 0)} ل.ت',
+                                            'السعر بالليره التركية: ${(double.tryParse(propertyAddAdCubit.adModel.price ?? '0') ?? 0) * (settingsCubit.tryRate ?? 0.0) ?? 0.0} ل.ت',
                                       ),
                                     ],
                                   ),

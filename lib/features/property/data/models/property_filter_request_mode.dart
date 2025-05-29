@@ -1,4 +1,4 @@
-import 'package:emtelek/features/search_property/data/models/get_save_search_model.dart';
+import 'package:emtelek/features/property/data/models/get_save_search_model.dart';
 
 class PropertyFilterRequestModel {
   final String? token;

@@ -1,6 +1,8 @@
 import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
+import 'package:emtelek/features/home/data/models/get_home_response_model.dart';
+import 'package:emtelek/features/home/data/models/property_model.dart';
 import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
 import 'package:emtelek/generated/l10n.dart';
@@ -8,7 +10,7 @@ import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
 
-import 'package:emtelek/features/search_property/presentation/pages/property_details_page.dart';
+import 'package:emtelek/features/property/presentation/pages/property_details_page.dart';
 import 'package:emtelek/shared/helper/founctions/formatter.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
@@ -18,12 +20,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductCardHomeWidget extends StatelessWidget {
-  const ProductCardHomeWidget({super.key, required this.adModel});
+  const ProductCardHomeWidget({super.key, required this.property});
 
   // final int index;
   // final int witchType; // 1 for sale property, 2 for rent property, 3 vehicles
 
-  final AdModel adModel;
+  final Property property;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class ProductCardHomeWidget extends StatelessWidget {
         onTap: () {
           pageTransition(context,
               page: PropertyDetailsPage(
-                adModel: adModel,
+                adDetails: property,
               ));
         },
         child: Container(
@@ -64,7 +66,7 @@ class ProductCardHomeWidget extends StatelessWidget {
                     topRight: Radius.circular(8),
                   ),
                   child: Image.network(
-                    '${EndPoints.adImageUrl}${adModel.mainImage!}',
+                    '${EndPoints.adImageUrl}${property.mainImage!}',
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),
@@ -89,8 +91,8 @@ class ProductCardHomeWidget extends StatelessWidget {
                                 //adsModel.price
                                 BlocProvider.of<SettingsCubit>(context)
                                     .convertToAppCurrency(
-                                        adCurrencyCode: adModel.currency!,
-                                        adPrice: double.parse(adModel.price!))),
+                                        adCurrencyCode: property.currency!,
+                                        adPrice: property.price!)),
                             fontSize: 14,
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
@@ -108,11 +110,11 @@ class ProductCardHomeWidget extends StatelessWidget {
                       1.toHeight,
                       Visibility(
                         visible: [12, 26, 8, 27, 18, 14]
-                            .contains(adModel.categoryId),
+                            .contains(property.categoryId),
                         child: TextWidget(
                           text:
-                              '${adModel.info.roomCount} ${S.of(context).Room}  '
-                              '${adModel.info.bathroomCount} ${S.of(context).Bathroom}',
+                              '${property.data.info.roomCount} ${S.of(context).Room}  '
+                              '${property.data.info.bathroomCount} ${S.of(context).Bathroom}',
                           fontSize: 10,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -120,10 +122,10 @@ class ProductCardHomeWidget extends StatelessWidget {
                       ),
                       Visibility(
                         visible: ![12, 26, 8, 27, 18, 14]
-                            .contains(adModel.categoryId),
+                            .contains(property.categoryId),
                         child: TextWidget(
                           text:
-                              '${S.current.Area} ${adModel.info.totalArea} ${S.of(context).SquareMeter}',
+                              '${S.current.Area} ${property.data.info.totalArea} ${S.of(context).SquareMeter}',
                           fontSize: 10,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -135,7 +137,7 @@ class ProductCardHomeWidget extends StatelessWidget {
                         maxLines: 2,
                         isHaveOverflow: true,
                         text:
-                            '${adModel.info.address}, ${adModel.district.districtName},  ${adModel.city!.cityName}',
+                            '${property.data.info.address}, ${property.data.district.districtName},  ${property.data.city!.cityName}',
                         fontSize: 10,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,

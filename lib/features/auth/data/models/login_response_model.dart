@@ -27,7 +27,7 @@ class ClientData {
   final int clientId;
   final String firstName;
   final String lastName;
-  final String phoneNumber;
+  final int phoneNumber;
   final String email;
   final String subscriptionDate;
   final int status;
@@ -47,7 +47,7 @@ class ClientData {
       clientId: json['ClientId'] as int,
       firstName: json['FirstName'] as String,
       lastName: json['LastName'] as String,
-      phoneNumber: json['PhoneNumber'] as String,
+      phoneNumber: json['PhoneNumber'] as int,
       email: json['Email'] as String,
       subscriptionDate: json['SubscriptionDate'] as String,
       status: json['Status'] as int,

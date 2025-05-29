@@ -46,13 +46,13 @@ class MyAdsPage extends StatelessWidget {
                           )
                         : ListView.builder(
                             itemCount: BlocProvider.of<MyAdsCubit>(context)
-                                .myAds
+                                .myAdsX
                                 .length,
                             itemBuilder: (BuildContext context, int index) {
                               return MyAdCardWidget(
                                 index: index,
-                                myAdsList:
-                                    BlocProvider.of<MyAdsCubit>(context).myAds,
+                                adDetails: BlocProvider.of<MyAdsCubit>(context)
+                                    .myAdsX[index],
                               );
                             },
                           );

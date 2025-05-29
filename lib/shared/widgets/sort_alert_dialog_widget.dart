@@ -1,6 +1,6 @@
 import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
-import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';

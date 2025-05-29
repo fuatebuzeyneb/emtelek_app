@@ -1,22 +1,28 @@
 import 'package:emtelek/core/api/api_consumer.dart';
 import 'package:emtelek/core/api/end_points.dart';
+import 'package:emtelek/features/my_ads/data/models/ad_model.dart';
+import 'package:emtelek/features/my_ads/data/models/delete_ad_request_model.dart';
+import 'package:emtelek/features/my_ads/data/models/get_my_ads_response_model.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
+
 import 'package:emtelek/shared/models/all_response.dart';
 import 'package:emtelek/shared/models/auth-and-profile-models/clients_response_model.dart';
 import 'package:emtelek/features/add_listing/data/models/property_add_model.dart';
+import 'package:emtelek/shared/models/base_response_model.dart';
+import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 
 // تعريف الواجهة (Interface)
 abstract class MyAdsRepository {
-  Future<List<AdModel>> getMyAds();
+  Future<List<GetMyAdsResponseModel>> getMyAds(
+      {required TokenAndClintIdRequestModel tokenAndClintIdRequestModel});
   Future<AllResponseModel> updateAdProperty({
     required AdModel adModel,
   });
 
-  Future<AllResponseModel> deleteAdProperty({
-    required int adId,
-  });
+  Future<AllResponseModel> deleteAdProperty(
+      {required DeleteAdRequestModel deleteAdRequestModel});
 }
 
 class MyAdsRepositoryImpl implements MyAdsRepository {
@@ -25,41 +31,27 @@ class MyAdsRepositoryImpl implements MyAdsRepository {
   MyAdsRepositoryImpl({required this.api});
 
   @override
-  Future<List<AdModel>> getMyAds() async {
-    try {
-      final data = {
-        "Token": getIt<CacheHelper>().getDataString(key: 'token'),
-        "ClientId": getIt<CacheHelper>().getData(key: 'clientId'),
-      };
+  Future<List<GetMyAdsResponseModel>> getMyAds(
+      {required TokenAndClintIdRequestModel
+          tokenAndClintIdRequestModel}) async {
+    final response = await api.post(
+      '${EndPoints.baseUrl}${EndPoints.clientsMyAds}',
+      isFormData: true,
+      data: tokenAndClintIdRequestModel.toJson(),
+    );
 
-      print("Data being sent: $data");
-
-      final response = await api.post(
-        '${EndPoints.baseUrl}${EndPoints.clientsMyAds}',
-        isFormData: true,
-        data: data,
-      );
-
-      print("Response: $response"); // طباعة الاستجابة للتحقق
-
-      if (response == null || response["ads"] == null) {
-        print("No ads found in the response");
-        throw Exception("No ads found");
-      }
-
-      Map<String, dynamic> adsMap = response["ads"];
-      if (adsMap.isEmpty) {
-        print("No ads found in the ads map");
-        throw Exception("No ads found in the ads map");
-      }
-
-      List<dynamic> adsJson = adsMap.values.toList();
-      return adsJson.map((json) => AdModel.fromJson(json)).toList();
-      //return [];
-    } catch (e) {
-      print("Error in getMyAds4: $e"); // طباعة الخطأ لمزيد من التحليل
-      throw Exception("Failed to load ads: ${e.toString()}");
+    if (response == null || response["ads"] == null) {
+      throw Exception("No ads found");
     }
+
+    Map<String, dynamic> adsMap = response["ads"];
+    if (adsMap.isEmpty) {
+      throw Exception("No ads found in the ads map");
+    }
+
+    List<dynamic> adsJson = adsMap.values.toList();
+    return adsJson.map((json) => GetMyAdsResponseModel.fromJson(json)).toList();
+    //return [];
   }
 
   @override
@@ -84,22 +76,14 @@ class MyAdsRepositoryImpl implements MyAdsRepository {
   }
 
   @override
-  Future<AllResponseModel> deleteAdProperty({required int adId}) async {
-    // إرسال الطلب عبر PUT أو PATCH (حسب الـ API الخاص بك)
+  Future<AllResponseModel> deleteAdProperty(
+      {required DeleteAdRequestModel deleteAdRequestModel}) async {
     final response = await api.post(
-      '${EndPoints.baseUrl}${EndPoints.adsDelete}', // أو حسب بنية الـ API لديك
+      '${EndPoints.baseUrl}${EndPoints.adsDelete}',
       isFormData: true,
-      data: {
-        "Token": getIt<CacheHelper>().getDataString(key: 'token'),
-        "ClientId": getIt<CacheHelper>().getData(key: 'clientId'),
-        "AdId": adId
-      },
+      data: deleteAdRequestModel.toJson(),
     );
 
-    // طباعة الـ Response (البيانات التي تم استلامها)
-    print("🔵 Response from API================: $response");
-
-    // تحويل الاستجابة إلى PropertyAdModel
     return AllResponseModel.fromJson(response);
   }
 }

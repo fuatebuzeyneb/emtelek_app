@@ -157,7 +157,7 @@ class SettingsCubit extends Cubit<SettingsState> {
         return [];
       }
     } catch (e) {
-      print('API error: $e');
+      print('API error======: $e');
       return [];
     }
   }
@@ -442,8 +442,8 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(SortBy());
   }
 
-  String? sypRate;
-  String? tryRate;
+  double? sypRate;
+  double? tryRate;
   Future<void> fetchExchangeRates() async {
     try {
       emit(ExchangeLoading());
@@ -475,7 +475,7 @@ class SettingsCubit extends Cubit<SettingsState> {
         emit(ExchangeError('Unexpected response format'));
       }
     } catch (e) {
-      print('API Error: $e');
+      print('API Error-----: $e');
       emit(ExchangeError('Failed to load exchange rates'));
     }
   }
@@ -489,9 +489,9 @@ class SettingsCubit extends Cubit<SettingsState> {
     if (adCurrencyCode == 'USD') {
       adCurrencyRate = 1;
     } else if (adCurrencyCode == 'TRY') {
-      adCurrencyRate = double.tryParse(tryRate!) ?? 0.0;
+      adCurrencyRate = tryRate ?? 0.0;
     } else if (adCurrencyCode == 'SYP') {
-      adCurrencyRate = double.tryParse(sypRate!) ?? 0.0;
+      adCurrencyRate = sypRate ?? 0.0;
     } else {
       throw Exception('Unsupported ad currency');
     }
@@ -501,9 +501,9 @@ class SettingsCubit extends Cubit<SettingsState> {
     if (appCurrencyCode == 'USD') {
       appCurrencyRate = 1;
     } else if (appCurrencyCode == 'TRY') {
-      appCurrencyRate = double.tryParse(tryRate!) ?? 0.0;
+      appCurrencyRate = tryRate ?? 0.0;
     } else if (appCurrencyCode == 'SYP') {
-      appCurrencyRate = double.tryParse(sypRate!) ?? 0.0;
+      appCurrencyRate = sypRate ?? 0.0;
     } else {
       throw Exception('Unsupported app currency');
     }

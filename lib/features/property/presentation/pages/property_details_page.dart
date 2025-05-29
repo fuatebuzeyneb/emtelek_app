@@ -5,6 +5,7 @@ import 'package:emtelek/core/extensions/alignment_extension.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/favorites/presentation/widgets/favorite_widget.dart';
+import 'package:emtelek/features/home/data/models/property_model.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
@@ -31,11 +32,11 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PropertyDetailsPage extends StatelessWidget {
-  final AdModel adModel;
+  final Property adDetails;
 
   PropertyDetailsPage({
     super.key,
-    required this.adModel,
+    required this.adDetails,
   });
 
   final Key mapKey = UniqueKey();
@@ -59,10 +60,10 @@ class PropertyDetailsPage extends StatelessWidget {
     AdDetailsCubit adDetailsCubit = BlocProvider.of<AdDetailsCubit>(context);
     adDetailsCubit.showAppBarFunction(scrollController);
     final int totalFeatures =
-        adModel.features == null ? 0 : adModel.features!.length;
+        adDetails.features == false ? 0 : adDetails.features!.length;
 
-    final List<String> features = List.generate(adModel.features!.length,
-        (index) => '${adModel.features?[index].featureName}');
+    // final List<String> features = List.generate(adDetails.features.length,
+    //     (index) => '${adDetails.features?[index].featureName}');
     // Alignment alignment =
     //     getIt<CacheHelper>().getDataString(key: 'Lang') == 'ar'
     //         ? Alignment.centerRight
@@ -85,28 +86,28 @@ class PropertyDetailsPage extends StatelessWidget {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  pageTransition(context,
-                                      page: ImageGalleryPage(
-                                        adModel: adModel,
-                                      ));
+                                  // pageTransition(context,
+                                  //     page: ImageGalleryPage(
+                                  //       adModel: adModel,
+                                  //     ));
                                 },
                                 child: SizedBox(
-                                    height: context.height * 0.34,
-                                    child: ImageSlideshow(
-                                      indicatorColor: AppColors.primary,
-                                      onPageChanged: (value) {
-                                        adDetailsCubit
-                                            .currentPageFunction(value);
-                                      },
-                                      children: adModel.images!
-                                          .map(
-                                            (img) => Image.network(
-                                              "${EndPoints.adImageUrl}${img.attachmentName}", // أو img.path حسب اسم المتغير في ImageModel
-                                              fit: BoxFit.cover,
-                                            ),
-                                          )
-                                          .toList(),
-                                    )),
+                                  height: context.height * 0.34,
+                                  child: ImageSlideshow(
+                                    indicatorColor: AppColors.primary,
+                                    onPageChanged: (value) {
+                                      adDetailsCubit.currentPageFunction(value);
+                                    },
+                                    children: adDetails.images.values
+                                        .map(
+                                          (img) => Image.network(
+                                            "${EndPoints.adImageUrl}${img.attachmentName}",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
                               ),
                               Positioned(
                                 bottom: 10,
@@ -134,7 +135,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                         padding: const EdgeInsets.only(top: 4),
                                         child: TextWidget(
                                           text:
-                                              '${adDetailsCubit.currentPage + 1} / ${adModel.images!.length}',
+                                              '${adDetailsCubit.currentPage + 1} / ${adDetails.images!.length}',
                                           color: Colors.white,
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -150,7 +151,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                 left: settingsCubit.locale == 'ar' ? 16 : null,
                                 child: Row(
                                   children: [
-                                    FavoriteWidget(adModel: adModel),
+                                    // FavoriteWidget(adModel: adDetails),
                                     16.toWidth,
                                     ButtonWidget(
                                       borderRadius: 18,
@@ -215,9 +216,8 @@ class PropertyDetailsPage extends StatelessWidget {
                                         BlocProvider.of<SettingsCubit>(context)
                                             .convertToAppCurrency(
                                                 adCurrencyCode:
-                                                    adModel.currency!,
-                                                adPrice: double.parse(
-                                                    adModel.price!))),
+                                                    adDetails.currency!,
+                                                adPrice: adDetails.price!)),
                                     fontSize: 18,
                                     color: Colors.green,
                                     fontWeight: FontWeight.bold,
@@ -239,7 +239,7 @@ class PropertyDetailsPage extends StatelessWidget {
                               alignment: context.textAlignment,
                               child: TextWidget(
                                 isHaveOverflow: true,
-                                text: adModel.adTitle!,
+                                text: adDetails.adTitle!,
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -248,7 +248,7 @@ class PropertyDetailsPage extends StatelessWidget {
                             4.toHeight,
                             Visibility(
                               visible: [12, 26, 8, 27, 18, 14]
-                                  .contains(adModel.categoryId),
+                                  .contains(adDetails.categoryId),
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: Row(
@@ -264,10 +264,10 @@ class PropertyDetailsPage extends StatelessWidget {
                                       padding: EdgeInsets.only(top: 6),
                                       child: TextWidget(
                                         isHaveOverflow: true,
-                                        text:
-                                            adModel.info!.roomCount.toString() +
-                                                ' ' +
-                                                S.of(context).Room,
+                                        text: adDetails.data.info!.roomCount
+                                                .toString() +
+                                            ' ' +
+                                            S.of(context).Room,
                                         fontSize: 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
@@ -285,7 +285,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                       padding: EdgeInsets.only(top: 6),
                                       child: TextWidget(
                                         isHaveOverflow: true,
-                                        text: adModel.info!.bathroomCount
+                                        text: adDetails.data.info!.bathroomCount
                                                 .toString() +
                                             ' ' +
                                             S.of(context).Bathroom,
@@ -306,10 +306,10 @@ class PropertyDetailsPage extends StatelessWidget {
                                       padding: EdgeInsets.only(top: 6),
                                       child: TextWidget(
                                         isHaveOverflow: true,
-                                        text:
-                                            adModel.info!.totalArea.toString() +
-                                                ' ' +
-                                                S.of(context).SquareMeter,
+                                        text: adDetails.data.info!.totalArea
+                                                .toString() +
+                                            ' ' +
+                                            S.of(context).SquareMeter,
                                         fontSize: 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
@@ -321,7 +321,7 @@ class PropertyDetailsPage extends StatelessWidget {
                             ),
                             Visibility(
                               visible: ![12, 26, 8, 27, 18, 14]
-                                  .contains(adModel.categoryId),
+                                  .contains(adDetails.categoryId),
                               child: Row(
                                 children: [
                                   Image.asset(
@@ -335,7 +335,8 @@ class PropertyDetailsPage extends StatelessWidget {
                                     padding: EdgeInsets.only(top: 6),
                                     child: TextWidget(
                                       isHaveOverflow: true,
-                                      text: adModel.info!.totalArea.toString() +
+                                      text: adDetails.data.info!.totalArea
+                                              .toString() +
                                           ' ' +
                                           S.of(context).SquareMeter,
                                       fontSize: 14,
@@ -360,7 +361,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                   child: TextWidget(
                                     textAlign: TextAlign.right,
                                     text:
-                                        '${adModel.info!.address ?? ''} ,${adModel.city!.cityName} ,${adModel.district!.districtName}',
+                                        '${adDetails.data.info!.address ?? ''} ,${adDetails.data.city!.cityName} ,${adDetails.data.district!.districtName}',
                                     fontSize: 14,
                                     color: Colors.black,
                                     // fontWeight: FontWeight.bold,
@@ -399,7 +400,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
                                           text: settingsCubit.getCategoryName(
-                                              adModel
+                                              adDetails
                                                   .categoryId!)!, // totalPrice!,
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -432,7 +433,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
                                           text: settingsCubit
-                                              .isForSale(adModel.categoryId!),
+                                              .isForSale(adDetails.categoryId!),
 
                                           // totalPrice!,
                                           fontSize: 14,
@@ -465,7 +466,8 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: adModel.info!.furnish == 'yes'
+                                          text: adDetails.data.info!.furnish ==
+                                                  'yes'
                                               ? S.current.Furnished
                                               : S.current.Unfurnished,
                                           fontSize: 14,
@@ -497,7 +499,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: adModel.sellerType == 1
+                                          text: adDetails.sellerType == 1
                                               ? S.current.Owner
                                               : S.current.Agent, // totalPrice!,
                                           fontSize: 14,
@@ -529,7 +531,8 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: '${adModel.info!.totalArea}'
+                                          text:
+                                              '${adDetails.data.info!.totalArea}'
                                               ' ${S.of(context).SquareMeter}',
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
@@ -540,7 +543,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                   ],
                                 ),
                                 ![12, 26, 8, 27, 18, 14]
-                                        .contains(adModel.categoryId)
+                                        .contains(adDetails.categoryId)
                                     ? TableRow(
                                         children: [SizedBox(), SizedBox()])
                                     : TableRow(
@@ -567,11 +570,12 @@ class PropertyDetailsPage extends StatelessWidget {
                                               alignment: context
                                                   .textAlignment, // محاذاة النص إلى اليسار
                                               child: TextWidget(
-                                                text: adModel.info!
+                                                text: adDetails.data.info!
                                                             .floorNumber ==
                                                         null
                                                     ? S.of(context).undefined
-                                                    : adModel.info!.floorNumber
+                                                    : adDetails
+                                                        .data.info!.floorNumber
                                                         .toString(),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
@@ -582,7 +586,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                         ],
                                       ),
                                 ![12, 26, 8, 27, 18, 14]
-                                        .contains(adModel.categoryId)
+                                        .contains(adDetails.categoryId)
                                     ? TableRow(
                                         children: [SizedBox(), SizedBox()])
                                     : TableRow(
@@ -609,11 +613,12 @@ class PropertyDetailsPage extends StatelessWidget {
                                               alignment: context
                                                   .textAlignment, // محاذاة النص إلى اليسار
                                               child: TextWidget(
-                                                text: adModel.info!
+                                                text: adDetails.data.info!
                                                             .balconyCount ==
                                                         null
                                                     ? S.of(context).undefined
-                                                    : adModel.info!.balconyCount
+                                                    : adDetails
+                                                        .data.info!.balconyCount
                                                         .toString(),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
@@ -624,7 +629,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                         ],
                                       ),
                                 ![12, 26, 8, 27, 18, 14]
-                                        .contains(adModel.categoryId)
+                                        .contains(adDetails.categoryId)
                                     ? TableRow(
                                         children: [SizedBox(), SizedBox()])
                                     : TableRow(
@@ -651,12 +656,12 @@ class PropertyDetailsPage extends StatelessWidget {
                                               alignment: context
                                                   .textAlignment, // محاذاة النص إلى اليسار
                                               child: TextWidget(
-                                                text:
-                                                    adModel.info!.complexName ==
-                                                            ''
-                                                        ? S.current.undefined
-                                                        : adModel
-                                                            .info!.complexName!,
+                                                text: adDetails.data.info!
+                                                            .complexName ==
+                                                        ''
+                                                    ? S.current.undefined
+                                                    : adDetails.data.info!
+                                                        .complexName!,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black,
@@ -686,7 +691,8 @@ class PropertyDetailsPage extends StatelessWidget {
                                         alignment: context
                                             .textAlignment, // محاذاة النص إلى اليسار
                                         child: TextWidget(
-                                          text: adModel.publishDate.toString(),
+                                          text:
+                                              adDetails.publishDate.toString(),
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
@@ -716,7 +722,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                       ? null
                                       : 3,
                                   textAlign: TextAlign.justify,
-                                  text: adModel.description ??
+                                  text: adDetails.description ??
                                       S.of(context).undefined,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -793,16 +799,16 @@ class PropertyDetailsPage extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Image.asset(
-                                                IconHelper.getIconPath(adModel
+                                                IconHelper.getIconPath(adDetails
                                                     .features![index]
                                                     .featureId),
                                                 height: 25,
                                                 width: 25),
                                             8.toHeight,
-                                            TextWidget(
-                                              text: features[
-                                                  index], // عرض الميزات من البيانات
-                                            ),
+                                            // TextWidget(
+                                            //   text: features[
+                                            //       index], // عرض الميزات من البيانات
+                                            // ),
                                           ],
                                         ),
                                       );
@@ -845,10 +851,10 @@ class PropertyDetailsPage extends StatelessWidget {
                                               Icons.ac_unit_outlined,
                                             ),
                                             8.toHeight,
-                                            TextWidget(
-                                              text: features[
-                                                  index], // عرض الميزات المتبقية من نفس البيانات
-                                            ),
+                                            // TextWidget(
+                                            //   text: features[
+                                            //       index], // عرض الميزات المتبقية من نفس البيانات
+                                            // ),
                                           ],
                                         ),
                                       );
@@ -878,7 +884,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                 // maxLines: 5,
                                 textAlign: TextAlign.right,
                                 text:
-                                    '${adModel.info!.address} ,${adModel.city!.cityName} ,${adModel.district!.districtName}',
+                                    '${adDetails.data.info!.address} ,${adDetails.data.city!.cityName} ,${adDetails.data.district!.districtName}',
                                 fontSize: 14,
                                 color: Colors.black,
                                 // fontWeight: FontWeight.bold,
@@ -893,7 +899,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                 key: mapKey,
                                 options: MapOptions(
                                   initialCenter: settingsCubit
-                                      .parseLatLng(adModel.location!),
+                                      .parseLatLng(adDetails.location!),
                                 ),
                                 children: [
                                   TileLayer(
@@ -905,7 +911,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                     markers: [
                                       Marker(
                                         point: settingsCubit
-                                            .parseLatLng(adModel.location!),
+                                            .parseLatLng(adDetails.location!),
                                         child: const Icon(
                                           Icons.location_on,
                                           color: Colors.red,
@@ -927,7 +933,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                 //  void openMaps(LatLng location) async {
                                 // تحويل النص إلى Uri
                                 final Uri url = Uri.parse(
-                                    'https://www.google.com/maps?q=${settingsCubit.parseLatLng(adModel.location!).latitude},${settingsCubit.parseLatLng(adModel.location!).longitude}');
+                                    'https://www.google.com/maps?q=${settingsCubit.parseLatLng(adDetails.location!).latitude},${settingsCubit.parseLatLng(adDetails.location!).longitude}');
 
                                 // التحقق من إمكانية فتح الرابط باستخدام canLaunchUrl
                                 if (await canLaunchUrl(url)) {
@@ -967,7 +973,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                   8.toHeight,
                                   TextWidget(
                                     text:
-                                        '${adModel.client!.firstName} ${adModel.client!.lastName}',
+                                        '${adDetails.data.client!.firstName} ${adDetails.data.client!.lastName}',
                                     fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -1153,9 +1159,9 @@ class PropertyDetailsPage extends StatelessWidget {
                                                         context)
                                                     .convertToAppCurrency(
                                                         adCurrencyCode:
-                                                            adModel.currency!,
-                                                        adPrice: double.parse(
-                                                            adModel.price!))),
+                                                            adDetails.currency!,
+                                                        adPrice:
+                                                            adDetails.price!)),
                                             fontSize: 16,
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,
@@ -1176,11 +1182,11 @@ class PropertyDetailsPage extends StatelessWidget {
                                       ),
                                       2.toHeight,
                                       ![12, 26, 8, 27, 18, 14]
-                                              .contains(adModel.categoryId)
+                                              .contains(adDetails.categoryId)
                                           ? TextWidget(
                                               isHaveOverflow: true,
                                               text:
-                                                  '${S.current.Area} ${adModel.info!.totalArea} ${S.of(context).SquareMeter}',
+                                                  '${S.current.Area} ${adDetails.data.info!.totalArea} ${S.of(context).SquareMeter}',
                                               fontSize: 12,
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
@@ -1188,9 +1194,9 @@ class PropertyDetailsPage extends StatelessWidget {
                                           : TextWidget(
                                               isHaveOverflow: true,
                                               text:
-                                                  '${adModel.info!.roomCount} ${S.of(context).Room}  '
-                                                  '${adModel.info!.bathroomCount} ${S.of(context).Bathroom}  '
-                                                  '${adModel.info!.totalArea} ${S.of(context).SquareMeter}',
+                                                  '${adDetails.data.info!.roomCount} ${S.of(context).Room}  '
+                                                  '${adDetails.data.info!.bathroomCount} ${S.of(context).Bathroom}  '
+                                                  '${adDetails.data.info!.totalArea} ${S.of(context).SquareMeter}',
                                               fontSize: 12,
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,

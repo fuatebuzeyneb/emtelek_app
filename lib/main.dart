@@ -13,12 +13,12 @@ import 'package:emtelek/features/my_ads/data/repositories/my_ads_repository.dart
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
 import 'package:emtelek/features/profile/data/repositories/profile_repository.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
-import 'package:emtelek/features/search_property/data/repositories/search_property_repository.dart';
+import 'package:emtelek/features/property/data/repositories/search_property_repository.dart';
 import 'package:emtelek/shared/common_pages/splash_page.dart';
 import 'package:emtelek/shared/cubits/ad_details_cubit/ad_details_cubit.dart';
 import 'package:emtelek/shared/widgets/bottom_nav_bar.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
-import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';

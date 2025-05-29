@@ -4,9 +4,10 @@ import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/features/favorites/presentation/widgets/favorite_widget.dart';
+import 'package:emtelek/features/home/data/models/property_model.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
-import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
-import 'package:emtelek/features/search_property/presentation/pages/property_details_page.dart';
+import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property/presentation/pages/property_details_page.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/common_pages/image_viewer_page.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
@@ -23,10 +24,10 @@ class PropertyCard extends StatelessWidget {
   const PropertyCard({
     super.key,
     required this.index,
-    required this.adModel,
+    required this.adDetails,
   });
   final int index;
-  final List<AdModel> adModel;
+  final List<Property> adDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class PropertyCard extends StatelessWidget {
       onTap: () {
         pageTransition(context,
             page: PropertyDetailsPage(
-              adModel: adModel[index],
+              adDetails: adDetails[index],
               //adsModel[index],
             ));
       },
@@ -61,7 +62,7 @@ class PropertyCard extends StatelessWidget {
                   onTap: () {
                     pageTransition(context,
                         page: PropertyDetailsPage(
-                          adModel: adModel[index],
+                          adDetails: adDetails[index],
                         ));
                   },
                   child: ClipRRect(
@@ -70,7 +71,7 @@ class PropertyCard extends StatelessWidget {
                         topRight: Radius.circular(8),
                       ),
                       child: Image.network(
-                        '${EndPoints.adImageUrl}${adModel[index].mainImage!}',
+                        '${EndPoints.adImageUrl}${adDetails[index].mainImage!}',
                         height: context.height * 0.3,
                         width: context.width * 1,
                         fit: BoxFit.cover,
@@ -80,7 +81,7 @@ class PropertyCard extends StatelessWidget {
                   top: 10,
                   left: 8,
                   child: FavoriteWidget(
-                    adModel: adModel[index],
+                    adModel: adDetails[index],
                   ),
                 ),
               ],
@@ -99,9 +100,8 @@ class PropertyCard extends StatelessWidget {
                             //adsModel.price
                             BlocProvider.of<SettingsCubit>(context)
                                 .convertToAppCurrency(
-                                    adCurrencyCode: adModel[index].currency!,
-                                    adPrice:
-                                        double.parse(adModel[index].price!))),
+                                    adCurrencyCode: adDetails[index].currency!,
+                                    adPrice: adDetails[index].price!)),
                         fontSize: 18,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
@@ -123,7 +123,7 @@ class PropertyCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextWidget(
                     isHaveOverflow: true,
-                    text: adModel[index].adTitle.toString(),
+                    text: adDetails[index].adTitle.toString(),
                     fontSize: 16,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -132,7 +132,7 @@ class PropertyCard extends StatelessWidget {
                 4.toHeight,
                 Visibility(
                   visible: [12, 26, 8, 27, 18, 14]
-                      .contains(adModel[index].categoryId),
+                      .contains(adDetails[index].categoryId),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Row(
@@ -148,7 +148,11 @@ class PropertyCard extends StatelessWidget {
                           padding: EdgeInsets.only(top: 6),
                           child: TextWidget(
                             isHaveOverflow: true,
-                            text: adModel[index].info!.roomCount.toString() +
+                            text: adDetails[index]
+                                    .data
+                                    .info!
+                                    .roomCount
+                                    .toString() +
                                 ' ' +
                                 S.of(context).Room,
                             fontSize: 14,
@@ -168,10 +172,13 @@ class PropertyCard extends StatelessWidget {
                           padding: EdgeInsets.only(top: 6),
                           child: TextWidget(
                             isHaveOverflow: true,
-                            text:
-                                adModel[index].info!.bathroomCount.toString() +
-                                    ' ' +
-                                    S.of(context).Bathroom,
+                            text: adDetails[index]
+                                    .data
+                                    .info!
+                                    .bathroomCount
+                                    .toString() +
+                                ' ' +
+                                S.of(context).Bathroom,
                             fontSize: 14,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -189,7 +196,11 @@ class PropertyCard extends StatelessWidget {
                           padding: EdgeInsets.only(top: 6),
                           child: TextWidget(
                             isHaveOverflow: true,
-                            text: adModel[index].info!.totalArea.toString() +
+                            text: adDetails[index]
+                                    .data
+                                    .info!
+                                    .totalArea
+                                    .toString() +
                                 ' ' +
                                 S.of(context).SquareMeter,
                             fontSize: 14,
@@ -203,7 +214,7 @@ class PropertyCard extends StatelessWidget {
                 ),
                 Visibility(
                   visible: ![12, 26, 8, 27, 18, 14]
-                      .contains(adModel[index].categoryId),
+                      .contains(adDetails[index].categoryId),
                   child: Row(
                     children: [
                       Image.asset(
@@ -217,9 +228,10 @@ class PropertyCard extends StatelessWidget {
                         padding: EdgeInsets.only(top: 6),
                         child: TextWidget(
                           isHaveOverflow: true,
-                          text: adModel[index].info!.totalArea.toString() +
-                              ' ' +
-                              S.of(context).SquareMeter,
+                          text:
+                              adDetails[index].data.info!.totalArea.toString() +
+                                  ' ' +
+                                  S.of(context).SquareMeter,
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -241,11 +253,15 @@ class PropertyCard extends StatelessWidget {
                     Expanded(
                       child: TextWidget(
                         textAlign: TextAlign.right,
-                        text: adModel[index].info!.address.toString() +
+                        text: adDetails[index].data.info!.address.toString() +
                             ' , ' +
-                            adModel[index].district!.districtName.toString() +
+                            adDetails[index]
+                                .data
+                                .district!
+                                .districtName
+                                .toString() +
                             ' , ' +
-                            adModel[index].city!.cityName.toString(),
+                            adDetails[index].data.city!.cityName.toString(),
 
                         fontSize: 14,
                         color: Colors.black,

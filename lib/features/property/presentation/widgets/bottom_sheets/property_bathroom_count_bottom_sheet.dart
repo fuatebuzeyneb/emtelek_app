@@ -1,7 +1,7 @@
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
-import 'package:emtelek/features/search_property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/features/auth/presentation/pages/login_page.dart';
@@ -17,8 +17,8 @@ import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PropertyRoomCountBottomSheet extends StatelessWidget {
-  const PropertyRoomCountBottomSheet({
+class PropertyBathroomCountBottomSheet extends StatelessWidget {
+  const PropertyBathroomCountBottomSheet({
     super.key,
   });
 
@@ -51,7 +51,7 @@ class PropertyRoomCountBottomSheet extends StatelessWidget {
             const Row(
               children: [
                 TextWidget(
-                  text: 'غرف النوم',
+                  text: 'عدد الحمامات',
                   fontSize: 20,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -67,7 +67,7 @@ class PropertyRoomCountBottomSheet extends StatelessWidget {
             ),
             8.toHeight,
             const TextWidget(
-              text: 'اختر عدد غرف النوم',
+              text: 'اختر عدد الحمامات',
               fontSize: 14,
               color: Colors.grey,
               // fontWeight: FontWeight.bold,
@@ -78,14 +78,14 @@ class PropertyRoomCountBottomSheet extends StatelessWidget {
               width: context.width * 1,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 12,
+                itemCount: 7,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 4),
-                    child: propertyCubit.listRoomCount.contains(index)
+                    child: propertyCubit.listBathRoomCount.contains(index)
                         ? ButtonWidget(
                             onTap: () {
-                              propertyCubit.removeListRoomCount(index);
+                              propertyCubit.removeListBathRoomCount(index);
                             },
                             color: Colors.white,
                             height: 0.025,
@@ -102,7 +102,7 @@ class PropertyRoomCountBottomSheet extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 4),
                                   child: TextWidget(
-                                    text: index == 11 ? '12+' : '${index + 1}',
+                                    text: index == 6 ? '7+' : '${index + 1}',
                                     color: Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -113,7 +113,7 @@ class PropertyRoomCountBottomSheet extends StatelessWidget {
                           )
                         : ButtonWidget(
                             onTap: () {
-                              propertyCubit.addListRoomCount(index);
+                              propertyCubit.addListBathRoomCount(index);
                             },
                             color: Colors.white,
                             height: 0.025,
@@ -125,8 +125,8 @@ class PropertyRoomCountBottomSheet extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 4),
                                   child: TextWidget(
-                                    text: index == 11
-                                        ? '12+'
+                                    text: index == 6
+                                        ? '7+'
                                         : (index + 1).toString(),
                                     color: Colors.black,
                                     fontSize: 16,
