@@ -20,31 +20,32 @@ class MySearchesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     PropertyCubit propertyCubit = context.read<PropertyCubit>();
     return Scaffold(
-        backgroundColor: Colors.grey.shade100,
-        appBar: AppBarWidget(
-            title: S.of(context).MySearches, isHaveBackButton: true),
-        body: BlocBuilder<PropertyCubit, PropertyState>(
-          builder: (context, state) {
-            return state is PropertyGetFilterSearchLoading
-                ? const Center(child: LoadingWidget())
-                : state is PropertyGetFilterSearchFailure
-                    ? Center(child: Text(state.errMessage))
-                    : SizedBox(
-                        width: context.width * 1,
-                        height: context.height * 1,
-                        child: ListView.builder(
-                          itemCount: propertyCubit.searchFilterList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: SearchFilterCardWidget(
-                                index: index,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-          },
-        ));
+      backgroundColor: Colors.grey.shade100,
+      appBar:
+          AppBarWidget(title: S.of(context).MySearches, isHaveBackButton: true),
+      // body: BlocBuilder<PropertyCubit, PropertyState>(
+      //   builder: (context, state) {
+      //     return state is PropertyGetFilterSearchLoading
+      //         ? const Center(child: LoadingWidget())
+      //         : state is PropertyGetFilterSearchFailure
+      //             ? Center(child: Text(state.errMessage))
+      //             : SizedBox(
+      //                 width: context.width * 1,
+      //                 height: context.height * 1,
+      //                 child: ListView.builder(
+      //                   itemCount: propertyCubit.searchFilterList.length,
+      //                   itemBuilder: (BuildContext context, int index) {
+      //                     return Padding(
+      //                       padding: const EdgeInsets.only(bottom: 8.0),
+      //                       child: SearchFilterCardWidget(
+      //                         index: index,
+      //                       ),
+      //                     );
+      //                   },
+      //                 ),
+      //               );
+      //   },
+      // ),
+    );
   }
 }

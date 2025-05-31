@@ -27,40 +27,40 @@ class SearchTextPage extends StatelessWidget {
               TextFieldWidget(
                 onChanged: (value) {
                   if (value.length >= 2) {
-                    homeCubit.getSearchTextData(searchText: value);
+                    homeCubit.getSearchAds(searchTitle: value);
                   }
                 },
                 hint: S.of(context).WriteThreeCharacters,
                 prefixIcon: Icon(Icons.search, color: Colors.grey),
               ),
               20.toHeight,
-              // BlocBuilder<HomeCubit, HomeState>(
-              //   builder: (context, state) {
-              //     return state is HomeTextSearchAdsLoading
-              //         ? const Center(
-              //             child: LoadingWidget(),
-              //           )
-              //         : state is HomeTextSearchAdsFailure
-              //             ? Center(
-              //                 child: Text(state.errorMassage),
-              //               )
-              //             : SizedBox(
-              //                 height: context.height * 0.7,
-              //                 width: context.width * 1,
-              //                 child: ListView.builder(
-              //                   itemCount: homeCubit.searchTextAds.length,
-              //                   itemBuilder: (BuildContext context, int index) {
-              //                     return Padding(
-              //                       padding: const EdgeInsets.only(bottom: 16),
-              //                       child: PropertyCard(
-              //                           index: index,
-              //                           adDetails: homeCubit.searchTextAds),
-              //                     );
-              //                   },
-              //                 ),
-              //               );
-              //   },
-              // )
+              BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  return state is HomeTextSearchAdsLoading
+                      ? const Center(
+                          child: LoadingWidget(),
+                        )
+                      : state is HomeTextSearchAdsFailure
+                          ? Center(
+                              child: Text(state.errorMassage),
+                            )
+                          : SizedBox(
+                              height: context.height * 0.7,
+                              width: context.width * 1,
+                              child: ListView.builder(
+                                itemCount: homeCubit.searchAdsList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 16),
+                                    child: PropertyCard(
+                                        index: index,
+                                        adDetails: homeCubit.searchAdsList),
+                                  );
+                                },
+                              ),
+                            );
+                },
+              )
             ],
           ),
         ));

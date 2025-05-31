@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:emtelek/features/home/data/models/get_home_response_model.dart';
 import 'package:emtelek/features/home/data/models/property_model.dart';
+import 'package:emtelek/features/home/data/models/search_request_model.dart';
 import 'package:emtelek/features/home/data/repositories/home_repository.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
 import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
@@ -82,14 +83,25 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  List<AdModel> searchTextAds = [];
+  List<Property> searchAdsList = [];
 
-  Future<void> getSearchTextData({required String searchText}) async {
+  Future<void> getSearchAds({required String searchTitle}) async {
+    emit(HomeTextSearchAdsLoading());
     try {
-      emit(HomeTextSearchAdsLoading());
-      searchTextAds =
-          await homeRepository.getSearchAds(searchQuery: searchText);
-      emit(HomeTextSearchAdsSuccess());
+      final response = await homeRepository.getSearchAds(
+          searchRequestModel: SearchRequestModel(
+              token: getIt<CacheHelper>().getDataString(key: 'token') ?? "null",
+              clientId: getIt<CacheHelper>().getData(key: 'clientId') ?? "null",
+              searchQuery: searchTitle,
+              page: 0,
+              orderBy: 'PublishDate ASC1'));
+
+      if (response.hasData) {
+        searchAdsList = response.data;
+        emit(HomeTextSearchAdsSuccess());
+      } else {
+        emit(HomeTextSearchAdsFailure(errorMassage: 'No ads found!'));
+      }
     } catch (e) {
       emit(HomeTextSearchAdsFailure(errorMassage: e.toString()));
     }

@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:emtelek/features/home/data/models/property_model.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
 import 'package:emtelek/features/property/data/models/property_filter_request_mode.dart';
+import 'package:emtelek/features/home/data/models/search_request_model.dart';
+import 'package:emtelek/features/home/data/models/search_response_model.dart';
 import 'package:emtelek/features/property/data/repositories/search_property_repository.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/models/city-model/city_model.dart';
@@ -330,24 +333,27 @@ class PropertyCubit extends Cubit<PropertyState> {
     }
   }
 
-  List<PropertyFilterRequestModel> searchFilterList = [];
+  List<Property> searchFilterList = [];
 
-  Future<void> getSearchFilter() async {
+  Future<void> getSearchFilter({required String searchTitle}) async {
     emit(PropertyGetFilterSearchLoading());
     try {
-      searchFilterList = await searchPropertyRepository.getSearchFilter();
+      final response = await searchPropertyRepository.getSearchFilter(
+          searchRequestModel: SearchRequestModel(
+              token: getIt<CacheHelper>().getDataString(key: 'token') ?? "null",
+              clientId: getIt<CacheHelper>().getData(key: 'clientId') ?? "null",
+              searchQuery: searchTitle,
+              page: 0,
+              orderBy: 'PublishDate ASC1'));
 
-      // ✅ طباعة منظمة لنتائج الفلتر
-      if (searchFilterList.isNotEmpty) {
+      if (response.hasData) {
+        searchFilterList = response.data;
         emit(PropertyGetFilterSearchSuccess());
       } else {
         emit(PropertyGetFilterSearchFailure(errMessage: 'No ads found!'));
-        print('🚫 No ads found!');
       }
     } catch (e) {
       emit(PropertyGetFilterSearchFailure(errMessage: e.toString()));
-      print('❌ Error loading filtered ads: $e');
     }
   }
 }
-//  List<dynamic> selectCitiesAndDistricts = [];

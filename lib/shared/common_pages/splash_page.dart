@@ -17,20 +17,13 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  bool isInitialized = false;
-
-  late final HomeCubit homeCubit;
-  late final SettingsCubit settingsCubit;
-
   @override
   void initState() {
     super.initState();
-    homeCubit = context.read<HomeCubit>();
-    settingsCubit = context.read<SettingsCubit>();
-    _initializeApp();
+    _initApp();
   }
 
-  Future<void> _initializeApp() async {
+  void _initApp() async {
     if (getIt<CacheHelper>().getDataString(key: 'Lang') == null) {
       saveLanguage('ar');
     }
@@ -39,14 +32,9 @@ class _SplashPageState extends State<SplashPage> {
       saveCurrencyCode('SYP');
     }
 
-    await homeCubit.getHomeData();
-    await settingsCubit.openBox();
-    await settingsCubit.fetchExchangeRates();
-
-    if (!mounted) return;
-    setState(() {
-      isInitialized = true;
-    });
+    await context.read<HomeCubit>().getHomeData();
+    await context.read<SettingsCubit>().openBox();
+    await context.read<SettingsCubit>().fetchExchangeRates();
   }
 
   @override
@@ -56,8 +44,7 @@ class _SplashPageState extends State<SplashPage> {
       splashIconSize: 200,
       backgroundColor: Colors.white,
       splashTransition: SplashTransition.fadeTransition,
-      nextScreen:
-          isInitialized ? const BottomNavBar() : const SplashPage(), // trick
+      nextScreen: const BottomNavBar(), // trick
       duration: 500, // صغير لأنه سيتم التحكم من خلال الحالة
       //splashIcon: Image.asset('assets/images/add_user.png'),
     );

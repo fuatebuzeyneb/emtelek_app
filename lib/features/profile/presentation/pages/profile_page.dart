@@ -183,8 +183,8 @@ class ProfilePage extends StatelessWidget {
                         color: Colors.white,
                         showElevation: true,
                         onTap: () {
-                          BlocProvider.of<PropertyCubit>(context)
-                              .getSearchFilter();
+                          // BlocProvider.of<PropertyCubit>(context)
+                          //     .getSearchFilter();
                           pageTransition(context, page: const MySearchesPage());
                         },
                         height: 0.1,
