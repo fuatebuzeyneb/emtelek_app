@@ -101,7 +101,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                     onPageChanged: (value) {
                                       adDetailsCubit.currentPageFunction(value);
                                     },
-                                    children: adDetails.images.values
+                                    children: adDetails.images
                                         .map(
                                           (img) => Image.network(
                                             "${EndPoints.adImageUrl}${img.attachmentName}",

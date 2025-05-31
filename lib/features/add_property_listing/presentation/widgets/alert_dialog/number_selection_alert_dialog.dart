@@ -12,14 +12,12 @@ class NumberSelectionAlertDialog extends StatelessWidget {
     required this.fieldKey,
     required this.startIndex,
     required this.itemCount,
-    required this.isEdit,
   });
 
   final String fieldKey; // المفتاح المستخدم لحفظ القيمة في Cubit
   final int startIndex; // نقطة البداية (0 للغرف، 1 للحمامات)
   final int itemCount; // عدد الخيارات
 
-  final bool isEdit;
   @override
   Widget build(BuildContext context) {
     PropertyAddAdCubit propertyAddAdCubit =
@@ -46,11 +44,8 @@ class NumberSelectionAlertDialog extends StatelessWidget {
               // text: (index + 1).toString(),
               // colorText: Colors.black38,
               onTap: () {
-                if (isEdit == false) {
-                  propertyAddAdCubit.setPropertyCount(fieldKey, value);
-                } else {
-                  myAdsCubit.updatePropertyField(fieldKey, value);
-                }
+                propertyAddAdCubit.setPropertyCount(fieldKey, value);
+
                 Navigator.pop(context);
               },
               child: Column(
@@ -67,40 +62,21 @@ class NumberSelectionAlertDialog extends StatelessWidget {
                             child: Radio(
                               value: value,
                               groupValue: fieldKey == 'roomCount'
-                                  ? (isEdit == false
-                                      ? propertyAddAdCubit.roomCount
-                                      : myAdsCubit.adModel.info!.roomCount)
+                                  ? propertyAddAdCubit.roomCount
                                   : fieldKey == 'bathroomCount'
-                                      ? (isEdit == false
-                                          ? propertyAddAdCubit.bathroomCount
-                                          : myAdsCubit
-                                              .adModel.info!.bathroomCount)
+                                      ? propertyAddAdCubit.bathroomCount
                                       : fieldKey == 'floorNumber'
-                                          ? (isEdit == false
-                                              ? propertyAddAdCubit.floorNumber
-                                              : myAdsCubit
-                                                  .adModel.info!.floorNumber)
+                                          ? propertyAddAdCubit.floorNumber
                                           : fieldKey == 'floorCount'
-                                              ? (isEdit == false
-                                                  ? propertyAddAdCubit
-                                                      .floorCount
-                                                  : myAdsCubit
-                                                      .adModel.info!.floorCount)
+                                              ? propertyAddAdCubit.floorCount
                                               : fieldKey == 'balconyCount'
-                                                  ? (isEdit == false
-                                                      ? propertyAddAdCubit
-                                                          .balconyCount
-                                                      : myAdsCubit.adModel.info!
-                                                          .balconyCount)
+                                                  ? propertyAddAdCubit
+                                                      .balconyCount
                                                   : 0,
                               onChanged: (value) {
-                                if (isEdit == false) {
-                                  propertyAddAdCubit.setPropertyField(
-                                      fieldKey, value);
-                                } else {
-                                  myAdsCubit.updatePropertyField(
-                                      fieldKey, value);
-                                }
+                                propertyAddAdCubit.setPropertyCount(
+                                    fieldKey, value!);
+
                                 Navigator.pop(context);
                               },
                             ),

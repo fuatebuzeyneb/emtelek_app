@@ -10,14 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DistrictSelectionAlertDialog extends StatelessWidget {
   const DistrictSelectionAlertDialog({
     super.key,
-    required this.forWitchType,
   });
 
-  final int forWitchType; //if 1 for property if 2 for car
   @override
   Widget build(BuildContext context) {
-    PropertyAddAdCubit propertyAddAdCubit =
-        BlocProvider.of<PropertyAddAdCubit>(context);
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
     final addAdGlobalCubit = context.read<AddAdGlobalCubit>();
     return AlertDialog(
@@ -39,11 +35,9 @@ class DistrictSelectionAlertDialog extends StatelessWidget {
               // text: (index + 1).toString(),
               // colorText: Colors.black38,
               onTap: () {
-                if (forWitchType == 1) {
-                  addAdGlobalCubit.changeDistrictId(
-                    id: settingsCubit.filteredDistricts[index].districtId,
-                  );
-                } else if (forWitchType == 2) {}
+                addAdGlobalCubit.changeDistrictId(
+                  id: settingsCubit.filteredDistricts[index].districtId,
+                );
 
                 Navigator.pop(context);
               },
@@ -62,16 +56,12 @@ class DistrictSelectionAlertDialog extends StatelessWidget {
                             child: Radio(
                               value: settingsCubit
                                   .filteredDistricts[index].districtId,
-                              groupValue: forWitchType == 1
-                                  ? addAdGlobalCubit.districtId
-                                  : context,
+                              groupValue: addAdGlobalCubit.districtId,
                               onChanged: (value) {
-                                if (forWitchType == 1) {
-                                  addAdGlobalCubit.changeDistrictId(
-                                    id: settingsCubit
-                                        .filteredDistricts[index].districtId,
-                                  );
-                                } else if (forWitchType == 2) {}
+                                addAdGlobalCubit.changeDistrictId(
+                                  id: settingsCubit
+                                      .filteredDistricts[index].districtId,
+                                );
 
                                 Navigator.pop(context);
                               },

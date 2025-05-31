@@ -16,7 +16,7 @@ class Property {
   final int status;
   bool? isFavorite;
   final List<FeatureModel>? features;
-  final Map<String, ImageModel> images;
+  final List<ImageModel> images;
   final PropertyData data;
 
   Property({
@@ -60,13 +60,11 @@ class Property {
               .map((e) => FeatureModel.fromJson(e))
               .toList()
           : null,
-      images: (json['Images'] as Map<String, dynamic>?)?.map(
-            (key, value) => MapEntry(
-              key,
-              ImageModel.fromJson(value as Map<String, dynamic>),
-            ),
-          ) ??
-          {},
+      images: (json['Images'] as Map<String, dynamic>?)
+              ?.values
+              .map((e) => ImageModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       data: PropertyData.fromJson(json['data'] ?? {}),
     );
   }

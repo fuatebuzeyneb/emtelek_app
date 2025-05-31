@@ -5,7 +5,7 @@ import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
 
-import 'package:emtelek/features/add_property_listing/presentation/pages/add_ad_details_page.dart';
+import 'package:emtelek/features/add_property_listing/presentation/pages/add_or_edit_ad_details_page.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
@@ -149,7 +149,7 @@ class SelectAdCategoryPage extends StatelessWidget {
                           .changeCategoryForAdType(categories[index]);
                       //DetailsForAddAdsView
                       pageTransition(context,
-                          page: const AddAdDetailsPage(
+                          page: const AddOrEditAdDetailsPage(
                             itIsEdit: false,
                           ));
                       print(

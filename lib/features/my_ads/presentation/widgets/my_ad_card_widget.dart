@@ -2,7 +2,7 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
-import 'package:emtelek/features/add_property_listing/presentation/pages/add_ad_details_page.dart';
+import 'package:emtelek/features/add_property_listing/presentation/pages/add_or_edit_ad_details_page.dart';
 import 'package:emtelek/features/my_ads/data/models/ad_model.dart';
 import 'package:emtelek/features/my_ads/data/models/delete_ad_request_model.dart';
 import 'package:emtelek/features/my_ads/data/models/get_my_ads_response_model.dart';
@@ -124,7 +124,7 @@ class MyAdCardWidget extends StatelessWidget {
                   ButtonWidget(
                     onTap: () {
                       pageTransition(context,
-                          page: AddAdDetailsPage(
+                          page: AddOrEditAdDetailsPage(
                             indexForEdit: index,
                             itIsEdit: true,
                           ));

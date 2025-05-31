@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
@@ -70,21 +71,21 @@ class AddAdDetailsPage extends StatelessWidget {
 
 
 */
-class AddAdDetailsPage extends StatefulWidget {
+class AddOrEditAdDetailsPage extends StatefulWidget {
   final bool itIsEdit;
   final int? indexForEdit;
 
-  const AddAdDetailsPage({
+  const AddOrEditAdDetailsPage({
     super.key,
     required this.itIsEdit,
     this.indexForEdit,
   });
 
   @override
-  State<AddAdDetailsPage> createState() => _AddAdDetailsPageState();
+  State<AddOrEditAdDetailsPage> createState() => _AddOrEditAdDetailsPageState();
 }
 
-class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
+class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
   final titleAdController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final priceController = TextEditingController();
@@ -135,36 +136,6 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
               DateTime.tryParse(data.property.data.info.constructionDate);
       propertyAddAdCubit.featuresListId =
           data.property.features?.map((e) => e.featureId).toList() ?? [];
-// propertyAddAdCubit.imagesProperty = data.property.images
-
-      // districtId: addAdGlobalCubit.districtId!,
-      // price: double.parse(priceController.text),
-      // currency: addAdGlobalCubit.currencyId!,
-      // sellerType: addAdGlobalCubit.sellerType!,
-      // location: addAdGlobalCubit.location!,
-      // totalArea: int.parse(totalAreaController.text),
-      // roomCount: propertyAddAdCubit.roomCount!,
-      // bathroomCount: propertyAddAdCubit.bathroomCount!,
-      // description: descriptionController.text,
-      // netArea: netAreaController.text == ''
-      //     ? 0
-      //     : int.parse(netAreaController.text),
-      // address: addressController.text,
-      // floorCount: propertyAddAdCubit.floorCount,
-      // floorNumber: propertyAddAdCubit.floorNumber,
-      // furnish: propertyAddAdCubit.furnishStatus == true
-      //     ? 'yes'
-      //     : 'no',
-      // constructionDate:
-      //     propertyAddAdCubit.constructionDate == null
-      //         ? 'null'
-      //         : DateFormat('yyyy-MM-dd')
-      //             .format(propertyAddAdCubit.constructionDate!),
-      // complexName: complexNameController.text.isEmpty
-      //     ? null
-      //     : complexNameController.text,
-      // //   featuresId: propertyAddAdCubit.featuresListId!,
-      // balconyCount: propertyAddAdCubit.balconyCount,
     }
   }
 
@@ -415,7 +386,13 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
                               ],
                             ),
                           ),
-                          propertyAddAdCubit.imagesProperty.isNotEmpty
+                          propertyAddAdCubit.imagesProperty.isNotEmpty ||
+                                  context
+                                      .read<MyAdsCubit>()
+                                      .myAdsX[widget.indexForEdit!]
+                                      .property
+                                      .images
+                                      .isNotEmpty
                               ? Padding(
                                   padding: const EdgeInsets.only(
                                     top: 8,
@@ -424,8 +401,15 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
                                       height: context.height * 0.12,
                                       width: context.width * 1,
                                       child: ListView.builder(
-                                        itemCount: propertyAddAdCubit
-                                            .imagesProperty.length,
+                                        itemCount: widget.itIsEdit == false
+                                            ? propertyAddAdCubit
+                                                .imagesProperty.length
+                                            : context
+                                                .read<MyAdsCubit>()
+                                                .myAdsX[widget.indexForEdit!]
+                                                .property
+                                                .images
+                                                .length,
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder:
                                             (BuildContext context, int index) {
@@ -444,15 +428,21 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
                                                     BorderRadius.circular(8),
                                               ),
                                               child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                child: Image.file(
-                                                  File(propertyAddAdCubit
-                                                      .imagesProperty[index]
-                                                      .path),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  child:
+                                                      widget.itIsEdit == false
+                                                          ? Image.file(
+                                                              File(propertyAddAdCubit
+                                                                  .imagesProperty[
+                                                                      index]
+                                                                  .path),
+                                                              fit: BoxFit.cover,
+                                                            )
+                                                          : Image.network(
+                                                              "${EndPoints.adImageUrl}${context.read<MyAdsCubit>().myAdsX[widget.indexForEdit!].property.images[index].attachmentName}",
+                                                              fit: BoxFit.cover,
+                                                            )),
                                             ),
                                           );
                                         },
@@ -624,7 +614,6 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
                                           fieldKey: 'roomCount',
                                           startIndex: 0,
                                           itemCount: 15,
-                                          isEdit: false,
                                         );
                                       });
                                 },
@@ -676,7 +665,6 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
                                           fieldKey: 'bathroomCount',
                                           startIndex: 1,
                                           itemCount: 15,
-                                          isEdit: false,
                                         );
                                       });
                                 },
@@ -731,7 +719,6 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
                                           fieldKey: 'floorNumber',
                                           startIndex: 1,
                                           itemCount: 15,
-                                          isEdit: false,
                                         );
                                       });
                                 },
@@ -785,7 +772,6 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
                                           fieldKey: 'floorCount',
                                           startIndex: 1,
                                           itemCount: 15,
-                                          isEdit: false,
                                         );
                                       });
                                 },
@@ -837,7 +823,6 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
                                           fieldKey: 'balconyCount',
                                           startIndex: 1,
                                           itemCount: 15,
-                                          isEdit: false,
                                         );
                                       });
                                 },
@@ -958,9 +943,7 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
                                       barrierDismissible: true,
                                       context: context,
                                       builder: (context) {
-                                        return FurnishedOrUnfurnishedAlertDialog(
-                                          isEdit: false,
-                                        );
+                                        return FurnishedOrUnfurnishedAlertDialog();
                                       });
                                 },
                                 height: 0.06,
@@ -1179,9 +1162,7 @@ class _AddAdDetailsPageState extends State<AddAdDetailsPage> {
                                         barrierDismissible: true,
                                         context: context,
                                         builder: (context) {
-                                          return DistrictSelectionAlertDialog(
-                                            forWitchType: 1,
-                                          );
+                                          return DistrictSelectionAlertDialog();
                                         });
                                   }
                                 },

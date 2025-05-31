@@ -3,12 +3,14 @@ import 'package:emtelek/shared/services/service_locator.dart';
 
 class Formatter {
   static String formatNumber(double number) {
+    if (number.isNaN || number.isInfinite) return '0.00';
+
     String formattedNumber = number.toStringAsFixed(2);
 
     // Split integer and decimal parts
     List<String> parts = formattedNumber.split('.');
     String integerPart = parts[0];
-    String decimalPart = parts[1];
+    String decimalPart = parts.length > 1 ? parts[1] : '00';
 
     // Add thousand separators to integer part
     String formattedIntegerPart = integerPart.replaceAllMapped(

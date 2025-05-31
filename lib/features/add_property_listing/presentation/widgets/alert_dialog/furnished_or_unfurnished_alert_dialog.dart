@@ -11,10 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FurnishedOrUnfurnishedAlertDialog extends StatelessWidget {
   const FurnishedOrUnfurnishedAlertDialog({
-    required this.isEdit,
     super.key,
   });
-  final bool isEdit;
+
   @override
   Widget build(BuildContext context) {
     PropertyAddAdCubit propertyAddAdCubit =
@@ -39,11 +38,7 @@ class FurnishedOrUnfurnishedAlertDialog extends StatelessWidget {
                 // text: (index + 1).toString(),
                 // colorText: Colors.black38,
                 onTap: () {
-                  if (isEdit == false) {
-                    propertyAddAdCubit.changeFurnishStatus(furnishOrNot: true);
-                  } else {
-                    myAdsCubit.updatePropertyField('furnished', true);
-                  }
+                  propertyAddAdCubit.changeFurnishStatus(furnishOrNot: true);
 
                   Navigator.pop(context);
                 },
@@ -58,21 +53,11 @@ class FurnishedOrUnfurnishedAlertDialog extends StatelessWidget {
                           width: 0,
                           child: Radio(
                             value: true,
-                            groupValue: isEdit
-                                ? myAdsCubit.myAds[myAdsCubit.editIndex].info!
-                                            .furnish ==
-                                        "yes"
-                                    ? true
-                                    : false
-                                : propertyAddAdCubit.furnishStatus,
+                            groupValue: propertyAddAdCubit.furnishStatus,
                             onChanged: (value) {
-                              if (isEdit == false) {
-                                propertyAddAdCubit.changeFurnishStatus(
-                                    furnishOrNot: value!);
-                              } else {
-                                myAdsCubit.updatePropertyField(
-                                    'furnished', value);
-                              }
+                              propertyAddAdCubit.changeFurnishStatus(
+                                  furnishOrNot: value!);
+
                               Navigator.pop(context);
                             },
                           ),
@@ -102,12 +87,7 @@ class FurnishedOrUnfurnishedAlertDialog extends StatelessWidget {
                 // text: (index + 1).toString(),
                 // colorText: Colors.black38,
                 onTap: () {
-                  if (isEdit == false) {
-                    propertyAddAdCubit.changeFurnishStatus(
-                        furnishOrNot: false!);
-                  } else {
-                    myAdsCubit.updatePropertyField('furnished', false);
-                  }
+                  propertyAddAdCubit.changeFurnishStatus(furnishOrNot: false);
 
                   Navigator.pop(context);
                 },
@@ -122,21 +102,11 @@ class FurnishedOrUnfurnishedAlertDialog extends StatelessWidget {
                           width: 0,
                           child: Radio(
                             value: false,
-                            groupValue: isEdit
-                                ? myAdsCubit.myAds[myAdsCubit.editIndex].info!
-                                            .furnish ==
-                                        "yes"
-                                    ? true
-                                    : false
-                                : propertyAddAdCubit.furnishStatus,
+                            groupValue: propertyAddAdCubit.furnishStatus,
                             onChanged: (value) {
-                              if (isEdit == false) {
-                                propertyAddAdCubit.changeFurnishStatus(
-                                    furnishOrNot: value!);
-                              } else {
-                                myAdsCubit.updatePropertyField(
-                                    'furnished', value);
-                              }
+                              propertyAddAdCubit.changeFurnishStatus(
+                                  furnishOrNot: value!);
+
                               Navigator.pop(context);
                             },
                           ),
