@@ -343,6 +343,10 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
                                   page: ImagePickerGrid(
                                     maxImages: 12,
                                     forWitchFeature: 1,
+                                    initialImages:
+                                        propertyAddAdCubit.imagesProperty,
+                                    initialMainImage:
+                                        propertyAddAdCubit.mainImage,
                                   ));
                             },
                             height: 0.06,
@@ -386,13 +390,7 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
                               ],
                             ),
                           ),
-                          propertyAddAdCubit.imagesProperty.isNotEmpty ||
-                                  context
-                                      .read<MyAdsCubit>()
-                                      .myAdsX[widget.indexForEdit!]
-                                      .property
-                                      .images
-                                      .isNotEmpty
+                          propertyAddAdCubit.imagesProperty.isNotEmpty
                               ? Padding(
                                   padding: const EdgeInsets.only(
                                     top: 8,
@@ -401,15 +399,8 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
                                       height: context.height * 0.12,
                                       width: context.width * 1,
                                       child: ListView.builder(
-                                        itemCount: widget.itIsEdit == false
-                                            ? propertyAddAdCubit
-                                                .imagesProperty.length
-                                            : context
-                                                .read<MyAdsCubit>()
-                                                .myAdsX[widget.indexForEdit!]
-                                                .property
-                                                .images
-                                                .length,
+                                        itemCount: propertyAddAdCubit
+                                            .imagesProperty.length,
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder:
                                             (BuildContext context, int index) {
@@ -430,19 +421,64 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
                                               child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
-                                                  child:
-                                                      widget.itIsEdit == false
-                                                          ? Image.file(
-                                                              File(propertyAddAdCubit
-                                                                  .imagesProperty[
-                                                                      index]
-                                                                  .path),
-                                                              fit: BoxFit.cover,
-                                                            )
-                                                          : Image.network(
-                                                              "${EndPoints.adImageUrl}${context.read<MyAdsCubit>().myAdsX[widget.indexForEdit!].property.images[index].attachmentName}",
-                                                              fit: BoxFit.cover,
-                                                            )),
+                                                  child: Image.file(
+                                                    File(propertyAddAdCubit
+                                                        .imagesProperty[index]
+                                                        .path),
+                                                    fit: BoxFit.cover,
+                                                  )),
+                                            ),
+                                          );
+                                        },
+                                      )),
+                                )
+                              : SizedBox(),
+
+                          widget.itIsEdit &&
+                                  context
+                                      .read<MyAdsCubit>()
+                                      .myAdsX[widget.indexForEdit!]
+                                      .property
+                                      .images
+                                      .isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 8,
+                                  ),
+                                  child: SizedBox(
+                                      height: context.height * 0.12,
+                                      width: context.width * 1,
+                                      child: ListView.builder(
+                                        itemCount: context
+                                            .read<MyAdsCubit>()
+                                            .myAdsX[widget.indexForEdit!]
+                                            .property
+                                            .images
+                                            .length,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 2, vertical: 4),
+                                            child: Container(
+                                              height: context.height * 0.12,
+                                              width: context.width * 0.25,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  child: Image.network(
+                                                    "${EndPoints.adImageUrl}${context.read<MyAdsCubit>().myAdsX[widget.indexForEdit!].property.images[index].attachmentName}",
+                                                    fit: BoxFit.cover,
+                                                  )),
                                             ),
                                           );
                                         },
@@ -1331,30 +1367,8 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: ButtonWidget(
                   onTap: () {
-                    print('adTitle: ${titleAdController.text}');
-                    print(
-                        'categoryId: ${propertyAddAdCubit.categoryForAdType ?? "null"}');
-                    print(
-                        'districtId: ${addAdGlobalCubit.districtId ?? "null"}');
-                    print(
-                        'price: ${double.tryParse(priceController.text) ?? 0.0}');
-                    print('currency: ${addAdGlobalCubit.currencyId ?? "null"}');
-                    print(
-                        'sellerType: ${addAdGlobalCubit.sellerType ?? "null"}');
-                    print('location: ${addAdGlobalCubit.location ?? "null"}');
-                    print(
-                        'totalArea: ${int.tryParse(totalAreaController.text) ?? 0}');
-                    print('roomCount: ${propertyAddAdCubit.roomCount ?? 0}');
-                    print(
-                        'bathroomCount: ${propertyAddAdCubit.bathroomCount ?? 0}');
-
-                    print(
-                        'features: ${propertyAddAdCubit.featuresListId ?? []}');
-                    propertyAddAdCubit.addAdPropertyFunc(
-                        addPropertyAdRequestModel: AddPropertyAdRequestModel(
-                      phoneNumber: int.parse(
-                        phoneNumberController.text,
-                      ),
+                    final model = AddPropertyAdRequestModel(
+                      phoneNumber: int.parse(phoneNumberController.text),
                       token: getIt<CacheHelper>().getData(key: 'token'),
                       clientId: getIt<CacheHelper>().getData(key: 'clientId'),
                       adTitle: titleAdController.text,
@@ -1368,7 +1382,7 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
                       roomCount: propertyAddAdCubit.roomCount!,
                       bathroomCount: propertyAddAdCubit.bathroomCount!,
                       description: descriptionController.text,
-                      netArea: netAreaController.text == ''
+                      netArea: netAreaController.text.isEmpty
                           ? 0
                           : int.parse(netAreaController.text),
                       address: addressController.text,
@@ -1386,59 +1400,39 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
                           ? null
                           : complexNameController.text,
                       balconyCount: propertyAddAdCubit.balconyCount,
-                    ));
-                    if (propertyAddAdCubit.adModel.adTitle == null ||
-                        propertyAddAdCubit.adModel.client.phoneNumber == null ||
-                        propertyAddAdCubit.adModel.price == null ||
-                        propertyAddAdCubit.adModel.info.totalArea == null ||
-                        propertyAddAdCubit.adModel.sellerType == null ||
-                        propertyAddAdCubit.adModel.district.districtId ==
-                            null ||
-                        propertyAddAdCubit.adModel.location == null) {
+                    );
+
+                    if (titleAdController.text.isEmpty ||
+                        phoneNumberController.text.isEmpty ||
+                        priceController.text.isEmpty ||
+                        totalAreaController.text.isEmpty ||
+                        addAdGlobalCubit.sellerType == null ||
+                        addAdGlobalCubit.districtId == null ||
+                        addAdGlobalCubit.location == null) {
                       if ([8, 14, 26, 27, 12, 18]
                               .contains(propertyAddAdCubit.categoryForAdType) &&
-                          (propertyAddAdCubit.adModel.info.roomCount == null ||
-                              propertyAddAdCubit.adModel.info.bathroomCount ==
-                                  null)) {
+                          (propertyAddAdCubit.roomCount == null ||
+                              propertyAddAdCubit.bathroomCount == null)) {
                         SnackbarUtils.showSnackbar(
                             context, S.of(context).AddAdWarning, 2);
                       } else {
-                        propertyAddAdCubit.addAdPropertyFunc(
-                            addPropertyAdRequestModel:
-                                AddPropertyAdRequestModel(
-                          phoneNumber: int.parse(
-                            phoneNumberController.text,
-                          ),
-                          token: getIt<CacheHelper>().getData(key: 'token'),
-                          clientId:
-                              getIt<CacheHelper>().getData(key: 'clientId'),
-                          adTitle: titleAdController.text,
-                          categoryId: propertyAddAdCubit.categoryForAdType!,
-                          districtId: addAdGlobalCubit.districtId!,
-                          price: double.parse(priceController.text),
-                          currency: addAdGlobalCubit.currencyId!,
-                          sellerType: addAdGlobalCubit.sellerType!,
-                          location: addAdGlobalCubit.location!,
-                          totalArea: int.parse(totalAreaController.text),
-                          roomCount: propertyAddAdCubit.roomCount!,
-                          bathroomCount: propertyAddAdCubit.bathroomCount!,
-                          description: descriptionController.text,
-                          netArea: int.parse(netAreaController.text),
-                          address: addressController.text,
-                          floorCount: propertyAddAdCubit.floorCount!,
-                          floorNumber: propertyAddAdCubit.floorNumber!,
-                          furnish: propertyAddAdCubit.furnishStatus == true
-                              ? 'yes'
-                              : 'no',
-                          constructionDate: DateFormat('yyyy-MM-dd')
-                              .format(propertyAddAdCubit.constructionDate!),
-                          complexName: complexNameController.text,
-                          //     featuresId: propertyAddAdCubit.featuresListId!,
-                          balconyCount: propertyAddAdCubit.balconyCount!,
-                        ));
+                        if (widget.itIsEdit) {
+                          propertyAddAdCubit.editAdPropertyFunc(
+                              addPropertyAdRequestModel: model);
+                        } else {
+                          propertyAddAdCubit.addAdPropertyFunc(
+                              addPropertyAdRequestModel: model);
+                        }
                         // Navigator.pushNamed(context, FinishPage.id);
                       }
                     } else {
+                      if (widget.itIsEdit) {
+                        propertyAddAdCubit.editAdPropertyFunc(
+                            addPropertyAdRequestModel: model);
+                      } else {
+                        propertyAddAdCubit.addAdPropertyFunc(
+                            addPropertyAdRequestModel: model);
+                      }
                       //Navigator.pushNamed(context, FinishPage.id);
                     }
                   },

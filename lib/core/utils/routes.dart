@@ -18,7 +18,7 @@ final Map<String, Widget Function(BuildContext)> routes = {
 
   ForgotPasswordPage.id: (context) => const ForgotPasswordPage(),
   SignupPage.id: (context) => const SignupPage(),
-  FinishPage.id: (context) => const FinishPage(),
+//  FinishPage.id: (context) => const FinishPage(),
   ProfileSettingsPage.id: (context) => const ProfileSettingsPage(),
   MyAdsPage.id: (context) => const MyAdsPage(),
   MySearchesPage.id: (context) => const MySearchesPage(),

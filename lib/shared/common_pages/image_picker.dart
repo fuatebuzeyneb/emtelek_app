@@ -10,11 +10,15 @@ import 'package:image_picker/image_picker.dart';
 class ImagePickerGrid extends StatefulWidget {
   final int maxImages;
   final int forWitchFeature; // 1--> Property 2--> Cars
+  final List<XFile> initialImages;
+  final XFile? initialMainImage;
 
   const ImagePickerGrid({
     super.key,
     required this.maxImages,
     required this.forWitchFeature,
+    this.initialImages = const [],
+    this.initialMainImage,
   });
 
   @override
@@ -59,6 +63,22 @@ class _ImagePickerGridState extends State<ImagePickerGrid> {
         _mainImageIndex = _mainImageIndex! - 1;
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _images = List<XFile>.from(widget.initialImages);
+    if (widget.initialMainImage != null) {
+      final index = _images
+          .indexWhere((img) => img.path == widget.initialMainImage!.path);
+      if (index != -1) {
+        _mainImageIndex = index;
+      }
+    } else if (_images.isNotEmpty) {
+      _mainImageIndex = 0;
+    }
   }
 
   @override
@@ -224,7 +244,10 @@ class _ImagePickerGridState extends State<ImagePickerGrid> {
               backgroundColor: Colors.white,
               onPressed: () {
                 if (widget.forWitchFeature == 1) {
-                  propertyAddAdCubit.addAllImages(_images);
+                  propertyAddAdCubit.addImagesWithMain(
+                    allImages: _images,
+                    mainImageIndex: _mainImageIndex ?? 0,
+                  );
                   Navigator.pop(context);
                 } else if (widget.forWitchFeature == 2) {} // for cars
               },
