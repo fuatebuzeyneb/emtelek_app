@@ -31,10 +31,11 @@ class _SplashPageState extends State<SplashPage> {
     if (getIt<CacheHelper>().getDataString(key: 'currencyCode') == null) {
       saveCurrencyCode('SYP');
     }
+    final homeCubit = context.read<HomeCubit>();
+    final settingsCubit = context.read<SettingsCubit>();
 
-    await context.read<HomeCubit>().getHomeData();
-    await context.read<SettingsCubit>().openBox();
-    await context.read<SettingsCubit>().fetchExchangeRates();
+    await homeCubit.getHomeData();
+    await settingsCubit.fetchExchangeRates();
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:emtelek/core/errors/exceptions.dart';
-import 'package:emtelek/features/add_listing/data/models/property_add_model.dart';
+import 'package:emtelek/features/add_property_listing/data/models/property_add_model.dart';
 import 'package:emtelek/features/my_ads/data/models/ad_model.dart';
 import 'package:emtelek/features/my_ads/data/models/delete_ad_request_model.dart';
 import 'package:emtelek/features/my_ads/data/models/get_my_ads_response_model.dart';

@@ -2,7 +2,7 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
-import 'package:emtelek/features/property/presentation/widgets/property_card.dart';
+import 'package:emtelek/features/property_filter/presentation/widgets/property_card.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
 import 'package:emtelek/shared/widgets/loading_widget.dart';

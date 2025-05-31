@@ -1,11 +1,11 @@
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
-import 'package:emtelek/features/add_listing/presentation/pages/add_ad_page.dart';
+import 'package:emtelek/features/add_property_listing/presentation/pages/add_ad_page.dart';
 import 'package:emtelek/features/favorites/presentation/pages/favorite_page.dart';
 import 'package:emtelek/features/home/presentation/pages/home_page.dart';
 import 'package:emtelek/features/profile/presentation/pages/profile_page.dart';
-import 'package:emtelek/features/add_listing/presentation/widgets/bottom_sheets/add_ad_bottom_sheet.dart';
+import 'package:emtelek/features/add_property_listing/presentation/widgets/bottom_sheets/add_ad_bottom_sheet.dart';
 import 'package:emtelek/features/auth/presentation/widgets/bottom_sheets/login_options_bottom_sheet.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:flutter/material.dart';

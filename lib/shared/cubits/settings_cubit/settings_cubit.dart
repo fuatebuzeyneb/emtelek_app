@@ -89,8 +89,8 @@ class SettingsCubit extends Cubit<SettingsState> {
   String basicAuth =
       'Basic ${base64Encode(utf8.encode('${ApiKey.emtelekAuthUsername}:${ApiKey.emtelekAuthPass}'))}';
   Future<void> openBox() async {
-    citiesBox = await Hive.openBox<CityModel>('cityBox');
-    districtsBox = await Hive.openBox<DistrictModel>('districtBox');
+    citiesBox = Hive.box<CityModel>('cityBox');
+    districtsBox = Hive.box<DistrictModel>('districtBox');
     if (citiesBox!.isNotEmpty) {
       globalCities = citiesBox!.values.toList();
       emit(CityLoaded());
@@ -223,19 +223,12 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
 //this function will return the districts of the selected city
-  int? cityId;
-  void selectCityId(int id) {
-    cityId = id;
+  // int? cityId;
+  // void selectCityId(int id) {
+  //   cityId = id;
 
-    emit(SettingsInitial());
-  }
-
-  LatLng parseLatLng(String locationString) {
-    List<String> coordinates = locationString.split(",");
-    double latitude = double.parse(coordinates[0].trim());
-    double longitude = double.parse(coordinates[1].trim());
-    return LatLng(latitude, longitude);
-  }
+  //   emit(SettingsInitial());
+  // }
 
   String getCityNameByDistrictId(int districtId) {
     // ابحث عن المدينة باستخدام CityId بناءً على DistrictId

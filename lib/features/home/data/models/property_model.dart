@@ -15,7 +15,7 @@ class Property {
   final String mainImage;
   final int status;
   bool? isFavorite;
-  final dynamic features;
+  final List<FeatureModel>? features;
   final Map<String, ImageModel> images;
   final PropertyData data;
 
@@ -55,7 +55,11 @@ class Property {
       mainImage: json['MainImage'] ?? '',
       status: json['Status'] ?? 0,
       isFavorite: json['isFavorite'] ?? false,
-      features: json['Features'],
+      features: json['Features'] is List
+          ? (json['Features'] as List)
+              .map((e) => FeatureModel.fromJson(e))
+              .toList()
+          : null,
       images: (json['Images'] as Map<String, dynamic>?)?.map(
             (key, value) => MapEntry(
               key,
@@ -64,6 +68,26 @@ class Property {
           ) ??
           {},
       data: PropertyData.fromJson(json['data'] ?? {}),
+    );
+  }
+}
+
+class FeatureModel {
+  final int featureId;
+  final String featureName;
+  final String featureIcon;
+
+  FeatureModel({
+    required this.featureId,
+    required this.featureName,
+    required this.featureIcon,
+  });
+
+  factory FeatureModel.fromJson(Map<String, dynamic> json) {
+    return FeatureModel(
+      featureId: json['FeatureId'],
+      featureName: json['FeatureName'],
+      featureIcon: json['FeatureIcon'],
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:emtelek/features/add_listing/presentation/pages/finish_page.dart';
+import 'package:emtelek/features/add_property_listing/presentation/pages/finish_page.dart';
 import 'package:emtelek/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:emtelek/features/auth/presentation/pages/login_page.dart';
 import 'package:emtelek/features/auth/presentation/pages/signup_page.dart';

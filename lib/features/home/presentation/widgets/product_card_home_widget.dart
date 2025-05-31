@@ -10,7 +10,7 @@ import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
 
-import 'package:emtelek/features/property/presentation/pages/property_details_page.dart';
+import 'package:emtelek/features/property_filter/presentation/pages/property_details_page.dart';
 import 'package:emtelek/shared/helper/founctions/formatter.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';

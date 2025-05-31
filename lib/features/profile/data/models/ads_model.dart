@@ -1,3 +1,4 @@
+import 'package:emtelek/features/home/data/models/property_model.dart';
 import 'package:emtelek/features/profile/data/models/featur_model.dart';
 import 'package:emtelek/shared/helper/founctions/formatter.dart';
 
@@ -236,34 +237,6 @@ class ClientModel {
       'SubscriptionDate': subscriptionDate,
       'Image': image,
       'Verified': verified,
-    };
-  }
-}
-
-class FeatureModel {
-  final int featureId;
-  final String featureName;
-  final String featureIcon;
-
-  FeatureModel({
-    required this.featureId,
-    required this.featureName,
-    required this.featureIcon,
-  });
-
-  factory FeatureModel.fromJson(Map<String, dynamic> json) {
-    return FeatureModel(
-      featureId: json['FeatureId'],
-      featureName: json['FeatureName'],
-      featureIcon: json['FeatureIcon'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'FeatureId': featureId,
-      'FeatureName': featureName,
-      'FeatureIcon': featureIcon,
     };
   }
 }

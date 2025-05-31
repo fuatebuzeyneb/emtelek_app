@@ -63,30 +63,4 @@ class PropertyFilterRequestModel {
       'SearchTitle': searchTitle ?? 'null'
     };
   }
-
-  factory PropertyFilterRequestModel.fromJson(Map<String, dynamic> json) {
-    final content = json['Content'];
-
-    return PropertyFilterRequestModel(
-      searchTitle: json['SearchTitle'] as String? ?? '',
-      content: content is Map<String, dynamic>
-          ? ContentModel.fromJson(content)
-          : null,
-      token: '',
-      clientId: null,
-      minPrice: null,
-      maxPrice: null,
-      categoryId: null,
-      sellerType: null,
-      districtId: [],
-      cityId: [],
-      minTotalArea: null,
-      maxTotalArea: null,
-      roomCount: [],
-      bathroomCount: [],
-      furnish: null,
-      orderBy: '',
-      page: null,
-    );
-  }
 }

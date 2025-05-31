@@ -13,7 +13,7 @@ import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
 import 'package:emtelek/features/profile/data/models/get_user_response_model.dart';
 import 'package:emtelek/shared/models/all_response.dart';
 import 'package:emtelek/shared/models/auth-and-profile-models/clients_response_model.dart';
-import 'package:emtelek/features/add_listing/data/models/property_add_model.dart';
+import 'package:emtelek/features/add_property_listing/data/models/property_add_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 

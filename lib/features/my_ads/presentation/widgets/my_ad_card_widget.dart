@@ -2,14 +2,14 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
-import 'package:emtelek/features/add_listing/presentation/pages/add_ad_details_page.dart';
+import 'package:emtelek/features/add_property_listing/presentation/pages/add_ad_details_page.dart';
 import 'package:emtelek/features/my_ads/data/models/ad_model.dart';
 import 'package:emtelek/features/my_ads/data/models/delete_ad_request_model.dart';
 import 'package:emtelek/features/my_ads/data/models/get_my_ads_response_model.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
 import 'package:emtelek/features/my_ads/presentation/pages/edit_ad_details_page.dart';
-import 'package:emtelek/features/property/presentation/pages/property_details_page.dart';
+import 'package:emtelek/features/property_filter/presentation/pages/property_details_page.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/shared/helper/founctions/formatter.dart';
@@ -123,12 +123,11 @@ class MyAdCardWidget extends StatelessWidget {
                 children: [
                   ButtonWidget(
                     onTap: () {
-                      BlocProvider.of<MyAdsCubit>(context)
-                          .setEditIndex(index: index);
-                      // pageTransition(context,
-                      //     page: EditAdDetailsPage(
-                      //       indexForEdit: index,
-                      //     ));
+                      pageTransition(context,
+                          page: AddAdDetailsPage(
+                            indexForEdit: index,
+                            itIsEdit: true,
+                          ));
                     },
                     color: Colors.green,
                     colorText: Colors.white,

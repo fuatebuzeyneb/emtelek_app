@@ -9,7 +9,7 @@ import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
 
-import 'package:emtelek/features/property/presentation/widgets/bottom_sheets/property_filter_bottom_sheet.dart';
+import 'package:emtelek/features/property_filter/presentation/widgets/bottom_sheets/property_filter_bottom_sheet.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/loading_widget.dart';
 import 'package:emtelek/shared/widgets/text_field_widget.dart';

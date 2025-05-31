@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:emtelek/core/constants/app_colors.dart';
-import 'package:emtelek/features/add_listing/domain/cubit/property_add_ad_cubit.dart';
+import 'package:emtelek/features/add_property_listing/domain/cubit/property_add_ad_cubit.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/material.dart';

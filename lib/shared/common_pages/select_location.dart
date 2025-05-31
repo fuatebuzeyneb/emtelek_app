@@ -1,8 +1,9 @@
 import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/utils/snackbar_utils.dart';
-import 'package:emtelek/features/add_listing/domain/cubit/property_add_ad_cubit.dart';
+import 'package:emtelek/features/add_property_listing/domain/cubit/property_add_ad_cubit.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
+import 'package:emtelek/shared/cubits/cubit/add_ad_global_cubit.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
@@ -86,10 +87,11 @@ class _SelectLocationState extends State<SelectLocation> {
     if (widget.isEdit) {
       final myAdsCubit = BlocProvider.of<MyAdsCubit>(context);
       final settingsCubit = BlocProvider.of<SettingsCubit>(context);
+      final addAdGlobalCubit = BlocProvider.of<AddAdGlobalCubit>(context);
 
       // قم بفحص إذا كان `location` غير فارغ قبل محاولة تحليله
       if (myAdsCubit.myAds[myAdsCubit.editIndex].location != null) {
-        currentLocation = settingsCubit.parseLatLng(
+        currentLocation = addAdGlobalCubit.parseLatLng(
           myAdsCubit.myAds[myAdsCubit.editIndex].location!,
         );
         selectedLocation =
@@ -103,6 +105,8 @@ class _SelectLocationState extends State<SelectLocation> {
     PropertyAddAdCubit propertyAddAdCubit =
         BlocProvider.of<PropertyAddAdCubit>(context);
     MyAdsCubit myAdsCubit = BlocProvider.of<MyAdsCubit>(context);
+
+    final addAdGlobalCubit = BlocProvider.of<AddAdGlobalCubit>(context);
     return Scaffold(
       appBar: AppBar(
         shadowColor: Colors.white,
@@ -243,13 +247,15 @@ class _SelectLocationState extends State<SelectLocation> {
           if (widget.forWitchFeature == 1) {
             if (selectedLocation != null) {
               if (widget.isEdit == false) {
-                propertyAddAdCubit.setPropertyField('adModelLocation',
-                    "${selectedLocation!.latitude},${selectedLocation!.longitude}");
+                print("selectedLocation: $selectedLocation");
+                addAdGlobalCubit.selectLocation(
+                    locationCome:
+                        "${selectedLocation!.latitude},${selectedLocation!.longitude}");
               } else {
                 myAdsCubit.updatePropertyField('adModelLocation',
                     "${selectedLocation!.latitude},${selectedLocation!.longitude}");
               }
-              print(selectedLocation);
+
               Navigator.pop(context);
             } else {
               SnackbarUtils.showSnackbar(context, "يرجى تحديد الموقع");

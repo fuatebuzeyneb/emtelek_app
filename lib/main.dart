@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:emtelek/core/api/dio_consumer.dart';
 import 'package:emtelek/core/utils/routes.dart';
-import 'package:emtelek/features/add_listing/data/repositories/property_repository.dart';
-import 'package:emtelek/features/add_listing/domain/cubit/property_add_ad_cubit.dart';
-import 'package:emtelek/features/add_listing/presentation/pages/finish_page.dart';
+import 'package:emtelek/features/add_property_listing/data/repositories/property_repository.dart';
+import 'package:emtelek/features/add_property_listing/domain/cubit/property_add_ad_cubit.dart';
+import 'package:emtelek/features/add_property_listing/presentation/pages/finish_page.dart';
 import 'package:emtelek/features/auth/data/repositories/auth_repository.dart';
 import 'package:emtelek/features/favorites/data/repositories/favorites_repository.dart';
 import 'package:emtelek/features/favorites/domain/cubit/favorites_cubit.dart';
@@ -16,6 +16,7 @@ import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/property/data/repositories/search_property_repository.dart';
 import 'package:emtelek/shared/common_pages/splash_page.dart';
 import 'package:emtelek/shared/cubits/ad_details_cubit/ad_details_cubit.dart';
+import 'package:emtelek/shared/cubits/cubit/add_ad_global_cubit.dart';
 import 'package:emtelek/shared/widgets/bottom_nav_bar.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
@@ -40,6 +41,8 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(CityModelAdapter());
   Hive.registerAdapter(DistrictModelAdapter());
+  await Hive.openBox<CityModel>('cityBox');
+  await Hive.openBox<DistrictModel>('districtBox');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -65,6 +68,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SettingsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AddAdGlobalCubit(),
         ),
         BlocProvider(
           create: (context) => HomeCubit(
