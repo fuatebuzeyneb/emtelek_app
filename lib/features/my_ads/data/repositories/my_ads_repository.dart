@@ -17,9 +17,6 @@ import 'package:emtelek/shared/services/service_locator.dart';
 abstract class MyAdsRepository {
   Future<List<GetMyAdsResponseModel>> getMyAds(
       {required TokenAndClintIdRequestModel tokenAndClintIdRequestModel});
-  Future<AllResponseModel> updateAdProperty({
-    required AdModel adModel,
-  });
 
   Future<AllResponseModel> deleteAdProperty(
       {required DeleteAdRequestModel deleteAdRequestModel});
@@ -52,27 +49,6 @@ class MyAdsRepositoryImpl implements MyAdsRepository {
     List<dynamic> adsJson = adsMap.values.toList();
     return adsJson.map((json) => GetMyAdsResponseModel.fromJson(json)).toList();
     //return [];
-  }
-
-  @override
-  Future<AllResponseModel> updateAdProperty({
-    required AdModel adModel,
-  }) async {
-    // طباعة الـ Request (البيانات التي يتم إرسالها)
-    print("🔵 Request to API: ${adModel.toJson()}");
-
-    // إرسال الطلب عبر PUT أو PATCH (حسب الـ API الخاص بك)
-    final response = await api.post(
-      '${EndPoints.baseUrl}${EndPoints.adsEdit}', // أو حسب بنية الـ API لديك
-      isFormData: true,
-      data: adModel.toJson(),
-    );
-
-    // طباعة الـ Response (البيانات التي تم استلامها)
-    print("🔵 Response from API: $response");
-
-    // تحويل الاستجابة إلى PropertyAdModel
-    return AllResponseModel.fromJson(response);
   }
 
   @override

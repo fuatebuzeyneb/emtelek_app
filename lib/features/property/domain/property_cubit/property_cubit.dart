@@ -55,7 +55,7 @@ class PropertyCubit extends Cubit<PropertyState> {
 // 19---> facility
 // 27---> office
 
-  late int propertyType;
+  int? propertyType;
 
   changePropertyType(int type) {
     propertyType = type;

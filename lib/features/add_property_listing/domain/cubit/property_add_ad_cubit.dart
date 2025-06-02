@@ -235,7 +235,7 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
       {required AddPropertyAdRequestModel addPropertyAdRequestModel}) async {
     try {
       emit(PropertyAddOrUpdateAdLoading());
-      print("🔵 1111");
+
       // تأكد من أن قائمة الصور لا تكون فارغة
 
       final data = await propertyRepository.addAdProperty(
@@ -258,14 +258,14 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
 
   Future<void> editAdPropertyFunc(
       {required AddPropertyAdRequestModel addPropertyAdRequestModel}) async {
+    emit(PropertyAddOrUpdateAdLoading());
     try {
-      emit(PropertyAddOrUpdateAdLoading());
       print("🔵 1111");
       // تأكد من أن قائمة الصور لا تكون فارغة
 
-      final data = await propertyRepository.addAdProperty(
+      final data = await propertyRepository.editAdProperty(
         images: imagesProperty,
-        mainImage: imagesProperty.first,
+        mainImage: mainImage!,
         featureIdList: featuresListId,
         addPropertyAdRequestModel: addPropertyAdRequestModel,
       );
@@ -276,8 +276,12 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
     } on ServerException catch (e) {
       emit(PropertyAddOrUpdateAdFailure(
           errorMassage: e.errorModel.errorMessage));
+      print(
+          "🔵 PropertyAddAdCubit.addAdProperty errorMassage1: ${e.errorModel.errorMessage}");
     } catch (e) {
       emit(PropertyAddOrUpdateAdFailure(errorMassage: e.toString()));
+      print(
+          "🔵 PropertyAddAdCubit.addAdProperty errorMassage2: ${e.toString()}");
     }
   }
 }

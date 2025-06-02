@@ -13,7 +13,7 @@ import 'package:emtelek/features/add_property_listing/presentation/widgets/alert
 import 'package:emtelek/features/add_property_listing/presentation/widgets/alert_dialog/currency_selection_alert_dialog.dart';
 import 'package:emtelek/features/add_property_listing/presentation/widgets/alert_dialog/district_selection_alert_dialog.dart';
 import 'package:emtelek/features/add_property_listing/presentation/widgets/alert_dialog/furnished_or_unfurnished_alert_dialog.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:emtelek/features/add_property_listing/presentation/widgets/alert_dialog/number_selection_alert_dialog.dart';
 import 'package:emtelek/features/add_property_listing/presentation/widgets/alert_dialog/seller_type_alert_dialog.dart';
 import 'package:emtelek/features/home/data/models/property_model.dart';
@@ -45,7 +45,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 /*
 
@@ -95,8 +99,13 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
   final addressController = TextEditingController();
   final complexNameController = TextEditingController();
   @override
+  @override
   void initState() {
     super.initState();
+    _initializeAdData(); // ← استدعِ الدالة غير المتزامنة هنا
+  }
+
+  Future<void> _initializeAdData() async {
     if (widget.itIsEdit) {
       final data = context.read<MyAdsCubit>().myAdsX[widget.indexForEdit!];
       PropertyAddAdCubit propertyAddAdCubit =
@@ -107,6 +116,7 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
           data.property.features!.isNotEmpty) {
         propertyAddAdCubit.getFeatures();
       }
+
       titleAdController.text = data.property.adTitle;
       phoneNumberController.text =
           data.property.data.client.phoneNumber.toString();
@@ -130,12 +140,19 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
       propertyAddAdCubit.floorNumber = data.property.data.info.floorNumber;
       propertyAddAdCubit.furnishStatus =
           data.property.data.info.furnish == 'yes' ? true : false;
-      data.property.data.info.constructionDate == null
-          ? null
-          : propertyAddAdCubit.constructionDate =
-              DateTime.tryParse(data.property.data.info.constructionDate);
+
+      propertyAddAdCubit.constructionDate =
+          data.property.data.info.constructionDate == null
+              ? null
+              : DateTime.tryParse(data.property.data.info.constructionDate);
+
       propertyAddAdCubit.featuresListId =
           data.property.features?.map((e) => e.featureId).toList() ?? [];
+
+      propertyAddAdCubit.mainImage = await urlToXFile(data.property.mainImage);
+      propertyAddAdCubit.imagesProperty = await Future.wait(
+        data.property.images.map((e) => urlToXFile(e.attachmentName)),
+      );
     }
   }
 
@@ -150,6 +167,32 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
     addressController.dispose();
     complexNameController.dispose();
     super.dispose();
+  }
+
+  Future<XFile> urlToXFile(String imageFileName) async {
+    final fullUrl = '${EndPoints.adImageUrl}$imageFileName';
+
+    final response = await http.get(Uri.parse(fullUrl));
+
+    if (response.statusCode != 200) {
+      throw Exception('❌ Failed to download image: $fullUrl');
+    }
+
+    if (response.bodyBytes.isEmpty) {
+      throw Exception('❌ Downloaded image is empty: $fullUrl');
+    }
+
+    final contentType = response.headers['content-type'];
+    if (contentType != 'image/webp') {
+      throw Exception(
+          '❌ Invalid image format: expected image/webp, got $contentType');
+    }
+
+    final tempDir = await getTemporaryDirectory();
+    final file = File('${tempDir.path}/$imageFileName');
+    await file.writeAsBytes(response.bodyBytes);
+
+    return XFile(file.path);
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/core/utils/snackbar_utils.dart';
 import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/shared/common_pages/search_text_page.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
@@ -24,7 +25,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
+    PropertyFilterCubit propertyFilterCubit =
+        BlocProvider.of<PropertyFilterCubit>(context);
     HomeCubit homeCubit = BlocProvider.of<HomeCubit>(context);
     homeCubit.startTimer();
     homeCubit.updateIconsAndTexts(
@@ -39,8 +41,9 @@ class HomePage extends StatelessWidget {
         "title": S.of(context).PropertyForRent,
         "image": 'assets/icons/home.png',
         "onTap": () {
-          propertyCubit.changePropertyType(8);
-          propertyCubit.changeAdType(5);
+          propertyFilterCubit.changeAdType(5);
+          propertyFilterCubit.changePropertyType(8);
+
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
@@ -55,8 +58,9 @@ class HomePage extends StatelessWidget {
         "title": S.of(context).PropertyForSale,
         "image": 'assets/icons/home.png',
         "onTap": () {
-          propertyCubit.changePropertyType(14);
-          propertyCubit.changeAdType(6);
+          propertyFilterCubit.changeAdType(6);
+          propertyFilterCubit.changePropertyType(14);
+
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,

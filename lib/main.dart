@@ -14,6 +14,8 @@ import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
 import 'package:emtelek/features/profile/data/repositories/profile_repository.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/property/data/repositories/search_property_repository.dart';
+import 'package:emtelek/features/property_filter/data/repositories/property_filter_repository.dart';
+import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/shared/common_pages/splash_page.dart';
 import 'package:emtelek/shared/cubits/ad_details_cubit/ad_details_cubit.dart';
 import 'package:emtelek/shared/cubits/cubit/add_ad_global_cubit.dart';
@@ -99,6 +101,11 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AdDetailsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => PropertyFilterCubit(
+            PropertyFilterRepositoryImpl(api: DioConsumer(dio: Dio())),
+          ),
         ),
       ],
       child: BlocConsumer<SettingsCubit, SettingsState>(

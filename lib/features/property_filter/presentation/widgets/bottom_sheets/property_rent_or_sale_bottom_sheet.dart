@@ -1,11 +1,15 @@
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
+import 'package:emtelek/features/property/data/models/property_filter_request_mode.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/features/auth/presentation/pages/login_page.dart';
 import 'package:emtelek/features/auth/presentation/pages/signup_page.dart';
+import 'package:emtelek/shared/services/cache_hekper.dart';
+import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:emtelek/shared/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +28,10 @@ class PropertyRentOrSaleBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
+    PropertyFilterCubit propertyFilterCubit =
+        BlocProvider.of<PropertyFilterCubit>(context);
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
-    return BlocConsumer<PropertyCubit, PropertyState>(
+    return BlocConsumer<PropertyFilterCubit, PropertyFilterState>(
       listener: (context, state) {
         // TODO: implement listener
       },
@@ -73,17 +78,17 @@ class PropertyRentOrSaleBottomSheet extends StatelessWidget {
                       paddingHorizontal: 12,
                       paddingVertical: 8,
                       onTap: () {
-                        propertyCubit.changeAdType(6);
-                        propertyCubit.switchPropertyType();
+                        propertyFilterCubit.changeAdType(6);
+                        propertyFilterCubit.switchPropertyType();
                       },
                       text: 'للبيع',
-                      color: propertyCubit.adType == 6
+                      color: propertyFilterCubit.adType == 6
                           ? Colors.grey.shade200
                           : Colors.white,
-                      colorText: propertyCubit.adType == 6
+                      colorText: propertyFilterCubit.adType == 6
                           ? Colors.black
                           : Colors.grey,
-                      borderColor: propertyCubit.adType == 6
+                      borderColor: propertyFilterCubit.adType == 6
                           ? Colors.black
                           : Colors.grey,
                       borderRadius: 8,
@@ -94,17 +99,17 @@ class PropertyRentOrSaleBottomSheet extends StatelessWidget {
                       paddingHorizontal: 12,
                       paddingVertical: 8,
                       onTap: () {
-                        propertyCubit.changeAdType(5);
-                        propertyCubit.switchPropertyType();
+                        propertyFilterCubit.changeAdType(5);
+                        propertyFilterCubit.switchPropertyType();
                       },
                       text: 'للإيجار',
-                      color: propertyCubit.adType == 5
+                      color: propertyFilterCubit.adType == 5
                           ? Colors.grey.shade200
                           : Colors.white,
-                      colorText: propertyCubit.adType == 5
+                      colorText: propertyFilterCubit.adType == 5
                           ? Colors.black
                           : Colors.grey,
-                      borderColor: propertyCubit.adType == 5
+                      borderColor: propertyFilterCubit.adType == 5
                           ? Colors.black
                           : Colors.grey,
                       borderRadius: 8,
@@ -116,11 +121,54 @@ class PropertyRentOrSaleBottomSheet extends StatelessWidget {
                     paddingHorizontal: 12,
                     paddingVertical: 8,
                     onTap: () {
-                      propertyCubit.applyFilter(
-                          listCityIds: settingsCubit.selectedCityIds,
-                          listDistrictIds: settingsCubit.selectedDistrictIds,
-                          minPrice: settingsCubit.minPrice?.toInt(),
-                          maxPrice: settingsCubit.maxPrice?.toInt());
+                      propertyFilterCubit.getFilterAds(
+                          propertyFilterRequestModel:
+                              PropertyFilterRequestModel(
+                                  token: getIt<CacheHelper>()
+                                      .getDataString(key: 'token'),
+                                  clientId: getIt<CacheHelper>()
+                                      .getData(key: 'clientId'),
+                                  minPrice: settingsCubit.minPrice?.toInt(),
+                                  maxPrice: settingsCubit.maxPrice?.toInt(),
+                                  categoryId: propertyFilterCubit.propertyType,
+                                  sellerType:
+                                      propertyFilterCubit.sellerType == 0
+                                          ? null
+                                          : propertyFilterCubit.sellerType,
+                                  districtId:
+                                      settingsCubit.selectedDistrictIds.isEmpty
+                                          ? null
+                                          : settingsCubit.selectedDistrictIds,
+                                  cityId: settingsCubit.selectedCityIds.isEmpty
+                                      ? null
+                                      : settingsCubit.selectedCityIds,
+                                  minTotalArea:
+                                      propertyFilterCubit.maxArea?.toInt(),
+                                  maxTotalArea:
+                                      propertyFilterCubit.minArea?.toInt(),
+                                  roomCount:
+                                      propertyFilterCubit.listRoomCount.isEmpty
+                                          ? null
+                                          : propertyFilterCubit.listRoomCount,
+                                  bathroomCount: propertyFilterCubit
+                                          .listBathRoomCount.isEmpty
+                                      ? null
+                                      : propertyFilterCubit.listBathRoomCount,
+                                  furnish: propertyFilterCubit.furnishedType ==
+                                          0
+                                      ? null
+                                      : propertyFilterCubit.furnishedType == 1
+                                          ? 'true'
+                                          : 'false',
+                                  orderBy: null,
+                                  searchTitle: null,
+                                  page: 0));
+
+                      // applyFilter(
+                      //     listCityIds: settingsCubit.selectedCityIds,
+                      //     listDistrictIds: settingsCubit.selectedDistrictIds,
+                      //     minPrice: settingsCubit.minPrice?.toInt(),
+                      //     maxPrice: settingsCubit.maxPrice?.toInt());
                       Navigator.pop(context);
                     },
                     text: 'اظهار النتائج',

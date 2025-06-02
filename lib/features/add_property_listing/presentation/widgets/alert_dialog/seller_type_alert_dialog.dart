@@ -22,8 +22,6 @@ class SellerTypeAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PropertyAddAdCubit propertyAddAdCubit =
-        BlocProvider.of<PropertyAddAdCubit>(context);
     MyAdsCubit myAdsCubit = BlocProvider.of<MyAdsCubit>(context);
     final addAdGlobalCubit = context.read<AddAdGlobalCubit>();
     return AlertDialog(
@@ -47,9 +45,7 @@ class SellerTypeAlertDialog extends StatelessWidget {
                   if (forWitchType == 1) {
                     if (isEdit == false) {
                       addAdGlobalCubit.changeSellerType(type: 1);
-                    } else {
-                      myAdsCubit.updatePropertyField('adModelSellerType', 1);
-                    }
+                    } else {}
                   } else if (forWitchType == 2) {}
 
                   Navigator.pop(context);
@@ -68,19 +64,15 @@ class SellerTypeAlertDialog extends StatelessWidget {
                             groupValue: forWitchType == 1
                                 ? isEdit == false
                                     ? addAdGlobalCubit.sellerType
-                                    : myAdsCubit.adModel.sellerType ??
-                                        myAdsCubit.myAds[myAdsCubit.editIndex]
-                                            .sellerType
+                                    : myAdsCubit
+                                        .myAds[myAdsCubit.editIndex].sellerType
                                 : null,
                             onChanged: (value) {
                               if (forWitchType == 1) {
                                 if (isEdit == false) {
                                   addAdGlobalCubit.changeSellerType(
                                       type: value!);
-                                } else {
-                                  myAdsCubit.updatePropertyField(
-                                      'adModelSellerType', value);
-                                }
+                                } else {}
                               } else if (forWitchType == 2) {}
 
                               Navigator.pop(context);
@@ -115,9 +107,7 @@ class SellerTypeAlertDialog extends StatelessWidget {
                   if (forWitchType == 1) {
                     if (isEdit == false) {
                       addAdGlobalCubit.changeSellerType(type: 2);
-                    } else {
-                      myAdsCubit.updatePropertyField('adModelSellerType', 2);
-                    }
+                    } else {}
                   } else if (forWitchType == 2) {}
 
                   Navigator.pop(context);
@@ -136,19 +126,15 @@ class SellerTypeAlertDialog extends StatelessWidget {
                             groupValue: forWitchType == 1
                                 ? isEdit == false
                                     ? addAdGlobalCubit.sellerType
-                                    : myAdsCubit.adModel.sellerType ??
-                                        myAdsCubit.myAds[myAdsCubit.editIndex]
-                                            .sellerType
+                                    : myAdsCubit
+                                        .myAds[myAdsCubit.editIndex].sellerType
                                 : null,
                             onChanged: (value) {
                               if (forWitchType == 1) {
                                 if (isEdit == false) {
                                   addAdGlobalCubit.changeSellerType(
                                       type: value!);
-                                } else {
-                                  myAdsCubit.updatePropertyField(
-                                      'adModelSellerType', value);
-                                }
+                                } else {}
                               } else if (forWitchType == 2) {}
 
                               Navigator.pop(context);

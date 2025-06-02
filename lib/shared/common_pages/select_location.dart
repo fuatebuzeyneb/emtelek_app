@@ -251,10 +251,7 @@ class _SelectLocationState extends State<SelectLocation> {
                 addAdGlobalCubit.selectLocation(
                     locationCome:
                         "${selectedLocation!.latitude},${selectedLocation!.longitude}");
-              } else {
-                myAdsCubit.updatePropertyField('adModelLocation',
-                    "${selectedLocation!.latitude},${selectedLocation!.longitude}");
-              }
+              } else {}
 
               Navigator.pop(context);
             } else {

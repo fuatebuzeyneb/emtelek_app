@@ -3,6 +3,7 @@ import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/presentation/widgets/bottom_sheets/login_options_bottom_sheet.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/features/property_filter/presentation/widgets/bottom_sheets/property_bathroom_count_bottom_sheet.dart';
 import 'package:emtelek/features/property_filter/presentation/widgets/bottom_sheets/property_price_input_bottom_sheet.dart';
 import 'package:emtelek/features/property_filter/presentation/widgets/bottom_sheets/property_rent_or_sale_bottom_sheet.dart';
@@ -419,44 +420,45 @@ class PropertySearchResultPage extends StatefulWidget {
 }
 
 class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
-  late final ScrollController _scrollController;
+  // late final ScrollController _scrollController;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
-  }
+  //   _scrollController = ScrollController();
+  //   _scrollController.addListener(_onScroll);
+  // }
 
-  void _onScroll() {
-    final propertyCubit = context.read<PropertyCubit>();
-    final settingsCubit = context.read<SettingsCubit>();
+  // void _onScroll() {
+  //   final propertyFilterCubit = context.read<PropertyFilterCubit>();
+  //   final settingsCubit = context.read<SettingsCubit>();
 
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      if (!propertyCubit.isFetchingMore && !propertyCubit.isFinished) {
-        propertyCubit.fetchNextPage(
-          listCityIds: settingsCubit.selectedCityIds,
-          listDistrictIds: settingsCubit.selectedDistrictIds,
-          minPrice: settingsCubit.minPrice?.toInt(),
-          maxPrice: settingsCubit.maxPrice?.toInt(),
-          sortBy: null,
-        );
-      }
-    }
-  }
+  //   if (_scrollController.position.pixels >=
+  //       _scrollController.position.maxScrollExtent - 200) {
+  //     if (!propertyCubit.isFetchingMore && !propertyCubit.isFinished) {
+  //       propertyCubit.fetchNextPage(
+  //         listCityIds: settingsCubit.selectedCityIds,
+  //         listDistrictIds: settingsCubit.selectedDistrictIds,
+  //         minPrice: settingsCubit.minPrice?.toInt(),
+  //         maxPrice: settingsCubit.maxPrice?.toInt(),
+  //         sortBy: null,
+  //       );
+  //     }
+  //   }
+  // }
 
-  @override
-  void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _scrollController.removeListener(_onScroll);
+  //   _scrollController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
+    PropertyFilterCubit propertyFilterCubit =
+        BlocProvider.of<PropertyFilterCubit>(context);
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
 
     return Scaffold(
@@ -514,12 +516,14 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
                 ),
                 12.toHeight,
                 // فلاتر البحث
-                BlocConsumer<PropertyCubit, PropertyState>(
+                BlocConsumer<PropertyFilterCubit, PropertyFilterState>(
                   listener: (context, state) {},
                   builder: (context, state) {
                     final List<Map<String, dynamic>> items = [
                       {
-                        'text': propertyCubit.adType == 6 ? 'للبيع' : 'للايجار',
+                        'text': propertyFilterCubit.adType == 6
+                            ? 'للبيع'
+                            : 'للايجار',
                         'onTap': () {
                           showModalBottomSheet(
                             context: context,
@@ -531,9 +535,9 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
                         },
                       },
                       {
-                        'text': propertyCubit.adType == 6
-                            ? '${settingsCubit.saleCategories[propertyCubit.propertyType]}'
-                            : '${settingsCubit.rentCategories[propertyCubit.propertyType]}',
+                        'text': propertyFilterCubit.adType == 6
+                            ? '${settingsCubit.saleCategories[propertyFilterCubit.propertyType]}'
+                            : '${settingsCubit.rentCategories[propertyFilterCubit.propertyType]}',
                         'onTap': () {
                           showModalBottomSheet(
                             context: context,
@@ -769,44 +773,42 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
           ),
           16.toHeight,
           // جزء النتائج
-          // Expanded(
-          //   child: BlocConsumer<PropertyCubit, PropertyState>(
-          //     listener: (context, state) {},
-          //     builder: (context, state) {
-          //       if (state is PropertyAdsFilterLoading &&
-          //           propertyCubit.filteredAds.isEmpty) {
-          //         return const Center(child: LoadingWidget());
-          //       } else if (state is PropertyAdsFilterFailure) {
-          //         return Center(child: Text(state.errMessage));
-          //       }
+          Expanded(
+            child: BlocConsumer<PropertyFilterCubit, PropertyFilterState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is PropertyFilterLoading &&
+                    propertyFilterCubit.listProperty == null) {
+                  return const Center(child: LoadingWidget());
+                } else if (state is PropertyFilterFailure) {
+                  return Center(child: Text(state.errMessage));
+                }
 
-          //       return ListView.builder(
-          //         controller: _scrollController,
-          //         padding: const EdgeInsets.symmetric(horizontal: 8),
-          //         itemCount: propertyCubit.filteredAds.length +
-          //             (propertyCubit.isFetchingMore ? 1 : 0),
-          //         itemBuilder: (context, index) {
-          //           if (index < propertyCubit.filteredAds.length) {
-          //             return Padding(
-          //               padding: const EdgeInsets.only(bottom: 16),
-          //               child: PropertyCard(
-          //                 index: index,
-          //                 adDetails: propertyCubit.filteredAds,
-          //               ),
-          //             );
-          //           } else {
-          //             return const Center(
-          //               child: Padding(
-          //                 padding: EdgeInsets.symmetric(vertical: 16),
-          //                 child: CircularProgressIndicator(),
-          //               ),
-          //             );
-          //           }
-          //         },
-          //       );
-          //     },
-          //   ),
-          // ),
+                return ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  itemCount: propertyFilterCubit.listProperty!.length,
+                  itemBuilder: (context, index) {
+                    if (index < propertyFilterCubit.listProperty!.length) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: PropertyCard(
+                          index: index,
+                          adDetails: propertyFilterCubit.listProperty!,
+                        ),
+                      );
+                    } else {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

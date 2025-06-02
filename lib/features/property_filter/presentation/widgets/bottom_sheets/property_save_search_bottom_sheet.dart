@@ -3,6 +3,7 @@ import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/snackbar_utils.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/shared/widgets/bottom_sheet_widget.dart';
@@ -19,7 +20,8 @@ class PropertySaveSearchBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
+    PropertyFilterCubit propertyFilterCubit =
+        BlocProvider.of<PropertyFilterCubit>(context);
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
     return BlocConsumer<PropertyCubit, PropertyState>(
       listener: (context, state) {
@@ -81,7 +83,7 @@ class PropertySaveSearchBottomSheet extends StatelessWidget {
                   paddingVertical: 4,
                   hint: 'اسم لهذا البحث',
                   onChanged: (value) {
-                    propertyCubit.searchTitle = value;
+                    //  propertyFilterCubit.searchTitle = value;
                   },
                 ),
                 const Spacer(),
@@ -105,14 +107,14 @@ class PropertySaveSearchBottomSheet extends StatelessWidget {
                         paddingHorizontal: 12,
                         paddingVertical: 8,
                         onTap: () {
-                          if (state is! PropertyAddFilterSearchLoading) {
-                            propertyCubit.saveSearchFilter(
-                                listCityIds: settingsCubit.selectedCityIds,
-                                listDistrictIds:
-                                    settingsCubit.selectedDistrictIds,
-                                minPrice: settingsCubit.minPrice?.toInt(),
-                                maxPrice: settingsCubit.maxPrice?.toInt());
-                          }
+                          // if (state is! PropertyAddFilterSearchLoading) {
+                          //   propertyCubit.saveSearchFilter(
+                          //       listCityIds: settingsCubit.selectedCityIds,
+                          //       listDistrictIds:
+                          //           settingsCubit.selectedDistrictIds,
+                          //       minPrice: settingsCubit.minPrice?.toInt(),
+                          //       maxPrice: settingsCubit.maxPrice?.toInt());
+                          // }
                         },
                         text: state is PropertyAddFilterSearchLoading
                             ? 'wait...'

@@ -2,6 +2,7 @@ import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/features/auth/presentation/pages/login_page.dart';
@@ -27,8 +28,9 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
-    return BlocConsumer<PropertyCubit, PropertyState>(
+    PropertyFilterCubit propertyFilterCubit =
+        BlocProvider.of<PropertyFilterCubit>(context);
+    return BlocConsumer<PropertyFilterCubit, PropertyFilterState>(
       listener: (context, state) {
         // TODO: implement listener
       },
@@ -39,13 +41,13 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
             children: [
               ButtonWidget(
                 onTap: () {
-                  propertyCubit.changePropertyType(itIsRent ? 8 : 14);
+                  propertyFilterCubit.changePropertyType(itIsRent ? 8 : 14);
                 },
                 color: Colors.white,
                 height: 0.085,
                 width: 0.2,
-                borderColor: propertyCubit.propertyType == 8 ||
-                        propertyCubit.propertyType == 14
+                borderColor: propertyFilterCubit.propertyType == 8 ||
+                        propertyFilterCubit.propertyType == 14
                     ? AppColors.primary
                     : Colors.black26,
                 child: Column(
@@ -55,8 +57,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                       'assets/icons/home.png',
                       height: 23,
                       width: 23,
-                      color: propertyCubit.propertyType == 8 ||
-                              propertyCubit.propertyType == 14
+                      color: propertyFilterCubit.propertyType == 8 ||
+                              propertyFilterCubit.propertyType == 14
                           ? AppColors.primary
                           : Colors.black,
                     ),
@@ -64,8 +66,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                     TextWidget(
                       text: S.of(context).Apartment,
                       fontSize: 14,
-                      color: propertyCubit.propertyType == 8 ||
-                              propertyCubit.propertyType == 14
+                      color: propertyFilterCubit.propertyType == 8 ||
+                              propertyFilterCubit.propertyType == 14
                           ? AppColors.primary
                           : Colors.black,
                       fontWeight: FontWeight.bold,
@@ -76,13 +78,13 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
               6.toWidth,
               ButtonWidget(
                 onTap: () {
-                  propertyCubit.changePropertyType(itIsRent ? 9 : 15);
+                  propertyFilterCubit.changePropertyType(itIsRent ? 9 : 15);
                 },
                 color: Colors.white,
                 height: 0.085,
                 width: 0.2,
-                borderColor: propertyCubit.propertyType == 9 ||
-                        propertyCubit.propertyType == 15
+                borderColor: propertyFilterCubit.propertyType == 9 ||
+                        propertyFilterCubit.propertyType == 15
                     ? AppColors.primary
                     : Colors.black26,
                 child: Column(
@@ -92,8 +94,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                       'assets/icons/store.png',
                       height: 23,
                       width: 23,
-                      color: propertyCubit.propertyType == 9 ||
-                              propertyCubit.propertyType == 15
+                      color: propertyFilterCubit.propertyType == 9 ||
+                              propertyFilterCubit.propertyType == 15
                           ? AppColors.primary
                           : Colors.black,
                     ),
@@ -101,8 +103,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                     TextWidget(
                       text: S.of(context).Shop,
                       fontSize: 14,
-                      color: propertyCubit.propertyType == 9 ||
-                              propertyCubit.propertyType == 15
+                      color: propertyFilterCubit.propertyType == 9 ||
+                              propertyFilterCubit.propertyType == 15
                           ? AppColors.primary
                           : Colors.black,
                       fontWeight: FontWeight.bold,
@@ -113,13 +115,13 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
               6.toWidth,
               ButtonWidget(
                 onTap: () {
-                  propertyCubit.changePropertyType(itIsRent ? 27 : 26);
+                  propertyFilterCubit.changePropertyType(itIsRent ? 27 : 26);
                 },
                 color: Colors.white,
                 height: 0.085,
                 width: 0.2,
-                borderColor: propertyCubit.propertyType == 26 ||
-                        propertyCubit.propertyType == 27
+                borderColor: propertyFilterCubit.propertyType == 26 ||
+                        propertyFilterCubit.propertyType == 27
                     ? AppColors.primary
                     : Colors.black26,
                 child: Column(
@@ -129,8 +131,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                       'assets/icons/office.png',
                       height: 23,
                       width: 23,
-                      color: propertyCubit.propertyType == 26 ||
-                              propertyCubit.propertyType == 27
+                      color: propertyFilterCubit.propertyType == 26 ||
+                              propertyFilterCubit.propertyType == 27
                           ? AppColors.primary
                           : Colors.black,
                     ),
@@ -138,8 +140,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                     TextWidget(
                       text: S.of(context).Office,
                       fontSize: 14,
-                      color: propertyCubit.propertyType == 26 ||
-                              propertyCubit.propertyType == 27
+                      color: propertyFilterCubit.propertyType == 26 ||
+                              propertyFilterCubit.propertyType == 27
                           ? AppColors.primary
                           : Colors.black,
                       fontWeight: FontWeight.bold,
@@ -150,13 +152,13 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
               6.toWidth,
               ButtonWidget(
                 onTap: () {
-                  propertyCubit.changePropertyType(itIsRent ? 11 : 17);
+                  propertyFilterCubit.changePropertyType(itIsRent ? 11 : 17);
                 },
                 color: Colors.white,
                 height: 0.085,
                 width: 0.2,
-                borderColor: propertyCubit.propertyType == 11 ||
-                        propertyCubit.propertyType == 17
+                borderColor: propertyFilterCubit.propertyType == 11 ||
+                        propertyFilterCubit.propertyType == 17
                     ? AppColors.primary
                     : Colors.black26,
                 child: Column(
@@ -166,8 +168,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                       'assets/icons/land.png',
                       height: 23,
                       width: 23,
-                      color: propertyCubit.propertyType == 11 ||
-                              propertyCubit.propertyType == 17
+                      color: propertyFilterCubit.propertyType == 11 ||
+                              propertyFilterCubit.propertyType == 17
                           ? AppColors.primary
                           : Colors.black,
                     ),
@@ -175,8 +177,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                     TextWidget(
                       text: S.of(context).Land,
                       fontSize: 14,
-                      color: propertyCubit.propertyType == 11 ||
-                              propertyCubit.propertyType == 17
+                      color: propertyFilterCubit.propertyType == 11 ||
+                              propertyFilterCubit.propertyType == 17
                           ? AppColors.primary
                           : Colors.black,
                       fontWeight: FontWeight.bold,
@@ -187,13 +189,13 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
               6.toWidth,
               ButtonWidget(
                 onTap: () {
-                  propertyCubit.changePropertyType(itIsRent ? 12 : 18);
+                  propertyFilterCubit.changePropertyType(itIsRent ? 12 : 18);
                 },
                 color: Colors.white,
                 height: 0.085,
                 width: 0.2,
-                borderColor: propertyCubit.propertyType == 12 ||
-                        propertyCubit.propertyType == 18
+                borderColor: propertyFilterCubit.propertyType == 12 ||
+                        propertyFilterCubit.propertyType == 18
                     ? AppColors.primary
                     : Colors.black26,
                 child: Column(
@@ -203,8 +205,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                       'assets/icons/house.png',
                       height: 23,
                       width: 23,
-                      color: propertyCubit.propertyType == 12 ||
-                              propertyCubit.propertyType == 18
+                      color: propertyFilterCubit.propertyType == 12 ||
+                              propertyFilterCubit.propertyType == 18
                           ? AppColors.primary
                           : Colors.black,
                     ),
@@ -212,8 +214,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                     TextWidget(
                       text: S.of(context).Villa,
                       fontSize: 14,
-                      color: propertyCubit.propertyType == 12 ||
-                              propertyCubit.propertyType == 18
+                      color: propertyFilterCubit.propertyType == 12 ||
+                              propertyFilterCubit.propertyType == 18
                           ? AppColors.primary
                           : Colors.black,
                       fontWeight: FontWeight.bold,
@@ -224,13 +226,13 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
               6.toWidth,
               ButtonWidget(
                 onTap: () {
-                  propertyCubit.changePropertyType(itIsRent ? 10 : 16);
+                  propertyFilterCubit.changePropertyType(itIsRent ? 10 : 16);
                 },
                 color: Colors.white,
                 height: 0.085,
                 width: 0.2,
-                borderColor: propertyCubit.propertyType == 10 ||
-                        propertyCubit.propertyType == 16
+                borderColor: propertyFilterCubit.propertyType == 10 ||
+                        propertyFilterCubit.propertyType == 16
                     ? AppColors.primary
                     : Colors.black26,
                 child: Column(
@@ -240,8 +242,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                       'assets/icons/building.png',
                       height: 23,
                       width: 23,
-                      color: propertyCubit.propertyType == 10 ||
-                              propertyCubit.propertyType == 16
+                      color: propertyFilterCubit.propertyType == 10 ||
+                              propertyFilterCubit.propertyType == 16
                           ? AppColors.primary
                           : Colors.black87,
                     ),
@@ -249,8 +251,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                     TextWidget(
                       text: S.of(context).Building,
                       fontSize: 14,
-                      color: propertyCubit.propertyType == 10 ||
-                              propertyCubit.propertyType == 16
+                      color: propertyFilterCubit.propertyType == 10 ||
+                              propertyFilterCubit.propertyType == 16
                           ? AppColors.primary
                           : Colors.black,
                       fontWeight: FontWeight.bold,
@@ -261,13 +263,13 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
               6.toWidth,
               ButtonWidget(
                 onTap: () {
-                  propertyCubit.changePropertyType(itIsRent ? 13 : 19);
+                  propertyFilterCubit.changePropertyType(itIsRent ? 13 : 19);
                 },
                 color: Colors.white,
                 height: 0.085,
                 width: 0.2,
-                borderColor: propertyCubit.propertyType == 13 ||
-                        propertyCubit.propertyType == 19
+                borderColor: propertyFilterCubit.propertyType == 13 ||
+                        propertyFilterCubit.propertyType == 19
                     ? AppColors.primary
                     : Colors.black26,
                 child: Column(
@@ -277,8 +279,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                       'assets/icons/factory.png',
                       height: 23,
                       width: 23,
-                      color: propertyCubit.propertyType == 13 ||
-                              propertyCubit.propertyType == 19
+                      color: propertyFilterCubit.propertyType == 13 ||
+                              propertyFilterCubit.propertyType == 19
                           ? AppColors.primary
                           : Colors.black,
                     ),
@@ -286,8 +288,8 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                     TextWidget(
                       text: S.of(context).Factory,
                       fontSize: 14,
-                      color: propertyCubit.propertyType == 13 ||
-                              propertyCubit.propertyType == 19
+                      color: propertyFilterCubit.propertyType == 13 ||
+                              propertyFilterCubit.propertyType == 19
                           ? AppColors.primary
                           : Colors.black,
                       fontWeight: FontWeight.bold,
@@ -295,17 +297,17 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              propertyCubit.adType == 6 ? 0.toWidth : 6.toWidth,
-              propertyCubit.adType == 6
+              propertyFilterCubit.adType == 6 ? 0.toWidth : 6.toWidth,
+              propertyFilterCubit.adType == 6
                   ? const SizedBox()
                   : ButtonWidget(
                       onTap: () {
-                        propertyCubit.changePropertyType(7);
+                        propertyFilterCubit.changePropertyType(7);
                       },
                       color: Colors.white,
                       height: 0.085,
                       width: 0.2,
-                      borderColor: propertyCubit.propertyType == 7
+                      borderColor: propertyFilterCubit.propertyType == 7
                           ? AppColors.primary
                           : Colors.black26,
                       child: Column(
@@ -315,7 +317,7 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                             'assets/icons/room.png',
                             height: 23,
                             width: 23,
-                            color: propertyCubit.propertyType == 7
+                            color: propertyFilterCubit.propertyType == 7
                                 ? AppColors.primary
                                 : Colors.black,
                           ),
@@ -323,7 +325,7 @@ class ScrollPropertyTypeWidget extends StatelessWidget {
                           TextWidget(
                             text: S.of(context).Room,
                             fontSize: 14,
-                            color: propertyCubit.propertyType == 7
+                            color: propertyFilterCubit.propertyType == 7
                                 ? AppColors.primary
                                 : Colors.black,
                             fontWeight: FontWeight.bold,

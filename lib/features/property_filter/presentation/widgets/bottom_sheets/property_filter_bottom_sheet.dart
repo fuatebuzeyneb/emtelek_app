@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
+import 'package:emtelek/features/property/data/models/property_filter_request_mode.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
+import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/features/property_filter/presentation/widgets/area_range_widget.dart';
 import 'package:emtelek/features/property_filter/presentation/widgets/scroll_property_type_widget.dart';
 import 'package:emtelek/shared/common_pages/location_selection_page.dart';
@@ -11,6 +13,8 @@ import 'package:emtelek/features/property_filter/presentation/pages/property_sea
 import 'package:emtelek/features/auth/presentation/pages/login_page.dart';
 import 'package:emtelek/features/auth/presentation/pages/signup_page.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
+import 'package:emtelek/shared/services/cache_hekper.dart';
+import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:emtelek/shared/widgets/price_range_widget.dart';
 import 'package:emtelek/shared/widgets/tab_style_button_widget.dart';
 import 'package:emtelek/shared/widgets/bottom_sheet_widget.dart';
@@ -35,10 +39,11 @@ class PropertyFilterBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PropertyCubit propertyCubit = BlocProvider.of<PropertyCubit>(context);
+    PropertyFilterCubit propertyFilterCubit =
+        BlocProvider.of<PropertyFilterCubit>(context);
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
 
-    return BlocConsumer<PropertyCubit, PropertyState>(
+    return BlocConsumer<PropertyFilterCubit, PropertyFilterState>(
       listener: (context, state) {
         // TODO: implement listener
       },
@@ -81,28 +86,28 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                   children: [
                     TabStyleButtonWidget(
                       onTap: () {
-                        propertyCubit.changeAdType(5);
-                        propertyCubit.switchPropertyType();
+                        propertyFilterCubit.changeAdType(5);
+                        propertyFilterCubit.switchPropertyType();
                       },
                       fontSize: 16,
-                      bottomColor: propertyCubit.adType == 5
+                      bottomColor: propertyFilterCubit.adType == 5
                           ? AppColors.primary
                           : Colors.transparent,
-                      colorText: propertyCubit.adType == 5
+                      colorText: propertyFilterCubit.adType == 5
                           ? Colors.black
                           : Colors.grey,
                       text: S.of(context).Rent,
                     ),
                     TabStyleButtonWidget(
                       onTap: () {
-                        propertyCubit.changeAdType(6);
-                        propertyCubit.switchPropertyType();
+                        propertyFilterCubit.changeAdType(6);
+                        propertyFilterCubit.switchPropertyType();
                       },
-                      bottomColor: propertyCubit.adType == 6
+                      bottomColor: propertyFilterCubit.adType == 6
                           ? AppColors.primary
                           : Colors.transparent,
                       fontSize: 16,
-                      colorText: propertyCubit.adType == 6
+                      colorText: propertyFilterCubit.adType == 6
                           ? Colors.black
                           : Colors.grey,
                       text: S.of(context).Sale,
@@ -177,7 +182,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                       ),
                       10.toHeight,
                       ScrollPropertyTypeWidget(
-                          itIsRent: propertyCubit.adType == 5),
+                          itIsRent: propertyFilterCubit.adType == 5),
                       20.toHeight,
                       Row(
                         children: [
@@ -199,10 +204,11 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
                               padding: const EdgeInsets.only(left: 4),
-                              child: propertyCubit.listRoomCount.contains(index)
+                              child: propertyFilterCubit.listRoomCount
+                                      .contains(index)
                                   ? ButtonWidget(
                                       onTap: () {
-                                        propertyCubit
+                                        propertyFilterCubit
                                             .removeListRoomCount(index);
                                       },
                                       color: Colors.white,
@@ -235,7 +241,8 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                                     )
                                   : ButtonWidget(
                                       onTap: () {
-                                        propertyCubit.addListRoomCount(index);
+                                        propertyFilterCubit
+                                            .addListRoomCount(index);
                                       },
                                       color: Colors.white,
                                       height: 0.025,
@@ -285,11 +292,11 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
                               padding: const EdgeInsets.only(left: 4),
-                              child: propertyCubit.listBathRoomCount
+                              child: propertyFilterCubit.listBathRoomCount
                                       .contains(index)
                                   ? ButtonWidget(
                                       onTap: () {
-                                        propertyCubit
+                                        propertyFilterCubit
                                             .removeListBathRoomCount(index);
                                       },
                                       color: Colors.white,
@@ -322,7 +329,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                                     )
                                   : ButtonWidget(
                                       onTap: () {
-                                        propertyCubit
+                                        propertyFilterCubit
                                             .addListBathRoomCount(index);
                                       },
                                       color: Colors.white,
@@ -372,10 +379,10 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                             height: 0,
                             width: 0,
                             onTap: () {
-                              propertyCubit.changeFurnishedType(0);
+                              propertyFilterCubit.changeFurnishedType(0);
                             },
                             color: Colors.white,
-                            borderColor: propertyCubit.furnishedType == 0
+                            borderColor: propertyFilterCubit.furnishedType == 0
                                 ? AppColors.primary
                                 : Colors.black26,
                             child: Row(
@@ -385,9 +392,10 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 4),
                                   child: TextWidget(
                                     text: S.of(context).All,
-                                    color: propertyCubit.furnishedType == 0
-                                        ? AppColors.primary
-                                        : Colors.black,
+                                    color:
+                                        propertyFilterCubit.furnishedType == 0
+                                            ? AppColors.primary
+                                            : Colors.black,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -402,10 +410,10 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                             height: 0,
                             width: 0,
                             onTap: () {
-                              propertyCubit.changeFurnishedType(1);
+                              propertyFilterCubit.changeFurnishedType(1);
                             },
                             color: Colors.white,
-                            borderColor: propertyCubit.furnishedType == 1
+                            borderColor: propertyFilterCubit.furnishedType == 1
                                 ? AppColors.primary
                                 : Colors.black26,
                             child: Row(
@@ -415,9 +423,10 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 4),
                                   child: TextWidget(
                                     text: S.of(context).Furnished,
-                                    color: propertyCubit.furnishedType == 1
-                                        ? AppColors.primary
-                                        : Colors.black,
+                                    color:
+                                        propertyFilterCubit.furnishedType == 1
+                                            ? AppColors.primary
+                                            : Colors.black,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -432,10 +441,10 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                             height: 0,
                             width: 0,
                             onTap: () {
-                              propertyCubit.changeFurnishedType(2);
+                              propertyFilterCubit.changeFurnishedType(2);
                             },
                             color: Colors.white,
-                            borderColor: propertyCubit.furnishedType == 2
+                            borderColor: propertyFilterCubit.furnishedType == 2
                                 ? AppColors.primary
                                 : Colors.black26,
                             child: Row(
@@ -445,9 +454,10 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 4),
                                   child: TextWidget(
                                     text: S.of(context).Unfurnished,
-                                    color: propertyCubit.furnishedType == 2
-                                        ? AppColors.primary
-                                        : Colors.black,
+                                    color:
+                                        propertyFilterCubit.furnishedType == 2
+                                            ? AppColors.primary
+                                            : Colors.black,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -477,10 +487,10 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                             height: 0,
                             width: 0,
                             onTap: () {
-                              propertyCubit.changePostedByType(0);
+                              propertyFilterCubit.changePostedByType(0);
                             },
                             color: Colors.white,
-                            borderColor: propertyCubit.sellerType == 0
+                            borderColor: propertyFilterCubit.sellerType == 0
                                 ? AppColors.primary
                                 : Colors.black26,
                             child: Row(
@@ -490,7 +500,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 4),
                                   child: TextWidget(
                                     text: S.of(context).All,
-                                    color: propertyCubit.sellerType == 0
+                                    color: propertyFilterCubit.sellerType == 0
                                         ? AppColors.primary
                                         : Colors.black,
                                     fontSize: 14,
@@ -507,10 +517,10 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                             height: 0,
                             width: 0,
                             onTap: () {
-                              propertyCubit.changePostedByType(1);
+                              propertyFilterCubit.changePostedByType(1);
                             },
                             color: Colors.white,
-                            borderColor: propertyCubit.sellerType == 1
+                            borderColor: propertyFilterCubit.sellerType == 1
                                 ? AppColors.primary
                                 : Colors.black26,
                             child: Row(
@@ -520,7 +530,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 4),
                                   child: TextWidget(
                                     text: S.of(context).Owner,
-                                    color: propertyCubit.sellerType == 1
+                                    color: propertyFilterCubit.sellerType == 1
                                         ? AppColors.primary
                                         : Colors.black,
                                     fontSize: 14,
@@ -537,10 +547,10 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                             height: 0,
                             width: 0,
                             onTap: () {
-                              propertyCubit.changePostedByType(2);
+                              propertyFilterCubit.changePostedByType(2);
                             },
                             color: Colors.white,
-                            borderColor: propertyCubit.sellerType == 2
+                            borderColor: propertyFilterCubit.sellerType == 2
                                 ? AppColors.primary
                                 : Colors.black26,
                             child: Row(
@@ -550,7 +560,7 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 4),
                                   child: TextWidget(
                                     text: S.of(context).Agent,
-                                    color: propertyCubit.sellerType == 2
+                                    color: propertyFilterCubit.sellerType == 2
                                         ? AppColors.primary
                                         : Colors.black,
                                     fontSize: 14,
@@ -594,13 +604,59 @@ class PropertyFilterBottomSheet extends StatelessWidget {
                   child: ButtonWidget(
                     onTap: () {
                       Navigator.pop(context);
-                      propertyCubit.applyFilter(
-                          listCityIds: settingsCubit.selectedCityIds,
-                          listDistrictIds: settingsCubit.selectedDistrictIds,
-                          minPrice: settingsCubit.minPrice?.toInt(),
-                          maxPrice: settingsCubit.maxPrice?.toInt());
+                      propertyFilterCubit.getFilterAds(
+                          propertyFilterRequestModel:
+                              PropertyFilterRequestModel(
+                                  token: getIt<CacheHelper>()
+                                      .getDataString(key: 'token'),
+                                  clientId: getIt<CacheHelper>()
+                                      .getData(key: 'clientId'),
+                                  minPrice: settingsCubit.minPrice?.toInt(),
+                                  maxPrice: settingsCubit.maxPrice?.toInt(),
+                                  categoryId: propertyFilterCubit.propertyType,
+                                  sellerType:
+                                      propertyFilterCubit.sellerType == 0
+                                          ? null
+                                          : propertyFilterCubit.sellerType,
+                                  districtId:
+                                      settingsCubit.selectedDistrictIds.isEmpty
+                                          ? null
+                                          : settingsCubit.selectedDistrictIds,
+                                  cityId: settingsCubit.selectedCityIds.isEmpty
+                                      ? null
+                                      : settingsCubit.selectedCityIds,
+                                  minTotalArea:
+                                      propertyFilterCubit.maxArea?.toInt(),
+                                  maxTotalArea:
+                                      propertyFilterCubit.minArea?.toInt(),
+                                  roomCount:
+                                      propertyFilterCubit.listRoomCount.isEmpty
+                                          ? null
+                                          : propertyFilterCubit.listRoomCount,
+                                  bathroomCount: propertyFilterCubit
+                                          .listBathRoomCount.isEmpty
+                                      ? null
+                                      : propertyFilterCubit.listBathRoomCount,
+                                  furnish: propertyFilterCubit.furnishedType ==
+                                          0
+                                      ? null
+                                      : propertyFilterCubit.furnishedType == 1
+                                          ? 'true'
+                                          : 'false',
+                                  orderBy: null,
+                                  searchTitle: null,
+                                  page: 0));
+
                       pageTransition(context,
                           page: const PropertySearchResultPage());
+                      // Navigator.pop(context);
+                      // propertyFilterCubit.applyFilter(
+                      //     listCityIds: settingsCubit.selectedCityIds,
+                      //     listDistrictIds: settingsCubit.selectedDistrictIds,
+                      //     minPrice: settingsCubit.minPrice?.toInt(),
+                      //     maxPrice: settingsCubit.maxPrice?.toInt());
+                      // pageTransition(context,
+                      //     page: const PropertySearchResultPage());
                     },
                     text: S.of(context).Apply,
                     height: 0.06,
