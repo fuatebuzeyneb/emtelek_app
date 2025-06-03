@@ -497,6 +497,11 @@ class S {
     return Intl.message('Sign Out', name: 'SignOut', desc: '', args: []);
   }
 
+  /// `Sign In`
+  String get SignIn {
+    return Intl.message('Sign In', name: 'SignIn', desc: '', args: []);
+  }
+
   /// `Vehicles`
   String get Vehicles {
     return Intl.message('Vehicles', name: 'Vehicles', desc: '', args: []);

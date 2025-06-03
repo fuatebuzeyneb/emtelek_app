@@ -62,7 +62,11 @@ class _LoginPageState extends State<LoginPage> {
               automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
               title: GestureDetector(
-                  child: const Icon(Icons.arrow_back_ios, color: Colors.black),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.arrow_back_ios, color: Colors.black),
+                    ],
+                  ),
                   onTap: () {
                     Navigator.pop(context);
                   }),

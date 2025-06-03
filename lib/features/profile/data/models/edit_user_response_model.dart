@@ -27,7 +27,7 @@ class UserData {
   final int clientId;
   final String firstName;
   final String lastName;
-  final String phoneNumber;
+  final int phoneNumber;
   final String email;
   final String password;
   final String subscriptionDate;
@@ -55,7 +55,7 @@ class UserData {
       clientId: json['ClientId'] as int,
       firstName: json['FirstName'] as String,
       lastName: json['LastName'] as String,
-      phoneNumber: json['PhoneNumber'] as String,
+      phoneNumber: json['PhoneNumber'] as int,
       email: json['Email'] as String,
       password: json['Password'] as String,
       subscriptionDate: json['SubscriptionDate'] as String,

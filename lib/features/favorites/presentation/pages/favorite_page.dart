@@ -21,7 +21,7 @@ class FavoritePage extends StatelessWidget {
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
     FavoritesCubit favoritesCubit = BlocProvider.of<FavoritesCubit>(context);
 
-    if (favoritesCubit.myFavoriteAds.isEmpty) {
+    if (favoritesCubit.myFavoriteAds == null) {
       favoritesCubit.getFavoritesData();
     }
     return Scaffold(
@@ -39,38 +39,43 @@ class FavoritePage extends StatelessWidget {
         ),
         backgroundColor: AppColors.appBarBackground,
       ),
-      // body: BlocConsumer<FavoritesCubit, FavoritesState>(
-      //   listener: (context, state) {
-      //     // TODO: implement listener
-      //   },
-      //   builder: (context, state) {
-      //     return state is FavoritesLoading
-      //         ? LoadingWidget()
-      //         : state is FavoritesFailure
-      //             ? Center(
-      //                 child: Text(state.errorMassage),
-      //               )
-      //             : SizedBox(
-      //                 height: context.height * 1,
-      //                 width: context.width * 1,
-      //                 child: ListView.builder(
-      //                   padding: const EdgeInsets.symmetric(
-      //                     horizontal: 8,
-      //                   ),
-      //                   itemCount: favoritesCubit.myFavoriteAds.length,
-      //                   itemBuilder: (BuildContext context, int index) {
-      //                     return Padding(
-      //                       padding: EdgeInsets.only(top: 16),
-      //                       child: PropertyCard(
-      //                         index: index,
-      //                         adDetails: favoritesCubit.myFavoriteAds,
-      //                       ),
-      //                     );
-      //                   },
-      //                 ),
-      //               );
-      //   },
-      // ),
+      body: BlocConsumer<FavoritesCubit, FavoritesState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return state is FavoritesLoading
+              ? LoadingWidget()
+              : state is FavoritesFailure
+                  ? Center(
+                      child: Text(state.errorMassage),
+                    )
+                  : favoritesCubit.myFavoriteAds == null
+                      ? const Center(
+                          child: TextWidget(
+                          text: 'No favorite ads',
+                        ))
+                      : SizedBox(
+                          height: context.height * 1,
+                          width: context.width * 1,
+                          child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                            ),
+                            itemCount: favoritesCubit.myFavoriteAds!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: EdgeInsets.only(top: 16),
+                                child: PropertyCard(
+                                  index: index,
+                                  adDetails: favoritesCubit.myFavoriteAds!,
+                                ),
+                              );
+                            },
+                          ),
+                        );
+        },
+      ),
     );
   }
 }

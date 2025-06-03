@@ -1,3 +1,4 @@
+import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
@@ -34,6 +35,7 @@ class MyAdCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 12.0, left: 12, right: 12),
       child: ButtonWidget(
@@ -56,9 +58,7 @@ class MyAdCardWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextWidget(
-                        text: adDetails.property.adTitle! +
-                            ' ' +
-                            "${adDetails.property.categoryId}",
+                        text: adDetails.property.adTitle!,
                         color: Colors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -66,32 +66,38 @@ class MyAdCardWidget extends StatelessWidget {
                       Row(
                         children: [
                           TextWidget(
-                            text: Formatter.convertCurrencySymbol(
-                                adDetails.property.currency!),
+                            text: settingsCubit
+                                .convertToAppCurrency(
+                                  adPrice: adDetails.property.price!,
+                                  adCurrencyCode: adDetails.property.currency!,
+                                )
+                                .toStringAsFixed(2),
                             color: Colors.black87,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                           8.toWidth,
                           TextWidget(
-                            text: adDetails.property.price!.toStringAsFixed(2),
+                            text: Formatter.convertCurrencySymbol(
+                                getIt<CacheHelper>()
+                                    .getDataString(key: 'currencyCode')!),
                             color: Colors.black87,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                          )
+                          ),
                         ],
                       ),
                     ],
                   ),
                   Container(
-                      height: context.height * 0.06,
+                      height: context.height * 0.08,
                       width: context.width * 0.25,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           image: DecorationImage(
-                            image: AssetImage('assets/images/example.png'),
-                            fit: BoxFit.contain,
-                          )))
+                              image: NetworkImage(
+                                  "${EndPoints.adImageUrl}${adDetails.property.mainImage}"),
+                              fit: BoxFit.cover)))
                 ],
               ),
               8.toHeight,

@@ -265,6 +265,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ana Fotograf olarak ayarla",
     ),
     "Shop": MessageLookupByLibrary.simpleMessage("Dükkan"),
+    "SignIn": MessageLookupByLibrary.simpleMessage("Giriş Yap"),
     "SignInAndPost": MessageLookupByLibrary.simpleMessage(
       "Giriş Yap ve Gönder",
     ),

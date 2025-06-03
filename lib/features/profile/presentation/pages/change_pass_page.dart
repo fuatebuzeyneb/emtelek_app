@@ -6,9 +6,6 @@ import 'package:emtelek/core/utils/snackbar_utils.dart';
 import 'package:emtelek/features/profile/data/models/change_password_request_model.dart';
 import 'package:emtelek/features/profile/data/models/check_password_request_model.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
-import 'package:emtelek/generated/l10n.dart';
-import 'package:emtelek/shared/services/cache_hekper.dart';
-import 'package:emtelek/shared/services/service_locator.dart';
 
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
@@ -41,10 +38,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
-          if (state is CheckPassFailure) {
-            SnackbarUtils.showSnackbar(
-                context, 'كلمة المرور القديمة غير صحيحة');
-          } else if (state is ChangePassSuccess) {
+          if (state is ChangePassSuccess) {
             SnackbarUtils.showSnackbar(context, 'تم تغيير كلمة المرور بنجاح');
             Navigator.pop(context);
           } else if (state is ChangePassFailure) {
@@ -69,7 +63,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                       if (_debounce?.isActive ?? false) _debounce!.cancel();
 
                       // نبدأ مؤقت جديد
-                      _debounce = Timer(const Duration(seconds: 1), () {
+                      _debounce = Timer(const Duration(milliseconds: 500), () {
                         // هنا ترسل الريكويست للتحقق من كلمة المرور
                         // مثلاً:
                         context.read<ProfileCubit>().checkPass(
@@ -83,6 +77,33 @@ class _ChangePassPageState extends State<ChangePassPage> {
                       oldPassController.text = value;
                     },
                   ),
+                  oldPassController.text.isNotEmpty &&
+                          (state is CheckPassFailure) == true
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Row(
+                            children: [
+                              TextWidget(
+                                text: 'كلمة المرور غير صحيحة',
+                                color: Colors.red,
+                              ),
+                            ],
+                          ),
+                        )
+                      : oldPassController.text.isNotEmpty &&
+                              (state is CheckPassSuccess) == true
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              child: Row(
+                                children: [
+                                  TextWidget(
+                                    text: 'كلمة المرور صحيحة',
+                                    color: Colors.green,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox(),
                   12.toHeight,
                   TextFieldWidget(
                     label: TextWidget(

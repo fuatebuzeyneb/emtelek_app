@@ -2,6 +2,7 @@ import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
+import 'package:emtelek/features/auth/presentation/pages/login_page.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
 import 'package:emtelek/features/my_searchs/presentation/pages/my_searches_page.dart';
 import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
@@ -295,10 +296,12 @@ class ProfilePage extends StatelessWidget {
                   getIt<CacheHelper>().getDataString(key: 'token') == null
                       ? LitsTitleWidget(
                           image: 'assets/icons/exit.png',
-                          title: 'fsffsdfs',
-                          color: Colors.red,
+                          title: S.of(context).SignIn,
+                          color: Colors.green,
                           isHaveArrow: false,
-                          onTap: () {},
+                          onTap: () {
+                            pageTransition(context, page: const LoginPage());
+                          },
                         )
                       : LitsTitleWidget(
                           image: 'assets/icons/exit.png',

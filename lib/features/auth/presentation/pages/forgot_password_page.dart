@@ -18,11 +18,15 @@ class ForgotPasswordPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        title: GestureDetector(
-            child: const Icon(Icons.arrow_back_ios, color: Colors.black),
-            onTap: () {
-              Navigator.pop(context);
-            }),
+        title: Row(
+          children: [
+            GestureDetector(
+                child: const Icon(Icons.arrow_back_ios, color: Colors.black),
+                onTap: () {
+                  Navigator.pop(context);
+                }),
+          ],
+        ),
       ),
       body: Center(
         child: Padding(

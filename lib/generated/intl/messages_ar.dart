@@ -257,6 +257,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "اضبطها كصورة رئيسية",
     ),
     "Shop": MessageLookupByLibrary.simpleMessage("محل"),
+    "SignIn": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "SignInAndPost": MessageLookupByLibrary.simpleMessage(
       "سجل الدخول وادرج اعلانك في إمْتَلك",
     ),

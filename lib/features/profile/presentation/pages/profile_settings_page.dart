@@ -55,8 +55,12 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                 context.read<ProfileCubit>().userData!.data.firstName;
             lastNameController.text =
                 context.read<ProfileCubit>().userData!.data.lastName;
-            phoneController.text =
-                context.read<ProfileCubit>().userData!.data.phoneNumber;
+            phoneController.text = context
+                .read<ProfileCubit>()
+                .userData!
+                .data
+                .phoneNumber
+                .toString();
             addressController.text =
                 context.read<ProfileCubit>().userData!.addressData == null
                     ? ''

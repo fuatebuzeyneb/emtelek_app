@@ -64,8 +64,7 @@ class SellerTypeAlertDialog extends StatelessWidget {
                             groupValue: forWitchType == 1
                                 ? isEdit == false
                                     ? addAdGlobalCubit.sellerType
-                                    : myAdsCubit
-                                        .myAds[myAdsCubit.editIndex].sellerType
+                                    : addAdGlobalCubit.sellerType
                                 : null,
                             onChanged: (value) {
                               if (forWitchType == 1) {
@@ -126,8 +125,7 @@ class SellerTypeAlertDialog extends StatelessWidget {
                             groupValue: forWitchType == 1
                                 ? isEdit == false
                                     ? addAdGlobalCubit.sellerType
-                                    : myAdsCubit
-                                        .myAds[myAdsCubit.editIndex].sellerType
+                                    : addAdGlobalCubit.sellerType
                                 : null,
                             onChanged: (value) {
                               if (forWitchType == 1) {

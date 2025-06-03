@@ -29,7 +29,7 @@ class MyAdsCubit extends Cubit<MyAdsState> {
   //   editIndex = index;
   // }
 
-  List<AdModel> myAds = [];
+  // List<AdModel> myAds = [];
   List<GetMyAdsResponseModel> myAdsX = [];
   Future<void> getMyAds() async {
     emit(GetMyAdsLoading());
@@ -40,9 +40,8 @@ class MyAdsCubit extends Cubit<MyAdsState> {
           clientId: getIt<CacheHelper>().getData(key: 'clientId'),
         ),
       );
-      print('response----------------------: ${response.length}  ');
+
       myAdsX = response;
-      print('myAdsX----------------------: ${myAdsX.length}  ');
 
       emit(GetMyAdsSuccess());
     } catch (e) {

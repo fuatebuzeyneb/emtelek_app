@@ -20,6 +20,7 @@ import 'package:emtelek/features/add_property_listing/data/models/property_add_m
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
 import 'package:emtelek/shared/services/shared_preferences_funs.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 part 'profile_state.dart';
@@ -162,9 +163,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  String? editFirstName;
-  String? editLastName;
-  String? editPhoneNumber;
+  // String? editFirstName;
+  // String? editLastName;
+  // String? editPhoneNumber;
   int? editDistrictId;
   String? editAddress;
   File? editImage;
@@ -226,13 +227,19 @@ class ProfileCubit extends Cubit<ProfileState> {
         changePasswordRequestModel: changePasswordRequestModel,
       );
 
-      emit(ChangePassSuccess());
-
-      await getIt<CacheHelper>().removeData(key: 'token');
-      saveToken(response.token);
+      if (response.status == "success") {
+        await getIt<CacheHelper>().removeData(key: 'token');
+        saveToken(response.token);
+        emit(ChangePassSuccess());
+      } else {
+        emit(ChangePassFailure(
+            errorMassage: response.status ?? "Unknown Error"));
+      }
 
       return response;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint("Change password error: $e");
+      debugPrint("$stackTrace");
       emit(ChangePassFailure(errorMassage: e.toString()));
       return null;
     }

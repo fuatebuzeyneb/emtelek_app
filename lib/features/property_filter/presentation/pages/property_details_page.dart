@@ -154,7 +154,7 @@ class PropertyDetailsPage extends StatelessWidget {
                                 left: settingsCubit.locale == 'ar' ? 16 : null,
                                 child: Row(
                                   children: [
-                                    // FavoriteWidget(adModel: adDetails),
+                                    FavoriteWidget(adModel: adDetails),
                                     16.toWidth,
                                     ButtonWidget(
                                       borderRadius: 18,

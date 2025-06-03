@@ -17,7 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:emtelek/features/add_property_listing/presentation/widgets/alert_dialog/number_selection_alert_dialog.dart';
 import 'package:emtelek/features/add_property_listing/presentation/widgets/alert_dialog/seller_type_alert_dialog.dart';
 import 'package:emtelek/features/home/data/models/property_model.dart';
-import 'package:emtelek/features/home/presentation/widgets/product_card_home_widget.dart';
+import 'package:emtelek/features/home/presentation/widgets/ad_card_home_widget.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
 import 'package:emtelek/features/profile/data/models/ads_model.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
@@ -477,57 +477,57 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
                                 )
                               : SizedBox(),
 
-                          widget.itIsEdit &&
-                                  context
-                                      .read<MyAdsCubit>()
-                                      .myAdsX[widget.indexForEdit!]
-                                      .property
-                                      .images
-                                      .isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 8,
-                                  ),
-                                  child: SizedBox(
-                                      height: context.height * 0.12,
-                                      width: context.width * 1,
-                                      child: ListView.builder(
-                                        itemCount: context
-                                            .read<MyAdsCubit>()
-                                            .myAdsX[widget.indexForEdit!]
-                                            .property
-                                            .images
-                                            .length,
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 2, vertical: 4),
-                                            child: Container(
-                                              height: context.height * 0.12,
-                                              width: context.width * 0.25,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey,
-                                                  width: 1,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  child: Image.network(
-                                                    "${EndPoints.adImageUrl}${context.read<MyAdsCubit>().myAdsX[widget.indexForEdit!].property.images[index].attachmentName}",
-                                                    fit: BoxFit.cover,
-                                                  )),
-                                            ),
-                                          );
-                                        },
-                                      )),
-                                )
-                              : SizedBox(),
+                          // widget.itIsEdit == true &&
+                          //         context
+                          //             .read<MyAdsCubit>()
+                          //             .myAdsX[widget.indexForEdit!]
+                          //             .property
+                          //             .images
+                          //             .isNotEmpty
+                          //     ? Padding(
+                          //         padding: const EdgeInsets.only(
+                          //           top: 8,
+                          //         ),
+                          //         child: SizedBox(
+                          //             height: context.height * 0.12,
+                          //             width: context.width * 1,
+                          //             child: ListView.builder(
+                          //               itemCount: context
+                          //                   .read<MyAdsCubit>()
+                          //                   .myAdsX[widget.indexForEdit!]
+                          //                   .property
+                          //                   .images
+                          //                   .length,
+                          //               scrollDirection: Axis.horizontal,
+                          //               itemBuilder:
+                          //                   (BuildContext context, int index) {
+                          //                 return Padding(
+                          //                   padding: const EdgeInsets.symmetric(
+                          //                       horizontal: 2, vertical: 4),
+                          //                   child: Container(
+                          //                     height: context.height * 0.12,
+                          //                     width: context.width * 0.25,
+                          //                     decoration: BoxDecoration(
+                          //                       border: Border.all(
+                          //                         color: Colors.grey,
+                          //                         width: 1,
+                          //                       ),
+                          //                       borderRadius:
+                          //                           BorderRadius.circular(8),
+                          //                     ),
+                          //                     child: ClipRRect(
+                          //                         borderRadius:
+                          //                             BorderRadius.circular(8),
+                          //                         child: Image.network(
+                          //                           "${EndPoints.adImageUrl}${context.read<MyAdsCubit>().myAdsX[widget.indexForEdit!].property.images[index].attachmentName}",
+                          //                           fit: BoxFit.cover,
+                          //                         )),
+                          //                   ),
+                          //                 );
+                          //               },
+                          //             )),
+                          //       )
+                          //     : SizedBox(),
                           8.toHeight,
                           TextFieldWidget(
                             controller: phoneNumberController,

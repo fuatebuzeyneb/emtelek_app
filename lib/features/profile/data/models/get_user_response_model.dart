@@ -36,7 +36,7 @@ class ClientData {
   final int clientId;
   final String firstName;
   final String lastName;
-  final String phoneNumber;
+  final int phoneNumber;
   final String email;
   final String password;
   final String subscriptionDate;

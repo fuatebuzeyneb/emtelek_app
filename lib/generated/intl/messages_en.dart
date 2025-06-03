@@ -265,6 +265,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Set": MessageLookupByLibrary.simpleMessage("Set"),
     "SetAsMainPhoto": MessageLookupByLibrary.simpleMessage("Set as main photo"),
     "Shop": MessageLookupByLibrary.simpleMessage("Shop"),
+    "SignIn": MessageLookupByLibrary.simpleMessage("Sign In"),
     "SignInAndPost": MessageLookupByLibrary.simpleMessage("Sign In And Post"),
     "SignOut": MessageLookupByLibrary.simpleMessage("Sign Out"),
     "SignOutFromApp": MessageLookupByLibrary.simpleMessage(

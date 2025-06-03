@@ -67,8 +67,8 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       final response = await homeRepository.getHomeAds(
           tokenAndClintIdRequestModel: TokenAndClintIdRequestModel(
-        token: getIt<CacheHelper>().getDataString(key: 'token')!,
-        clientId: getIt<CacheHelper>().getData(key: 'clientId'),
+        token: getIt<CacheHelper>().getDataString(key: 'token') ?? "null",
+        clientId: getIt<CacheHelper>().getData(key: 'clientId') ?? 0,
       ));
       propertiesRent = response.propertiesRent;
       propertiesSell = response.propertiesSell;
@@ -91,7 +91,7 @@ class HomeCubit extends Cubit<HomeState> {
       final response = await homeRepository.getSearchAds(
           searchRequestModel: SearchRequestModel(
               token: getIt<CacheHelper>().getDataString(key: 'token') ?? "null",
-              clientId: getIt<CacheHelper>().getData(key: 'clientId') ?? "null",
+              clientId: getIt<CacheHelper>().getData(key: 'clientId') ?? 0,
               searchQuery: searchTitle,
               page: 0,
               orderBy: 'PublishDate ASC1'));

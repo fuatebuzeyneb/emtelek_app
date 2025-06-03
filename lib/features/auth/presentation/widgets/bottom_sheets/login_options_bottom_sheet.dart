@@ -75,30 +75,30 @@ class LoginOptionsBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
+                // 20.toHeight,
+                // ButtonWidget(
+                //   borderColor: Colors.black54,
+                //   color: Colors.white,
+                //   height: 0.06,
+                //   width: 1,
+                //   child: Padding(
+                //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                //     child: Row(
+                //       children: [
+                //         Image.asset('assets/icons/facebook.png',
+                //             height: 20, width: 20),
+                //         const SizedBox(width: 10),
+                //         TextWidget(
+                //             text: S.of(context).LoginWithFacebook,
+                //             fontSize: 16),
+                //       ],
+                //     ),
+                //   ),
+                //   onTap: () async {
+                //    // await authCubit.signInWithFacebook();
+                //   },
+                // ),
                 20.toHeight,
-                ButtonWidget(
-                  borderColor: Colors.black54,
-                  color: Colors.white,
-                  height: 0.06,
-                  width: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      children: [
-                        Image.asset('assets/icons/facebook.png',
-                            height: 20, width: 20),
-                        const SizedBox(width: 10),
-                        TextWidget(
-                            text: S.of(context).LoginWithFacebook,
-                            fontSize: 16),
-                      ],
-                    ),
-                  ),
-                  onTap: () async {
-                   // await authCubit.signInWithFacebook();
-                  },
-                ),
-                10.toHeight,
                 ButtonWidget(
                   borderColor: Colors.black54,
                   color: Colors.white,
@@ -120,26 +120,26 @@ class LoginOptionsBottomSheet extends StatelessWidget {
                     await authCubit.signInWithGoogle();
                   },
                 ),
-                10.toHeight,
-                ButtonWidget(
-                  borderColor: Colors.black54,
-                  color: Colors.white,
-                  height: 0.06,
-                  width: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      children: [
-                        Image.asset('assets/icons/apple.png',
-                            height: 20, width: 20),
-                        const SizedBox(width: 10),
-                        TextWidget(
-                            text: S.of(context).LoginWithApple, fontSize: 16),
-                      ],
-                    ),
-                  ),
-                  onTap: () {},
-                ),
+                // 10.toHeight,
+                // ButtonWidget(
+                //   borderColor: Colors.black54,
+                //   color: Colors.white,
+                //   height: 0.06,
+                //   width: 1,
+                //   child: Padding(
+                //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                //     child: Row(
+                //       children: [
+                //         Image.asset('assets/icons/apple.png',
+                //             height: 20, width: 20),
+                //         const SizedBox(width: 10),
+                //         TextWidget(
+                //             text: S.of(context).LoginWithApple, fontSize: 16),
+                //       ],
+                //     ),
+                //   ),
+                //   onTap: () {},
+                // ),
                 10.toHeight,
                 ButtonWidget(
                   borderColor: Colors.black54,

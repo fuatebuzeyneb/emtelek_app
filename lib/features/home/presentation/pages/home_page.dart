@@ -15,7 +15,7 @@ import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/loading_widget.dart';
 import 'package:emtelek/shared/widgets/text_field_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
-import 'package:emtelek/features/home/presentation/widgets/product_card_home_widget.dart';
+import 'package:emtelek/features/home/presentation/widgets/ad_card_home_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -265,7 +265,7 @@ class HomePage extends StatelessWidget {
                                             return Padding(
                                               padding:
                                                   EdgeInsets.only(left: 8.0),
-                                              child: ProductCardHomeWidget(
+                                              child: AdCardHomeWidget(
                                                 property: homeCubit
                                                     .propertiesRent![index],
                                               ),
@@ -308,7 +308,7 @@ class HomePage extends StatelessWidget {
                                             return Padding(
                                               padding:
                                                   EdgeInsets.only(left: 8.0),
-                                              child: ProductCardHomeWidget(
+                                              child: AdCardHomeWidget(
                                                 property: homeCubit
                                                     .propertiesSell![index],
                                               ),

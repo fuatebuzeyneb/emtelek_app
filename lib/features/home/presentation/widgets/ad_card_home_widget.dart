@@ -19,8 +19,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProductCardHomeWidget extends StatelessWidget {
-  const ProductCardHomeWidget({super.key, required this.property});
+class AdCardHomeWidget extends StatelessWidget {
+  const AdCardHomeWidget({super.key, required this.property});
 
   // final int index;
   // final int witchType; // 1 for sale property, 2 for rent property, 3 vehicles

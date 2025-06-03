@@ -14,6 +14,10 @@ class Property {
   final String location;
   final String mainImage;
   final int status;
+  final int? favoriteId;
+  final String? addedDate;
+  final dynamic deletedAt;
+  final int? isDeleted;
   bool? isFavorite;
   final List<FeatureModel>? features;
   final List<ImageModel> images;
@@ -37,6 +41,10 @@ class Property {
     required this.features,
     required this.images,
     required this.data,
+    this.favoriteId,
+    this.addedDate,
+    this.deletedAt,
+    this.isDeleted,
   });
 
   factory Property.fromJson(Map<String, dynamic> json) {
@@ -55,6 +63,10 @@ class Property {
       mainImage: json['MainImage'] ?? '',
       status: json['Status'] ?? 0,
       isFavorite: json['isFavorite'] ?? false,
+      favoriteId: json['FavoriteId'] ?? 0,
+      addedDate: json['AddedDate'] ?? '',
+      deletedAt: json['DeletedAt'] ?? '',
+      isDeleted: json['IsDeleted'] ?? 0,
       features: json['Features'] is List
           ? (json['Features'] as List)
               .map((e) => FeatureModel.fromJson(e))
@@ -65,7 +77,9 @@ class Property {
               .map((e) => ImageModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      data: PropertyData.fromJson(json['data'] ?? {}),
+      data: PropertyData.fromJson(
+        json['data'] ?? {},
+      ),
     );
   }
 }

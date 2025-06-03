@@ -90,13 +90,10 @@ class _SelectLocationState extends State<SelectLocation> {
       final addAdGlobalCubit = BlocProvider.of<AddAdGlobalCubit>(context);
 
       // قم بفحص إذا كان `location` غير فارغ قبل محاولة تحليله
-      if (myAdsCubit.myAds[myAdsCubit.editIndex].location != null) {
-        currentLocation = addAdGlobalCubit.parseLatLng(
-          myAdsCubit.myAds[myAdsCubit.editIndex].location!,
-        );
-        selectedLocation =
-            currentLocation; // تعيين الموقع المحدد كالموقع الحالي
-      }
+
+      selectedLocation = addAdGlobalCubit.parseLatLng(
+        addAdGlobalCubit.location!,
+      ); // تعيين الموقع المحدد كالموقع الحالي
     }
   }
 
