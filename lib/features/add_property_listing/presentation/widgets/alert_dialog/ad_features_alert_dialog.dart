@@ -90,7 +90,9 @@ class AdFeaturesAlertDialog extends StatelessWidget {
               height: 0,
               width: 0.4,
               color: Colors.grey.shade300,
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+              },
               text: S.current.Save,
               colorText: Colors.black,
               fontSize: 16,

@@ -28,12 +28,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this.authRepository) : super(AuthInitial());
 
-  String firstName = '';
-  String lastName = '';
-  String email = '';
-  String password = '';
-  String phoneNumber = '';
-
   Future<void> signUp({required SignUpRequestModel signUpRequestModel}) async {
     emit(SignUpLoading());
 
@@ -67,6 +61,7 @@ class AuthCubit extends Cubit<AuthState> {
         saveLastName(data.data!.lastName!);
         saveClientId(data.data!.clientId!);
         saveJoinDate(data.data!.subscriptionDate!);
+
         emit(SignInSuccuss());
       } else {
         emit(SignInFailure(errorMassage: "Invalid login response"));

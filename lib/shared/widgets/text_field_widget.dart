@@ -19,6 +19,7 @@ class TextFieldWidget extends StatelessWidget {
     this.suffixWidget,
     this.label,
     this.controller,
+    this.focusNode,
   });
 
   final String? hint;
@@ -31,10 +32,12 @@ class TextFieldWidget extends StatelessWidget {
   final int? maxLines;
   final Widget? suffixWidget;
   final Widget? label;
+  final FocusNode? focusNode;
   final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       controller: controller,
       maxLines: maxLines,
       initialValue: initialValue,

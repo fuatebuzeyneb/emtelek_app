@@ -142,12 +142,13 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> signOut() async {
     await getIt<CacheHelper>().removeData(key: 'token');
-    await getIt<CacheHelper>().removeData(key: 'password');
+    await getIt<CacheHelper>().removeData(key: 'userImage');
     await getIt<CacheHelper>().removeData(key: 'email');
     await getIt<CacheHelper>().removeData(key: 'joinDate');
     await getIt<CacheHelper>().removeData(key: 'firstName');
     await getIt<CacheHelper>().removeData(key: 'lastName');
     await getIt<CacheHelper>().removeData(key: 'clientId');
+
     await _googleSignIn.signOut();
     await _firebaseAuth.signOut();
   }
