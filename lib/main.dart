@@ -58,11 +58,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => PropertyCubit(
-            SearchPropertyRepositoryImpl(api: DioConsumer(dio: Dio())),
-          ),
-        ),
+        // BlocProvider(
+        //   create: (context) => PropertyCubit(
+        //     SearchPropertyRepositoryImpl(api: DioConsumer(dio: Dio())),
+        //   ),
+        // ),
         BlocProvider(
           create: (context) => AuthCubit(
             AuthRepositoryImpl(api: DioConsumer(dio: Dio())),

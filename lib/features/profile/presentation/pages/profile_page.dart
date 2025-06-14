@@ -5,6 +5,7 @@ import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
 import 'package:emtelek/features/auth/presentation/pages/login_page.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
 import 'package:emtelek/features/my_searchs/presentation/pages/my_searches_page.dart';
+import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/my_ads/presentation/pages/my_ads_page.dart';
@@ -184,8 +185,17 @@ class ProfilePage extends StatelessWidget {
                         color: Colors.white,
                         showElevation: true,
                         onTap: () {
-                          // BlocProvider.of<PropertyCubit>(context)
-                          //     .getSearchFilter();
+                          BlocProvider.of<PropertyFilterCubit>(context)
+                              .getSavedFilterSearchAds(
+                            tokenAndClintIdRequestModel:
+                                TokenAndClintIdRequestModel(
+                              clientId:
+                                  getIt<CacheHelper>().getData(key: 'clientId'),
+                              token: getIt<CacheHelper>()
+                                  .getDataString(key: 'token')!,
+                            ),
+                          ); // 680
+                          //    2011-2015 1500   2016-2020  2000
                           pageTransition(context, page: const MySearchesPage());
                         },
                         height: 0.1,

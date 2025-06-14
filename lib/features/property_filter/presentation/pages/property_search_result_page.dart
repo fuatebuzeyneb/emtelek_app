@@ -729,25 +729,25 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
                           width: 0.5,
                           color: Colors.white,
                           onTap: () {
-                            if (getIt<CacheHelper>()
-                                    .getDataString(key: 'token') !=
-                                null) {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                enableDrag: false,
-                                builder: (context) =>
-                                    const PropertySaveSearchBottomSheet(),
-                              );
-                            } else {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                enableDrag: false,
-                                builder: (context) =>
-                                    const LoginOptionsBottomSheet(),
-                              );
-                            }
+                            // if (getIt<CacheHelper>()
+                            //         .getDataString(key: 'token') !=
+                            //     null) {
+                            //   showModalBottomSheet(
+                            //     context: context,
+                            //     isScrollControlled: true,
+                            //     enableDrag: false,
+                            //     builder: (context) =>
+                            //         const PropertySaveSearchBottomSheet(),
+                            //   );
+                            // } else {
+                            //   showModalBottomSheet(
+                            //     context: context,
+                            //     isScrollControlled: true,
+                            //     enableDrag: false,
+                            //     builder: (context) =>
+                            //         const LoginOptionsBottomSheet(),
+                            //   );
+                            // }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

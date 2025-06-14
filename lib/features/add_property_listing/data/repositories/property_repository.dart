@@ -17,7 +17,7 @@ abstract class PropertyRepository {
     List<int>? featureIdList,
   });
 
-  Future<AdModel> editAdProperty({
+  Future<void> editAdProperty({
     required AddPropertyAdRequestModel addPropertyAdRequestModel,
     required List<XFile> images,
     required XFile mainImage,
@@ -118,7 +118,7 @@ class PropertyRepositoryImpl implements PropertyRepository {
     print("🔵 Response from API: $response");
   }
 
-  Future<AdModel> editAdProperty(
+  Future<void> editAdProperty(
       {required AddPropertyAdRequestModel addPropertyAdRequestModel,
       required List<XFile> images,
       required XFile mainImage,
@@ -183,8 +183,6 @@ class PropertyRepositoryImpl implements PropertyRepository {
     );
 
     print("🔵 Response from API: $response");
-
-    return response;
   }
 
   @override

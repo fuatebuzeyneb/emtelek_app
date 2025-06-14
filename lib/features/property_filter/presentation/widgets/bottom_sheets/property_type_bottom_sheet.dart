@@ -3,6 +3,7 @@ import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
 import 'package:emtelek/features/property/data/models/property_filter_request_mode.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
+import 'package:emtelek/features/property_filter/data/models/property_filter_request_model.dart';
 import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/features/property_filter/presentation/widgets/scroll_property_type_widget.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';

@@ -15,7 +15,6 @@ class SortAlertDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsCubit = context.read<SettingsCubit>();
-    final propertyCubit = context.read<PropertyCubit>();
 
     return AlertDialog(
       backgroundColor: Colors.white,
@@ -65,13 +64,13 @@ class SortAlertDialogWidget extends StatelessWidget {
                     settingsCubit.selectSortByFunction(value: option['value']);
 
                     setState(() {});
-                    propertyCubit.applyFilter(
-                      listCityIds: settingsCubit.selectedCityIds,
-                      listDistrictIds: settingsCubit.selectedDistrictIds,
-                      minPrice: settingsCubit.minPrice?.toInt(),
-                      maxPrice: settingsCubit.maxPrice?.toInt(),
-                      sortBy: settingsCubit.sortBy,
-                    );
+                    // propertyCubit.applyFilter(
+                    //   listCityIds: settingsCubit.selectedCityIds,
+                    //   listDistrictIds: settingsCubit.selectedDistrictIds,
+                    //   minPrice: settingsCubit.minPrice?.toInt(),
+                    //   maxPrice: settingsCubit.maxPrice?.toInt(),
+                    //   sortBy: settingsCubit.sortBy,
+                    // );
                     Navigator.pop(context);
                   },
                   child: Row(
@@ -89,13 +88,13 @@ class SortAlertDialogWidget extends StatelessWidget {
                           settingsCubit.selectSortByFunction(value: value!);
                           setState(() {});
 
-                          propertyCubit.applyFilter(
-                            listCityIds: settingsCubit.selectedCityIds,
-                            listDistrictIds: settingsCubit.selectedDistrictIds,
-                            minPrice: settingsCubit.minPrice?.toInt(),
-                            maxPrice: settingsCubit.maxPrice?.toInt(),
-                            sortBy: settingsCubit.sortBy,
-                          );
+                          // propertyCubit.applyFilter(
+                          //   listCityIds: settingsCubit.selectedCityIds,
+                          //   listDistrictIds: settingsCubit.selectedDistrictIds,
+                          //   minPrice: settingsCubit.minPrice?.toInt(),
+                          //   maxPrice: settingsCubit.maxPrice?.toInt(),
+                          //   sortBy: settingsCubit.sortBy,
+                          // );
                           Navigator.pop(context);
                         },
                       ),

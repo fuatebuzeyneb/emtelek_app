@@ -264,14 +264,12 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
       print("🔵 1111");
       // تأكد من أن قائمة الصور لا تكون فارغة
 
-      final data = await propertyRepository.editAdProperty(
+      await propertyRepository.editAdProperty(
         images: imagesProperty,
         mainImage: mainImage!,
         featureIdList: featuresListId,
         addPropertyAdRequestModel: addPropertyAdRequestModel,
       );
-
-      print("🔵 PropertyAddAdCubit.addAdProperty data: $data");
 
       emit(PropertyUpdateAdSuccess());
     } on ServerException catch (e) {
