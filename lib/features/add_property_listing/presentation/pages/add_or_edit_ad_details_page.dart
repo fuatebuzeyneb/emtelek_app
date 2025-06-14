@@ -1636,80 +1636,27 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: ButtonWidget(
                     onTap: () {
-                      // final model = AddPropertyAdRequestModel(
-                      //   phoneNumber: int.parse(phoneNumberController.text),
-                      //   token: getIt<CacheHelper>().getData(key: 'token'),
-                      //   clientId: getIt<CacheHelper>().getData(key: 'clientId'),
-                      //   adTitle: titleAdController.text,
-                      //   categoryId: propertyAddAdCubit.categoryForAdType!,
-                      //   districtId: addAdGlobalCubit.districtId!,
-                      //   price: double.parse(priceController.text),
-                      //   currency: addAdGlobalCubit.currencyId!,
-                      //   sellerType: addAdGlobalCubit.sellerType!,
-                      //   location: addAdGlobalCubit.location!,
-                      //   totalArea: int.parse(totalAreaController.text),
-                      //   roomCount: propertyAddAdCubit.roomCount!,
-                      //   bathroomCount: propertyAddAdCubit.bathroomCount!,
-                      //   description: descriptionController.text,
-                      //   netArea: netAreaController.text.isEmpty
-                      //       ? 0
-                      //       : int.parse(netAreaController.text),
-                      //   address: addressController.text,
-                      //   floorCount: propertyAddAdCubit.floorCount,
-                      //   floorNumber: propertyAddAdCubit.floorNumber,
-                      //   furnish: propertyAddAdCubit.furnishStatus == true
-                      //       ? 'yes'
-                      //       : 'no',
-                      //   constructionDate: propertyAddAdCubit.constructionDate ==
-                      //           null
-                      //       ? 'null'
-                      //       : DateFormat('yyyy-MM-dd')
-                      //           .format(propertyAddAdCubit.constructionDate!),
-                      //   complexName: complexNameController.text.isEmpty
-                      //       ? null
-                      //       : complexNameController.text,
-                      //   balconyCount: propertyAddAdCubit.balconyCount,
-                      // );
-
-                      // if (titleAdController.text.isEmpty ||
-                      //     phoneNumberController.text.isEmpty ||
-                      //     priceController.text.isEmpty ||
-                      //     totalAreaController.text.isEmpty ||
-                      //     addAdGlobalCubit.sellerType == null ||
-                      //     addAdGlobalCubit.districtId == null ||
-                      //     addAdGlobalCubit.location == null) {
-                      //   if ([
-                      //         8,
-                      //         14,
-                      //         26,
-                      //         27,
-                      //         12,
-                      //         18
-                      //       ].contains(propertyAddAdCubit.categoryForAdType) &&
-                      //       (propertyAddAdCubit.roomCount == null ||
-                      //           propertyAddAdCubit.bathroomCount == null)) {
-                      //     SnackbarUtils.showSnackbar(
-                      //         context, S.of(context).AddAdWarning, 2);
-                      //   } else {
-                      //     if (widget.itIsEdit) {
-                      //       propertyAddAdCubit.editAdPropertyFunc(
-                      //           addPropertyAdRequestModel: model);
-                      //     } else {
-                      //       propertyAddAdCubit.addAdPropertyFunc(
-                      //           addPropertyAdRequestModel: model);
-                      //     }
-                      //     // Navigator.pushNamed(context, FinishPage.id);
-                      //   }
-                      // } else {
-                      //   if (widget.itIsEdit) {
-                      //     propertyAddAdCubit.editAdPropertyFunc(
-                      //         addPropertyAdRequestModel: model);
-                      //   } else {
-                      //     propertyAddAdCubit.addAdPropertyFunc(
-                      //         addPropertyAdRequestModel: model);
-                      //   }
-                      pageTransition(context,
+                      if (titleAdController.text.isEmpty ||
+                          phoneNumberController.text.isEmpty ||
+                          priceController.text.isEmpty ||
+                          totalAreaController.text.isEmpty ||
+                          addAdGlobalCubit.sellerType == null ||
+                          addAdGlobalCubit.districtId == null ||
+                          addAdGlobalCubit.location == null ||
+                          ([8, 14, 26, 27, 12, 18].contains(
+                                  propertyAddAdCubit.categoryForAdType) &&
+                              (propertyAddAdCubit.roomCount == null ||
+                                  propertyAddAdCubit.bathroomCount == null))) {
+                        SnackbarUtils.showSnackbar(
+                          context,
+                          S.of(context).AddAdWarning,
+                          2,
+                        );
+                      } else {
+                        pageTransition(
+                          context,
                           page: FinishPage(
+                            isEdit: widget.itIsEdit,
                             adTitle: titleAdController.text,
                             totalArea: totalAreaController.text,
                             phoneNumber: phoneNumberController.text,
@@ -1718,9 +1665,21 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
                             description: descriptionController.text,
                             address: addressController.text,
                             complexName: complexNameController.text,
-                          ));
-                      //   Navigator.pushNamed(context, FinishPage.id);
-                      // }
+                          ),
+                        );
+                      }
+                      // pageTransition(context,
+                      //     page: FinishPage(
+                      //       adTitle: titleAdController.text,
+                      //       totalArea: totalAreaController.text,
+                      //       phoneNumber: phoneNumberController.text,
+                      //       price: priceController.text,
+                      //       netArea: netAreaController.text,
+                      //       description: descriptionController.text,
+                      //       address: addressController.text,
+                      //       complexName: complexNameController.text,
+                      //     ));
+                      //  Navigator.pushNamed(context, FinishPage.id);
                     },
                     text: S.of(context).Apply,
                     height: 0.06,

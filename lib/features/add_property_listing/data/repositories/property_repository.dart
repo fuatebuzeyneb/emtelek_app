@@ -10,7 +10,7 @@ import 'package:emtelek/features/profile/data/models/featur_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 abstract class PropertyRepository {
-  Future<AdModel> addAdProperty({
+  Future<void> addAdProperty({
     required AddPropertyAdRequestModel addPropertyAdRequestModel,
     required List<XFile> images,
     required XFile mainImage,
@@ -51,7 +51,7 @@ class PropertyRepositoryImpl implements PropertyRepository {
   //   return AdModel.fromJson(response);
   // }
 
-  Future<AdModel> addAdProperty(
+  Future<void> addAdProperty(
       {required AddPropertyAdRequestModel addPropertyAdRequestModel,
       required List<XFile> images,
       required XFile mainImage,
@@ -116,8 +116,6 @@ class PropertyRepositoryImpl implements PropertyRepository {
     );
 
     print("🔵 Response from API: $response");
-
-    return AdModel.fromJson(response);
   }
 
   Future<AdModel> editAdProperty(
@@ -186,7 +184,7 @@ class PropertyRepositoryImpl implements PropertyRepository {
 
     print("🔵 Response from API: $response");
 
-    return AdModel.fromJson(response);
+    return response;
   }
 
   @override

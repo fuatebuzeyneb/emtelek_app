@@ -233,25 +233,26 @@ class PropertyAddAdCubit extends Cubit<PropertyAddAdState> {
 
   Future<void> addAdPropertyFunc(
       {required AddPropertyAdRequestModel addPropertyAdRequestModel}) async {
+    emit(PropertyAddOrUpdateAdLoading());
     try {
-      emit(PropertyAddOrUpdateAdLoading());
-
       // تأكد من أن قائمة الصور لا تكون فارغة
 
-      final data = await propertyRepository.addAdProperty(
+      await propertyRepository.addAdProperty(
         images: imagesProperty,
         mainImage: mainImage!,
         featureIdList: featuresListId,
         addPropertyAdRequestModel: addPropertyAdRequestModel,
       );
 
-      print("🔵 PropertyAddAdCubit.addAdProperty data: $data");
+      //   print("🔵 PropertyAddAdCubit.addAdProperty data: $data");
 
       emit(PropertyAddAdSuccess());
     } on ServerException catch (e) {
+      print("🔵 PropertyAddAdCubit.addAdProperty e1: $e");
       emit(PropertyAddOrUpdateAdFailure(
           errorMassage: e.errorModel.errorMessage));
     } catch (e) {
+      print("🔵 PropertyAddAdCubit.addAdProperty e2: $e");
       emit(PropertyAddOrUpdateAdFailure(errorMassage: e.toString()));
     }
   }

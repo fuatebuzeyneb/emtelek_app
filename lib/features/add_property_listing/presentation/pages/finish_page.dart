@@ -5,7 +5,9 @@ import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/core/utils/page_transitions.dart';
 import 'package:emtelek/core/utils/snackbar_utils.dart';
+import 'package:emtelek/features/add_property_listing/data/models/add_property_ad_request_model.dart';
 import 'package:emtelek/features/add_property_listing/domain/cubit/property_add_ad_cubit.dart';
+import 'package:emtelek/features/home/data/models/property_model.dart';
 import 'package:emtelek/generated/l10n.dart';
 import 'package:emtelek/shared/cubits/cubit/add_ad_global_cubit.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
@@ -19,6 +21,7 @@ import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class FinishPage extends StatelessWidget {
@@ -30,6 +33,7 @@ class FinishPage extends StatelessWidget {
   final String? description;
   final String? address;
   final String? complexName;
+  final bool isEdit;
   const FinishPage(
       {super.key,
       required this.adTitle,
@@ -39,7 +43,8 @@ class FinishPage extends StatelessWidget {
       this.netArea,
       this.description,
       this.address,
-      this.complexName});
+      this.complexName,
+      required this.isEdit});
   static const String id = 'FinishPage';
 
   // final titleAdController = TextEditingController();
@@ -59,12 +64,14 @@ class FinishPage extends StatelessWidget {
 
     return BlocConsumer<PropertyAddAdCubit, PropertyAddAdState>(
       listener: (context, state) {
-        //   if (state is PropertyAddAdSuccess) {
-        SnackbarUtils.showSnackbar(context, 'تم اضافة الاعلان بنجاح');
-        pageTransition(context, page: const BottomNavBar());
-        // } else if (state is PropertyAddAdFailure) {
-        //   SnackbarUtils.showSnackbar(context, state.errorMassage);
-        // }
+        if (state is PropertyAddAdSuccess) {
+          SnackbarUtils.showSnackbar(context, 'تم اضافة الاعلان بنجاح');
+          pageTransition(context, page: const BottomNavBar());
+        } else if (state is PropertyUpdateAdSuccess) {
+          SnackbarUtils.showSnackbar(context, 'تم تعديل الاعلان بنجاح');
+        } else if (state is PropertyAddOrUpdateAdFailure) {
+          SnackbarUtils.showSnackbar(context, state.errorMassage, 5);
+        }
       },
       builder: (context, state) {
         return ModalProgressHUD(
@@ -72,7 +79,30 @@ class FinishPage extends StatelessWidget {
           progressIndicator: const LoadingWidget(),
           child: Scaffold(
             appBar: AppBarWidget(
-              title: S.of(context).AdPreview,
+              title: '',
+              widget: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextWidget(
+                        text: S.of(context).AdPreview,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: TextWidget(
+                          text: 'Edit',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ]),
+              ),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -136,8 +166,6 @@ class FinishPage extends StatelessWidget {
                                       maxLines: 1,
                                       isHaveOverflow: true,
                                       text: adTitle,
-                                      // propertyAddAdCubit.adModel.adTitle ??
-                                      //     S.of(context).undefined,
                                       fontSize: 14,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -154,13 +182,6 @@ class FinishPage extends StatelessWidget {
                                       color: Colors.black),
                                   TextWidget(
                                     text: totalArea,
-                                    //  propertyAddAdCubit
-                                    //             .adModel.info!.totalArea ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.totalArea
-                                    //         .toString(),
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -175,32 +196,7 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'sadasd',
-                                    //  propertyAddAdCubit
-                                    //             .adModel.info!.netArea ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.netArea
-                                    //         .toString(),
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                              4.toHeight,
-                              Row(
-                                children: [
-                                  TextWidget(
-                                      text: '${S.of(context).Description}: ',
-                                      fontSize: 16,
-                                      color: Colors.black),
-                                  TextWidget(
-                                    text: 'fsdfsd',
-                                    // propertyAddAdCubit
-                                    //         .adModel.description ??
-                                    //     S.of(context).undefined,
+                                    text: netArea ?? S.of(context).undefined,
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -215,14 +211,8 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'sadas',
-                                    //  propertyAddAdCubit
-                                    //             .adModel.info!.roomCount ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.roomCount
-                                    //         .toString(),
+                                    text:
+                                        propertyAddAdCubit.roomCount.toString(),
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -238,37 +228,8 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'saasd',
-                                    //  propertyAddAdCubit
-                                    //             .adModel.info!.bathroomCount ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.bathroomCount
-                                    //         .toString(),
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                              4.toHeight,
-                              Row(
-                                children: [
-                                  TextWidget(
-                                      text:
-                                          '${S.of(context).NumberOfBathrooms}: ',
-                                      fontSize: 16,
-                                      color: Colors.black),
-                                  TextWidget(
-                                    text: 'sadsad',
-                                    //  propertyAddAdCubit
-                                    //             .adModel.info!.bathroomCount ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.bathroomCount
-                                    //         .toString(),
+                                    text: propertyAddAdCubit.bathroomCount
+                                        .toString(),
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -283,15 +244,10 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'asdasd',
-
-                                    //  propertyAddAdCubit
-                                    //             .adModel.info!.floorNumber ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.floorNumber
-                                    //         .toString(),
+                                    text: propertyAddAdCubit.floorNumber == null
+                                        ? S.of(context).undefined
+                                        : propertyAddAdCubit.floorNumber
+                                            .toString(),
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -306,14 +262,10 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'das',
-                                    // propertyAddAdCubit
-                                    //             .adModel.info!.floorCount ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.floorCount
-                                    //         .toString(),
+                                    text: propertyAddAdCubit.floorCount == null
+                                        ? S.of(context).undefined
+                                        : propertyAddAdCubit.floorCount
+                                            .toString(),
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -329,14 +281,11 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'asdasd',
-                                    // propertyAddAdCubit
-                                    //             .adModel.info!.balconyCount ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.balconyCount
-                                    //         .toString(),
+                                    text:
+                                        propertyAddAdCubit.balconyCount == null
+                                            ? S.of(context).undefined
+                                            : propertyAddAdCubit.balconyCount
+                                                .toString(),
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -348,18 +297,15 @@ class FinishPage extends StatelessWidget {
                                 children: [
                                   TextWidget(
                                       text:
-                                          '${S.of(context).ConstructionDateOptional}: ',
+                                          '${S.of(context).ConstructionDate}: ',
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'sdfsdfs',
-                                    // propertyAddAdCubit.adModel.info!
-                                    //             .constructionDate ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.constructionDate
-                                    //         .toString(),
+                                    text: propertyAddAdCubit.constructionDate ==
+                                            null
+                                        ? S.of(context).undefined
+                                        : propertyAddAdCubit.constructionDate
+                                            .toString(),
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -374,17 +320,13 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'dfsdfs',
-
-                                    //  propertyAddAdCubit
-                                    //             .adModel.info!.furnish ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //                 .adModel.info!.furnish ==
-                                    //             'yes'
-                                    //         ? S.of(context).Furnished
-                                    //         : S.of(context).Unfurnished,
+                                    text: propertyAddAdCubit.furnishStatus ==
+                                            null
+                                        ? S.of(context).undefined
+                                        : propertyAddAdCubit.furnishStatus ==
+                                                true
+                                            ? S.of(context).Furnished
+                                            : S.of(context).Unfurnished,
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -399,69 +341,159 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'sasas',
-                                    // propertyAddAdCubit.adModel.sellerType ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //                 .adModel.sellerType ==
-                                    //             1
-                                    //         ? S.of(context).Owner
-                                    //         : S.of(context).Agent,
+                                    text: addAdGlobalCubit.sellerType! == 1
+                                        ? S.of(context).Owner
+                                        : S.of(context).Agent,
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ],
                               ),
-                              propertyAddAdCubit.imagesProperty.isNotEmpty
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 8,
-                                      ),
-                                      child: SizedBox(
-                                          height: context.height * 0.12,
-                                          width: context.width * 1,
-                                          child: ListView.builder(
-                                            itemCount: propertyAddAdCubit
-                                                .imagesProperty.length,
-                                            scrollDirection: Axis.horizontal,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 2,
-                                                        vertical: 4),
-                                                child: Container(
-                                                  height: context.height * 0.12,
-                                                  width: context.width * 0.25,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colors.grey,
-                                                      width: 1,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                    child: Image.file(
-                                                      File(propertyAddAdCubit
-                                                          .imagesProperty[index]
-                                                          .path),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          )),
+                              4.toHeight,
+                              description == null || description == ''
+                                  ? Row(
+                                      children: [
+                                        TextWidget(
+                                            text:
+                                                '${S.of(context).Description}: ',
+                                            fontSize: 16,
+                                            color: Colors.black),
+                                        TextWidget(
+                                          text: S.of(context).undefined,
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ],
                                     )
-                                  : SizedBox(),
+                                  : Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextWidget(
+                                            text:
+                                                '${S.of(context).Description}: ',
+                                            fontSize: 16,
+                                            color: Colors.black),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4),
+                                          child: TextWidget(
+                                            textAlign: TextAlign.start,
+                                            text: description!,
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                              Row(
+                                children: [
+                                  TextWidget(
+                                      text: '${S.of(context).Favorites}: ',
+                                      fontSize: 16,
+                                      color: Colors.black),
+                                  TextWidget(
+                                    text: propertyAddAdCubit
+                                            .featuresListId.isEmpty
+                                        ? S.of(context).undefined
+                                        : '',
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                              propertyAddAdCubit.featuresListId.isEmpty
+                                  ? 0.toHeight
+                                  : 4.toHeight,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      child: Wrap(
+                                        spacing: 8,
+                                        runSpacing: 8,
+                                        children: propertyAddAdCubit
+                                            .featuresListId
+                                            .map(
+                                          (id) {
+                                            final featureName =
+                                                propertyAddAdCubit.features
+                                                    .firstWhere(
+                                                      (feature) =>
+                                                          feature.featureId ==
+                                                          id,
+                                                      orElse: () =>
+                                                          FeatureModel(
+                                                              featureId: id,
+                                                              featureName:
+                                                                  'غير معروف',
+                                                              featureIcon: ''),
+                                                    )
+                                                    .featureName;
+
+                                            return ButtonWidget(
+                                              paddingHorizontal: 12,
+                                              paddingVertical: 6,
+                                              borderRadius: 4,
+                                              height: 0,
+                                              width: 0.2,
+                                              onTap: () {},
+                                              text: featureName,
+                                              color: Colors.grey,
+                                            );
+                                          },
+                                        ).toList(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 8,
+                                ),
+                                child: SizedBox(
+                                    height: context.height * 0.12,
+                                    width: context.width * 1,
+                                    child: ListView.builder(
+                                      itemCount: propertyAddAdCubit
+                                          .imagesProperty.length,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 2, vertical: 4),
+                                          child: Container(
+                                            height: context.height * 0.12,
+                                            width: context.width * 0.25,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey,
+                                                width: 1,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: Image.file(
+                                                File(propertyAddAdCubit
+                                                    .imagesProperty[index]
+                                                    .path),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    )),
+                              ),
                               20.toHeight,
                               TextWidget(
                                   text: 'تفاصيل السعر والموقع',
@@ -476,11 +508,7 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'popopopop',
-                                    // propertyAddAdCubit.adModel.price == null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit.adModel.price
-                                    //         .toString(),
+                                    text: price,
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -495,9 +523,7 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'iuiiuiu',
-                                    // propertyAddAdCubit.adModel.currency ??
-                                    //     S.of(context).undefined,
+                                    text: addAdGlobalCubit.currencyId,
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -512,14 +538,8 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'qqq',
-
-                                    // settingsCubit.cityId != null
-                                    //     ? settingsCubit
-                                    //         .globalCities[
-                                    //             settingsCubit.cityId! - 1]
-                                    //         .cityName
-                                    //     : S.of(context).undefined,
+                                    text: settingsCubit.getCityNameByCityId(
+                                        addAdGlobalCubit.cityId!),
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -534,19 +554,9 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'dfsfd',
-
-                                    //  propertyAddAdCubit
-                                    //             .adModel.district!.districtId !=
-                                    //         null
-                                    //     ? settingsCubit
-                                    //         .globalDistricts[propertyAddAdCubit
-                                    //                 .adModel
-                                    //                 .district!
-                                    //                 .districtId! -
-                                    //             1]
-                                    //         .districtName
-                                    //     : S.of(context).undefined,
+                                    text: settingsCubit
+                                        .getDistrictNameByDistrictId(
+                                            addAdGlobalCubit.districtId!),
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -562,14 +572,9 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'reee',
-                                    //  propertyAddAdCubit
-                                    //             .adModel.info!.address ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.address
-                                    //         .toString(),
+                                    text: address == null || address == ''
+                                        ? S.of(context).undefined
+                                        : address!,
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -585,75 +590,59 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'ttt',
-
-                                    // propertyAddAdCubit
-                                    //             .adModel.info!.complexName ==
-                                    //         null
-                                    //     ? S.of(context).undefined
-                                    //     : propertyAddAdCubit
-                                    //         .adModel.info!.complexName
-                                    //         .toString(),
+                                    text:
+                                        complexName == null || complexName == ''
+                                            ? S.of(context).undefined
+                                            : complexName!,
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ],
                               ),
-                              addAdGlobalCubit.location == null
-                                  ? ButtonWidget(
-                                      height: 0.15,
-                                      width: 1,
-                                      colorText: Colors.black45,
-                                      ////  color: Colors.redAccent,
-                                      borderColor: Colors.grey,
-                                      text: 'لم يتم تحدد الموقع',
-                                      onTap: () {},
-                                    )
-                                  : Padding(
-                                      padding: const EdgeInsets.only(top: 4),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: ButtonWidget(
-                                          height: 0.2,
-                                          width: 1,
-                                          onTap: () {},
-                                          child: FlutterMap(
-                                            key: const Key('map'),
-                                            options: MapOptions(
-                                              initialCenter: addAdGlobalCubit
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: ButtonWidget(
+                                    height: 0.2,
+                                    width: 1,
+                                    onTap: () {},
+                                    child: FlutterMap(
+                                      key: const Key('map'),
+                                      options: MapOptions(
+                                        initialCenter:
+                                            addAdGlobalCubit.parseLatLng(
+                                                addAdGlobalCubit.location!),
+                                      ),
+                                      mapController: MapController(),
+                                      children: [
+                                        TileLayer(
+                                          urlTemplate:
+                                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                          userAgentPackageName:
+                                              'com.example.app',
+                                        ),
+                                        MarkerLayer(
+                                          markers: [
+                                            Marker(
+                                              point: addAdGlobalCubit
                                                   .parseLatLng(addAdGlobalCubit
                                                       .location!),
+                                              child: const Icon(
+                                                Icons.location_on,
+                                                color: Colors.red,
+                                                size: 30,
+                                              ),
+                                              rotate: true,
                                             ),
-                                            mapController: MapController(),
-                                            children: [
-                                              TileLayer(
-                                                urlTemplate:
-                                                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                userAgentPackageName:
-                                                    'com.example.app',
-                                              ),
-                                              MarkerLayer(
-                                                markers: [
-                                                  Marker(
-                                                    point: addAdGlobalCubit
-                                                        .parseLatLng(
-                                                            addAdGlobalCubit
-                                                                .location!),
-                                                    child: const Icon(
-                                                      Icons.location_on,
-                                                      color: Colors.red,
-                                                      size: 30,
-                                                    ),
-                                                    rotate: true,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                          ],
                                         ),
-                                      ),
+                                      ],
                                     ),
+                                  ),
+                                ),
+                              ),
                               20.toHeight,
                               TextWidget(
                                   text: 'معلومات التواصل',
@@ -688,7 +677,7 @@ class FinishPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black),
                                   TextWidget(
-                                    text: 'ieqeowe',
+                                    text: phoneNumber,
                                     //  propertyAddAdCubit
                                     //         .adModel.client!.phoneNumber ??
                                     //     S.of(context).undefined,
@@ -708,9 +697,6 @@ class FinishPage extends StatelessWidget {
                                   TextWidget(
                                     text: getIt<CacheHelper>()
                                         .getDataString(key: 'email')!,
-                                    //  propertyAddAdCubit
-                                    //         .adModel.client!.phoneNumber ??
-                                    //     S.of(context).undefined,
                                     fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -726,11 +712,49 @@ class FinishPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: ButtonWidget(
                         onTap: () {
-                          // propertyAddAdCubit.setPropertyField(
-                          //     'adModelCategoryId',
-                          //     propertyAddAdCubit.categoryForAdType);
-                          // print("🚀 addAdPropertyFunc STARTED");
-                          // propertyAddAdCubit.addAdPropertyFunc();
+                          final model = AddPropertyAdRequestModel(
+                            phoneNumber: int.parse(phoneNumber),
+                            token: getIt<CacheHelper>().getData(key: 'token'),
+                            clientId:
+                                getIt<CacheHelper>().getData(key: 'clientId'),
+                            adTitle: adTitle,
+                            categoryId: propertyAddAdCubit.categoryForAdType!,
+                            districtId: addAdGlobalCubit.districtId!,
+                            price: double.parse(price),
+                            currency: addAdGlobalCubit.currencyId,
+                            sellerType: addAdGlobalCubit.sellerType!,
+                            location: addAdGlobalCubit.location!,
+                            totalArea: int.parse(totalArea),
+                            roomCount: propertyAddAdCubit.roomCount!,
+                            bathroomCount: propertyAddAdCubit.bathroomCount!,
+                            description: description,
+                            netArea: netArea == '' || netArea == null
+                                ? null
+                                : int.parse(netArea!),
+                            address: address,
+                            floorCount: propertyAddAdCubit.floorCount,
+                            floorNumber: propertyAddAdCubit.floorNumber,
+                            furnish: propertyAddAdCubit.furnishStatus == true
+                                ? 'yes'
+                                : 'no',
+                            constructionDate:
+                                propertyAddAdCubit.constructionDate == null
+                                    ? 'null'
+                                    : DateFormat('yyyy-MM-dd').format(
+                                        propertyAddAdCubit.constructionDate!),
+                            complexName: complexName,
+                            balconyCount: propertyAddAdCubit.balconyCount,
+                          );
+
+                          print("🚀 addAdPropertyFunc STARTED");
+
+                          if (isEdit == true) {
+                            propertyAddAdCubit.editAdPropertyFunc(
+                                addPropertyAdRequestModel: model);
+                          } else {
+                            propertyAddAdCubit.addAdPropertyFunc(
+                                addPropertyAdRequestModel: model);
+                          }
                         },
                         text: S.of(context).Apply,
                         height: 0.06,
