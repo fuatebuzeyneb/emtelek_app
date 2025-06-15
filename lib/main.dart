@@ -11,6 +11,8 @@ import 'package:emtelek/features/home/data/repositories/home_repository.dart';
 import 'package:emtelek/features/home/domain/cubit/home_cubit.dart';
 import 'package:emtelek/features/my_ads/data/repositories/my_ads_repository.dart';
 import 'package:emtelek/features/my_ads/domain/cubit/my_ads_cubit.dart';
+import 'package:emtelek/features/my_searches/data/repositories/my_searches_repository.dart';
+import 'package:emtelek/features/my_searches/domain/cubit/my_searches_cubit.dart';
 import 'package:emtelek/features/profile/data/repositories/profile_repository.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/property/data/repositories/search_property_repository.dart';
@@ -58,11 +60,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // BlocProvider(
-        //   create: (context) => PropertyCubit(
-        //     SearchPropertyRepositoryImpl(api: DioConsumer(dio: Dio())),
-        //   ),
-        // ),
+        BlocProvider(
+          create: (context) => MySearchesCubit(
+            MySearchesRepositoryImpl(api: DioConsumer(dio: Dio())),
+          ),
+        ),
         BlocProvider(
           create: (context) => AuthCubit(
             AuthRepositoryImpl(api: DioConsumer(dio: Dio())),

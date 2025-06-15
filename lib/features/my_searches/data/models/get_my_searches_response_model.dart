@@ -1,16 +1,16 @@
-class GetSearchFilterResponseModel {
+class GetMySearchesResponseModel {
   final String status;
   final List<SearchFilterItemModel>? data;
 
-  GetSearchFilterResponseModel({
+  GetMySearchesResponseModel({
     required this.status,
     required this.data,
   });
 
-  factory GetSearchFilterResponseModel.fromJson(Map<String, dynamic> json) {
+  factory GetMySearchesResponseModel.fromJson(Map<String, dynamic> json) {
     final rawData = json['data'];
 
-    return GetSearchFilterResponseModel(
+    return GetMySearchesResponseModel(
       status: json['status'],
       data: rawData is Map<String, dynamic>
           ? rawData.values
@@ -73,18 +73,45 @@ class FilterContentModel {
   });
 
   factory FilterContentModel.fromJson(Map<String, dynamic> json) {
+    List<int>? parseIntList(dynamic list) {
+      if (list is List &&
+          list.every(
+              (e) => e is int || (e is String && int.tryParse(e) != null))) {
+        return list.map((e) => e is int ? e : int.parse(e)).toList();
+      }
+      return null;
+    }
+
+    double? parseDouble(dynamic value) {
+      if (value == null || value == "null") return null;
+      if (value is num) return value.toDouble();
+      if (value is String) return double.tryParse(value);
+      return null;
+    }
+
+    int? parseInt(dynamic value) {
+      if (value == null || value == "null") return null;
+      if (value is int) return value;
+      if (value is String) return int.tryParse(value);
+      return null;
+    }
+
+    dynamic normalizeList(dynamic value) {
+      if (value == null || value == "null") return null;
+      return value;
+    }
+
     return FilterContentModel(
-      roomCount: (json['RoomCount'] as List?)?.map((e) => e as int).toList(),
-      cityId: (json['CityId'] as List?)?.map((e) => e as int).toList(),
-      minPrice: (json['MinPrice'] as num?)?.toDouble(),
-      maxPrice: (json['MaxPrice'] as num?)?.toDouble(),
-      categoryId: json['CategoryId'],
-      minTotalArea: (json['MinTotalArea'] as num?)?.toDouble(),
-      maxTotalArea: (json['MaxTotalArea'] as num?)?.toDouble(),
-      districtId: (json['DistrictId'] as List?)?.map((e) => e as int).toList(),
-      bathroomCount:
-          (json['BathroomCount'] as List?)?.map((e) => e as int).toList(),
-      sellerType: json['SellerType'],
+      roomCount: parseIntList(normalizeList(json['RoomCount'])),
+      cityId: parseIntList(normalizeList(json['CityId'])),
+      minPrice: parseDouble(json['MinPrice']),
+      maxPrice: parseDouble(json['MaxPrice']),
+      categoryId: parseInt(json['CategoryId']) ?? 0, // لأنه required
+      minTotalArea: parseDouble(json['MinTotalArea']),
+      maxTotalArea: parseDouble(json['MaxTotalArea']),
+      districtId: parseIntList(normalizeList(json['DistrictId'])),
+      bathroomCount: parseIntList(normalizeList(json['BathroomCount'])),
+      sellerType: parseInt(json['SellerType']),
     );
   }
 }

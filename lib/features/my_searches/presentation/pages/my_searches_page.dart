@@ -2,7 +2,8 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/add_property_listing/domain/cubit/property_add_ad_cubit.dart';
-import 'package:emtelek/features/my_searchs/presentation/widgets/search_filter_card_widget.dart';
+import 'package:emtelek/features/my_searches/domain/cubit/my_searches_cubit.dart';
+import 'package:emtelek/features/my_searches/presentation/widgets/search_filter_card_widget.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
@@ -20,19 +21,18 @@ class MySearchesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PropertyFilterCubit propertyFilterCubit =
-        context.read<PropertyFilterCubit>();
+    MySearchesCubit mySearchesCubit = context.read<MySearchesCubit>();
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar:
           AppBarWidget(title: S.of(context).MySearches, isHaveBackButton: true),
-      body: BlocBuilder<PropertyFilterCubit, PropertyFilterState>(
+      body: BlocBuilder<MySearchesCubit, MySearchesState>(
         builder: (context, state) {
-          return state is GetSearchFilterLoading
+          return state is MySearchesLoading
               ? const Center(child: LoadingWidget())
-              : state is GetSearchFilterFailure
+              : state is MySearchesFailure
                   ? Center(child: Text(state.errMessage))
-                  : propertyFilterCubit.mySavedSearchFilterList == null
+                  : mySearchesCubit.mySavedSearchFilterList == null
                       ? Center(
                           child: Text('NoSavedFiltersFound'),
                         )
@@ -40,13 +40,13 @@ class MySearchesPage extends StatelessWidget {
                           width: context.width * 1,
                           height: context.height * 1,
                           child: ListView.builder(
-                            itemCount: propertyFilterCubit
-                                .mySavedSearchFilterList!.length,
+                            itemCount:
+                                mySearchesCubit.mySavedSearchFilterList!.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
                                 child: SearchFilterCardWidget(
-                                  itemContent: propertyFilterCubit
+                                  itemContent: mySearchesCubit
                                       .mySavedSearchFilterList![index],
                                 ),
                               );

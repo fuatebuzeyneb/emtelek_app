@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:emtelek/features/home/data/models/property_model.dart';
-import 'package:emtelek/features/property_filter/data/models/get_search_filter_response_model.dart';
+import 'package:emtelek/features/my_searches/data/models/get_my_searches_response_model.dart';
 import 'package:emtelek/features/property_filter/data/models/property_filter_request_model.dart';
 import 'package:emtelek/features/property_filter/data/repositories/property_filter_repository.dart';
 import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
@@ -202,34 +202,35 @@ class PropertyFilterCubit extends Cubit<PropertyFilterState> {
         listProperty = response.data;
         emit(PropertyFilterSuccess());
       } else {
-        emit(PropertyFilterFailure(errMessage: 'No ads found!'));
+        emit(PropertyFilterFailure(
+            errMessage: 'No Property Found Try Again with new filters'));
       }
     } catch (e) {
       emit(PropertyFilterFailure(errMessage: e.toString()));
     }
   }
 
-  List<SearchFilterItemModel>? mySavedSearchFilterList;
-  Future<void> getSavedFilterSearchAds({
-    required TokenAndClintIdRequestModel tokenAndClintIdRequestModel,
-  }) async {
-    emit(GetSearchFilterLoading());
+  // List<SearchFilterItemModel>? mySavedSearchFilterList;
+  // Future<void> getSavedFilterSearchAds({
+  //   required TokenAndClintIdRequestModel tokenAndClintIdRequestModel,
+  // }) async {
+  //   emit(GetSearchFilterLoading());
 
-    try {
-      final response = await propertyFilterRepository.getSavedFilterSearchAds(
-        tokenAndClintIdRequestModel: tokenAndClintIdRequestModel,
-      );
+  //   try {
+  //     final response = await propertyFilterRepository.getSavedFilterSearchAds(
+  //       tokenAndClintIdRequestModel: tokenAndClintIdRequestModel,
+  //     );
 
-      if (response.data != null && response.data!.isNotEmpty) {
-        mySavedSearchFilterList = response.data;
-        emit(GetSearchFilterSuccess());
-      } else {
-        emit(GetSearchFilterFailure(errMessage: 'No saved filters found!'));
-      }
-    } catch (e) {
-      emit(GetSearchFilterFailure(errMessage: e.toString()));
-    }
-  }
+  //     if (response.data != null && response.data!.isNotEmpty) {
+  //       mySavedSearchFilterList = response.data;
+  //       emit(GetSearchFilterSuccess());
+  //     } else {
+  //       emit(GetSearchFilterFailure(errMessage: 'No saved filters found!'));
+  //     }
+  //   } catch (e) {
+  //     emit(GetSearchFilterFailure(errMessage: e.toString()));
+  //   }
+  // }
 }
 
   // Future<void> addSearchFilter({

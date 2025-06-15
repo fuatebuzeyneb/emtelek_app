@@ -777,35 +777,40 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
             child: BlocConsumer<PropertyFilterCubit, PropertyFilterState>(
               listener: (context, state) {},
               builder: (context, state) {
-                if (state is PropertyFilterLoading &&
-                    propertyFilterCubit.listProperty == null) {
+                if (state is PropertyFilterLoading) {
                   return const Center(child: LoadingWidget());
                 } else if (state is PropertyFilterFailure) {
                   return Center(child: Text(state.errMessage));
                 }
 
-                return ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  itemCount: propertyFilterCubit.listProperty!.length,
-                  itemBuilder: (context, index) {
-                    if (index < propertyFilterCubit.listProperty!.length) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: PropertyCard(
-                          index: index,
-                          adDetails: propertyFilterCubit.listProperty!,
-                        ),
+                return propertyFilterCubit.listProperty == null
+                    ? Center(
+                        child: TextWidget(
+                            text:
+                                'No Property Found Try Again with new filters'))
+                    : ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        itemCount: propertyFilterCubit.listProperty!.length,
+                        itemBuilder: (context, index) {
+                          if (index <
+                              propertyFilterCubit.listProperty!.length) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: PropertyCard(
+                                index: index,
+                                adDetails: propertyFilterCubit.listProperty!,
+                              ),
+                            );
+                          } else {
+                            return const Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 16),
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
+                        },
                       );
-                    } else {
-                      return const Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
-                  },
-                );
               },
             ),
           ),
