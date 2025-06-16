@@ -4,6 +4,7 @@ import 'package:emtelek/core/api/end_points.dart';
 import 'package:emtelek/features/my_searches/data/models/get_my_searches_response_model.dart';
 import 'package:emtelek/features/property_filter/data/models/property_filter_request_model.dart';
 import 'package:emtelek/features/property_filter/data/models/property_filter_response_model.dart';
+import 'package:emtelek/features/property_filter/data/models/save_search_filter_request_model.dart';
 import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
 
 abstract class PropertyFilterRepository {
@@ -11,9 +12,8 @@ abstract class PropertyFilterRepository {
     required PropertyFilterRequestModel propertyFilterRequestModel,
   });
 
-  // Future<GetSearchFilterResponseModel> getSavedFilterSearchAds({
-  //   required TokenAndClintIdRequestModel tokenAndClintIdRequestModel,
-  // });
+  Future<void> saveSearchFilter(
+      {required SaveSearchFilterRequestModel saveSearchFilterRequestModel});
 }
 
 class PropertyFilterRepositoryImpl implements PropertyFilterRepository {
@@ -31,6 +31,17 @@ class PropertyFilterRepositoryImpl implements PropertyFilterRepository {
     );
 
     return PropertyFilterResponseModel.fromJson(response);
+  }
+
+  @override
+  Future<void> saveSearchFilter({
+    required SaveSearchFilterRequestModel saveSearchFilterRequestModel,
+  }) async {
+    await api.post(
+      '${EndPoints.baseUrl}${EndPoints.clientSearchesAdd}',
+      isFormData: true,
+      data: saveSearchFilterRequestModel.toJson(),
+    );
   }
 
   // @override

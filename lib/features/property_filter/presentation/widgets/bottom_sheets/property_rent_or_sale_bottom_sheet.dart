@@ -1,6 +1,7 @@
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/domain/auth_cubit/auth_cubit.dart';
+import 'package:emtelek/features/my_searches/domain/cubit/my_searches_cubit.dart';
 import 'package:emtelek/features/property/data/models/property_filter_request_mode.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/features/property_filter/data/models/property_filter_request_model.dart';
@@ -32,10 +33,9 @@ class PropertyRentOrSaleBottomSheet extends StatelessWidget {
     PropertyFilterCubit propertyFilterCubit =
         BlocProvider.of<PropertyFilterCubit>(context);
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
+
     return BlocConsumer<PropertyFilterCubit, PropertyFilterState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return BottomSheetWidget(
           circularRadius: 12,

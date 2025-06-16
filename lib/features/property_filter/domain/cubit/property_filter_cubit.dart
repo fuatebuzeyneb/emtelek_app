@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:emtelek/features/home/data/models/property_model.dart';
 import 'package:emtelek/features/my_searches/data/models/get_my_searches_response_model.dart';
 import 'package:emtelek/features/property_filter/data/models/property_filter_request_model.dart';
+import 'package:emtelek/features/property_filter/data/models/save_search_filter_request_model.dart';
 import 'package:emtelek/features/property_filter/data/repositories/property_filter_repository.dart';
 import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
 import 'package:meta/meta.dart';
@@ -186,6 +187,8 @@ class PropertyFilterCubit extends Cubit<PropertyFilterState> {
     emit(PropertyFilterAreaRange());
   }
 
+  String titleOfSavedSearch = 'بحث جديد';
+
   List<Property>? listProperty;
 
   Future<void> getFilterAds({
@@ -231,20 +234,20 @@ class PropertyFilterCubit extends Cubit<PropertyFilterState> {
   //     emit(GetSearchFilterFailure(errMessage: e.toString()));
   //   }
   // }
+
+  Future<void> saveSearchFilter({
+    required SaveSearchFilterRequestModel saveSearchFilterRequestModel,
+  }) async {
+    emit(SaveSearchPropertyFilterLoading());
+    print(
+        'SaveSearchFilterRequestModel: ${saveSearchFilterRequestModel.toJson()}');
+    try {
+      await propertyFilterRepository.saveSearchFilter(
+        saveSearchFilterRequestModel: saveSearchFilterRequestModel,
+      );
+      emit(SaveSearchPropertyFilterSuccess());
+    } catch (e) {
+      emit(SaveSearchPropertyFilterFailure(errMessage: e.toString()));
+    }
+  }
 }
-
-  // Future<void> addSearchFilter({
-  //   required PropertyFilterRequestModel propertyFilterRequestModel,
-  // }) async {
-  //   emit(PropertyFilterLoading());
-  //   print('propertyFilterRequestModel: ${propertyFilterRequestModel.toJson()}');
-  //   try {
-  //     await propertyFilterRepository.getSavedFilterSearchAds(
-  //       propertyFilterRequestModel: propertyFilterRequestModel,
-  //     );
-  //     emit(PropertyFilterSuccess());
-  //   } catch (e) {
-  //     emit(PropertyFilterFailure(errMessage: e.toString()));
-  //   }
-  // }
-

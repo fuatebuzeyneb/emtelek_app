@@ -3,7 +3,7 @@ import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/add_property_listing/domain/cubit/property_add_ad_cubit.dart';
 import 'package:emtelek/features/my_searches/domain/cubit/my_searches_cubit.dart';
-import 'package:emtelek/features/my_searches/presentation/widgets/search_filter_card_widget.dart';
+import 'package:emtelek/features/my_searches/presentation/widgets/my_search_card_widget.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/generated/l10n.dart';
@@ -45,9 +45,10 @@ class MySearchesPage extends StatelessWidget {
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
-                                child: SearchFilterCardWidget(
+                                child: MySearchCardWidget(
                                   itemContent: mySearchesCubit
                                       .mySavedSearchFilterList![index],
+                                  index: index,
                                 ),
                               );
                             },

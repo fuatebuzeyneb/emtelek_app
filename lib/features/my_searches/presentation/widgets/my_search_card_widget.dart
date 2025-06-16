@@ -21,11 +21,13 @@ import 'package:emtelek/shared/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchFilterCardWidget extends StatelessWidget {
+class MySearchCardWidget extends StatelessWidget {
   final SearchFilterItemModel itemContent;
-  const SearchFilterCardWidget({
+  final int index;
+  const MySearchCardWidget({
     super.key,
     required this.itemContent,
+    required this.index,
   });
 
   @override
@@ -59,7 +61,10 @@ class SearchFilterCardWidget extends StatelessWidget {
         //     maxPrice: null);
         // propertyCubit.propertyType =
         //     int.tryParse(content!.categoryId.toString()) ?? 0;
-        pageTransition(context, page: const PropertySearchResultPage());
+        pageTransition(context,
+            page: PropertySearchResultPage(
+              index: index,
+            ));
       },
       color: Colors.white,
       height: 0,

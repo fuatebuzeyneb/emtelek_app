@@ -15,3 +15,12 @@ final class PropertyFilterFailure extends PropertyFilterState {
   final String errMessage;
   PropertyFilterFailure({required this.errMessage});
 }
+
+final class SaveSearchPropertyFilterSuccess extends PropertyFilterState {}
+
+final class SaveSearchPropertyFilterLoading extends PropertyFilterState {}
+
+final class SaveSearchPropertyFilterFailure extends PropertyFilterState {
+  final String errMessage;
+  SaveSearchPropertyFilterFailure({required this.errMessage});
+}

@@ -2,6 +2,7 @@ import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
 import 'package:emtelek/features/auth/presentation/widgets/bottom_sheets/login_options_bottom_sheet.dart';
+import 'package:emtelek/features/my_searches/domain/cubit/my_searches_cubit.dart';
 import 'package:emtelek/features/property/domain/property_cubit/property_cubit.dart';
 import 'package:emtelek/features/property_filter/domain/cubit/property_filter_cubit.dart';
 import 'package:emtelek/features/property_filter/presentation/widgets/bottom_sheets/property_bathroom_count_bottom_sheet.dart';
@@ -412,7 +413,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // }
 
 class PropertySearchResultPage extends StatefulWidget {
-  const PropertySearchResultPage({super.key});
+  final int? index;
+  const PropertySearchResultPage({super.key, this.index});
 
   @override
   State<PropertySearchResultPage> createState() =>
@@ -460,6 +462,33 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
     PropertyFilterCubit propertyFilterCubit =
         BlocProvider.of<PropertyFilterCubit>(context);
     SettingsCubit settingsCubit = BlocProvider.of<SettingsCubit>(context);
+    MySearchesCubit mySearchesCubit = BlocProvider.of<MySearchesCubit>(context);
+    propertyFilterCubit.adType = widget.index != null
+        ? settingsCubit.isForSale(mySearchesCubit
+                    .mySavedSearchFilterList![widget.index!]
+                    .content
+                    .categoryId) ==
+                S.current.Sale
+            ? 6
+            : 5
+        : propertyFilterCubit.adType;
+
+    propertyFilterCubit.listRoomCount = widget.index != null
+        ? mySearchesCubit
+                .mySavedSearchFilterList![widget.index!].content.roomCount ??
+            []
+        : propertyFilterCubit.listRoomCount;
+
+    propertyFilterCubit.listBathRoomCount = widget.index != null
+        ? mySearchesCubit.mySavedSearchFilterList![widget.index!].content
+                .bathroomCount ??
+            []
+        : propertyFilterCubit.listBathRoomCount;
+
+    propertyFilterCubit.propertyType = widget.index != null
+        ? mySearchesCubit
+            .mySavedSearchFilterList![widget.index!].content.categoryId
+        : propertyFilterCubit.propertyType;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
@@ -530,7 +559,7 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
                             isScrollControlled: true,
                             enableDrag: false,
                             builder: (context) =>
-                                const PropertyRentOrSaleBottomSheet(),
+                                PropertyRentOrSaleBottomSheet(),
                           );
                         },
                       },
@@ -568,7 +597,7 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
                             isScrollControlled: true,
                             enableDrag: false,
                             builder: (context) =>
-                                const PropertyRoomCountBottomSheet(),
+                                PropertyRoomCountBottomSheet(),
                           );
                         },
                       },
@@ -580,7 +609,7 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
                             isScrollControlled: true,
                             enableDrag: false,
                             builder: (context) =>
-                                const PropertyBathroomCountBottomSheet(),
+                                PropertyBathroomCountBottomSheet(),
                           );
                         },
                       },
@@ -729,25 +758,25 @@ class _PropertySearchResultPageState extends State<PropertySearchResultPage> {
                           width: 0.5,
                           color: Colors.white,
                           onTap: () {
-                            // if (getIt<CacheHelper>()
-                            //         .getDataString(key: 'token') !=
-                            //     null) {
-                            //   showModalBottomSheet(
-                            //     context: context,
-                            //     isScrollControlled: true,
-                            //     enableDrag: false,
-                            //     builder: (context) =>
-                            //         const PropertySaveSearchBottomSheet(),
-                            //   );
-                            // } else {
-                            //   showModalBottomSheet(
-                            //     context: context,
-                            //     isScrollControlled: true,
-                            //     enableDrag: false,
-                            //     builder: (context) =>
-                            //         const LoginOptionsBottomSheet(),
-                            //   );
-                            // }
+                            if (getIt<CacheHelper>()
+                                    .getDataString(key: 'token') !=
+                                null) {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                enableDrag: false,
+                                builder: (context) =>
+                                    const PropertySaveSearchBottomSheet(),
+                              );
+                            } else {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                enableDrag: false,
+                                builder: (context) =>
+                                    const LoginOptionsBottomSheet(),
+                              );
+                            }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
