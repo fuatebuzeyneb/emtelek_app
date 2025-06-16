@@ -63,7 +63,7 @@ class PropertyDetailsPage extends StatelessWidget {
         BlocProvider.of<AddAdGlobalCubit>(context);
     adDetailsCubit.showAppBarFunction(scrollController);
     final int totalFeatures =
-        adDetails.features == false ? 0 : adDetails.features!.length;
+        adDetails.features == null ? 0 : adDetails.features!.length;
 
     // final List<String> features = List.generate(adDetails.features.length,
     //     (index) => '${adDetails.features?[index].featureName}');

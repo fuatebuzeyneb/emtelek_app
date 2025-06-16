@@ -166,8 +166,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   // String? editFirstName;
   // String? editLastName;
   // String? editPhoneNumber;
-  int? editDistrictId;
-  String? editAddress;
+  // int? editDistrictId;
+  // String? editAddress;
   File? editImage;
 
   Future<void> editUserData({
@@ -196,6 +196,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       saveClientId(response.data!.clientId!);
       saveJoinDate(response.data!.subscriptionDate!);
       saveUserImage(response.data!.image!);
+
       emit(EditAccountSettingsSuccess());
     } catch (e) {
       emit(UserDataFailure(errorMassage: e.toString()));

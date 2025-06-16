@@ -1,10 +1,14 @@
 import 'package:emtelek/core/constants/app_colors.dart';
 import 'package:emtelek/core/extensions/media_query_extensions.dart';
 import 'package:emtelek/core/extensions/sized_box_extensions.dart';
+import 'package:emtelek/core/utils/snackbar_utils.dart';
+import 'package:emtelek/features/add_property_listing/presentation/widgets/alert_dialog/city_selection_alert_dialog.dart';
+import 'package:emtelek/features/add_property_listing/presentation/widgets/alert_dialog/district_selection_alert_dialog.dart';
 import 'package:emtelek/features/profile/data/models/edit_user_request_model.dart';
 import 'package:emtelek/features/profile/domain/cubit/profile_cubit.dart';
 import 'package:emtelek/features/profile/presentation/widgets/circle_profile_image_widget.dart';
 import 'package:emtelek/generated/l10n.dart';
+import 'package:emtelek/shared/cubits/cubit/add_ad_global_cubit.dart';
 import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/shared/models/token_and_clint_id_request_model.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
@@ -45,6 +49,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   @override
   Widget build(BuildContext context) {
     ProfileCubit profileCubit = BlocProvider.of<ProfileCubit>(context);
+    AddAdGlobalCubit addAdGlobalCubit = context.read<AddAdGlobalCubit>();
     return Scaffold(
       appBar: AppBarWidget(
           title: S.of(context).AccountSettings, isHaveBackButton: true),
@@ -69,6 +74,13 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                         .userData!
                         .addressData!
                         .address;
+          } else if (state is EditAccountSettingsSuccess) {
+            SnackbarUtils.showSnackbar(
+              context,
+              'Your Data Has Been Updated',
+            );
+            addAdGlobalCubit.cityId = null;
+            addAdGlobalCubit.districtId = null;
           }
         },
         builder: (context, state) {
@@ -144,92 +156,144 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                             ),
                           ),
                           12.toHeight,
-                          ButtonWidget(
-                            onTap: () {},
-                            color: Colors.white,
-                            borderColor: Colors.black54,
-                            width: 1,
-                            borderRadius: 6,
-                            height: 0.06,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Row(
-                                children: [
-                                  TextWidget(
-                                    text: '${S.of(context).City}: ',
-                                    fontSize: 16,
-                                    color: Colors.black,
+                          BlocConsumer<AddAdGlobalCubit, AddAdGlobalState>(
+                            listener: (context, state) {
+                              // TODO: implement listener
+                            },
+                            builder: (context, state) {
+                              return ButtonWidget(
+                                onTap: () {
+                                  showDialog(
+                                      barrierDismissible: true,
+                                      context: context,
+                                      builder: (context) {
+                                        return CitySelectionAlertDialog();
+                                      });
+
+                                  if (addAdGlobalCubit.districtId != null) {
+                                    addAdGlobalCubit.districtId = null;
+                                  }
+                                },
+                                color: Colors.white,
+                                borderColor: Colors.black54,
+                                width: 1,
+                                borderRadius: 6,
+                                height: 0.06,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Row(
+                                    children: [
+                                      TextWidget(
+                                        text: '${S.of(context).City}: ',
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                      TextWidget(
+                                        text: addAdGlobalCubit.cityId != null
+                                            ? BlocProvider.of<SettingsCubit>(
+                                                    context)
+                                                .getCityNameByCityId(
+                                                    addAdGlobalCubit.cityId!)
+                                            : profileCubit.userData!
+                                                        .addressData !=
+                                                    null
+                                                ? BlocProvider.of<
+                                                        SettingsCubit>(context)
+                                                    .getCityNameByDistrictId(
+                                                        profileCubit
+                                                                .userData!
+                                                                .addressData!
+                                                                .districtId ??
+                                                            99999999)
+                                                : '',
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.edit,
+                                        color: Colors.grey,
+                                        size: 22,
+                                      )
+                                    ],
                                   ),
-                                  TextWidget(
-                                    text: profileCubit.userData!.addressData !=
-                                            null
-                                        ? BlocProvider.of<SettingsCubit>(
-                                                context)
-                                            .getCityNameByDistrictId(
-                                                profileCubit
-                                                        .userData!
-                                                        .addressData!
-                                                        .districtId ??
-                                                    99999999)
-                                        : '',
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  Spacer(),
-                                  Icon(
-                                    Icons.edit,
-                                    color: Colors.grey,
-                                    size: 22,
-                                  )
-                                ],
-                              ),
-                            ),
+                                ),
+                              );
+                            },
                           ),
                           12.toHeight,
-                          ButtonWidget(
-                            onTap: () {},
-                            color: Colors.white,
-                            borderColor: Colors.black54,
-                            width: 1,
-                            borderRadius: 6,
-                            height: 0.06,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Row(
-                                children: [
-                                  TextWidget(
-                                    text: '${S.of(context).Region}: ',
-                                    fontSize: 16,
-                                    color: Colors.black,
+                          BlocConsumer<AddAdGlobalCubit, AddAdGlobalState>(
+                            listener: (context, state) {
+                              // TODO: implement listener
+                            },
+                            builder: (context, state) {
+                              return ButtonWidget(
+                                onTap: () {
+                                  showDialog(
+                                      barrierDismissible: true,
+                                      context: context,
+                                      builder: (context) {
+                                        return DistrictSelectionAlertDialog();
+                                      });
+                                },
+                                color: Colors.white,
+                                borderColor: Colors.black54,
+                                width: 1,
+                                borderRadius: 6,
+                                height: 0.06,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Row(
+                                    children: [
+                                      TextWidget(
+                                        text: '${S.of(context).Region}: ',
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                      TextWidget(
+                                        text: addAdGlobalCubit.districtId !=
+                                                null
+                                            ? BlocProvider.of<SettingsCubit>(
+                                                    context)
+                                                .getDistrictNameByDistrictId(
+                                                    addAdGlobalCubit
+                                                        .districtId!)
+                                            : addAdGlobalCubit.districtId ==
+                                                        null &&
+                                                    addAdGlobalCubit.cityId !=
+                                                        null
+                                                ? ''
+                                                : profileCubit.userData!
+                                                            .addressData !=
+                                                        null
+                                                    ? BlocProvider.of<
+                                                                SettingsCubit>(
+                                                            context)
+                                                        .getDistrictNameByDistrictId(
+                                                            profileCubit
+                                                                    .userData!
+                                                                    .addressData!
+                                                                    .districtId ??
+                                                                99999999)
+                                                    : '',
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.edit,
+                                        color: Colors.grey,
+                                        size: 22,
+                                      )
+                                    ],
                                   ),
-                                  TextWidget(
-                                    text: profileCubit.userData!.addressData !=
-                                            null
-                                        ? BlocProvider.of<SettingsCubit>(
-                                                context)
-                                            .getDistrictNameByDistrictId(
-                                                profileCubit
-                                                        .userData!
-                                                        .addressData!
-                                                        .districtId ??
-                                                    99999999)
-                                        : '',
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  Spacer(),
-                                  Icon(
-                                    Icons.edit,
-                                    color: Colors.grey,
-                                    size: 22,
-                                  )
-                                ],
-                              ),
-                            ),
+                                ),
+                              );
+                            },
                           ),
                           12.toHeight,
                           TextFieldWidget(
@@ -250,14 +314,12 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                   phoneNumber: phoneController.text,
                                   image: profileCubit.editImage, // هذا يكفي
                                   address: addressController.text,
-                                  districtId: profileCubit.editDistrictId ==
-                                          null
-                                      ? profileCubit.userData!.addressData ==
-                                              null
-                                          ? null
-                                          : profileCubit
+                                  districtId:
+                                      addAdGlobalCubit.districtId == null
+                                          ? profileCubit
                                               .userData!.addressData!.districtId
-                                      : profileCubit.editDistrictId!, // 34,
+                                          : addAdGlobalCubit.districtId,
+
                                   email: getIt<CacheHelper>()
                                       .getData(key: 'email'),
                                 ),

@@ -66,7 +66,24 @@ class FinishPage extends StatelessWidget {
       listener: (context, state) {
         if (state is PropertyAddAdSuccess) {
           SnackbarUtils.showSnackbar(context, 'تم اضافة الاعلان بنجاح');
-          pageTransition(context, page: const BottomNavBar());
+          pageTransition(
+            context,
+            page: const BottomNavBar(),
+          );
+          addAdGlobalCubit.cityId = null;
+          addAdGlobalCubit.districtId = null;
+          addAdGlobalCubit.sellerType = null;
+          propertyAddAdCubit.roomCount = null;
+          propertyAddAdCubit.bathroomCount = null;
+          propertyAddAdCubit.categoryForAdType = null;
+          addAdGlobalCubit.location = null;
+          propertyAddAdCubit.floorCount = null;
+          propertyAddAdCubit.floorNumber = null;
+          propertyAddAdCubit.balconyCount = null;
+          propertyAddAdCubit.featuresListId.clear();
+          propertyAddAdCubit.constructionDate = null;
+          propertyAddAdCubit.imagesProperty.clear();
+          propertyAddAdCubit.mainImage = null;
         } else if (state is PropertyUpdateAdSuccess) {
           SnackbarUtils.showSnackbar(context, 'تم تعديل الاعلان بنجاح');
         } else if (state is PropertyAddOrUpdateAdFailure) {

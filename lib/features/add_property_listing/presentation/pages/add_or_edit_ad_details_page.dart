@@ -301,6 +301,21 @@ class _AddOrEditAdDetailsPageState extends State<AddOrEditAdDetailsPage> {
               //     );
               //   },
               // );
+              addAdGlobalCubit.cityId = null;
+              addAdGlobalCubit.districtId = null;
+              addAdGlobalCubit.sellerType = null;
+              propertyAddAdCubit.roomCount = null;
+              propertyAddAdCubit.bathroomCount = null;
+              propertyAddAdCubit.categoryForAdType = null;
+              addAdGlobalCubit.location = null;
+              propertyAddAdCubit.floorCount = null;
+              propertyAddAdCubit.floorNumber = null;
+              propertyAddAdCubit.balconyCount = null;
+              propertyAddAdCubit.featuresListId.clear();
+              propertyAddAdCubit.constructionDate = null;
+              propertyAddAdCubit.imagesProperty.clear();
+              propertyAddAdCubit.mainImage = null;
+
               Navigator.pop(context);
             },
           ),

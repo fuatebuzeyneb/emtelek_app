@@ -26,3 +26,5 @@ final class HomeTextSearchAdsFailure extends HomeState {
 
   HomeTextSearchAdsFailure({required this.errorMassage});
 }
+
+final class HomeTextSearchAdsInitial extends HomeState {}

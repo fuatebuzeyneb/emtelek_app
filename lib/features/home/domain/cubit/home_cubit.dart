@@ -106,4 +106,9 @@ class HomeCubit extends Cubit<HomeState> {
       emit(HomeTextSearchAdsFailure(errorMassage: e.toString()));
     }
   }
+
+  void clearSearchResults() {
+    searchAdsList.clear();
+    emit(HomeTextSearchAdsInitial());
+  }
 }

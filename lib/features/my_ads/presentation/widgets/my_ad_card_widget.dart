@@ -16,6 +16,7 @@ import 'package:emtelek/shared/cubits/settings_cubit/settings_cubit.dart';
 import 'package:emtelek/shared/helper/founctions/formatter.dart';
 import 'package:emtelek/shared/services/cache_hekper.dart';
 import 'package:emtelek/shared/services/service_locator.dart';
+import 'package:emtelek/shared/widgets/alert_dialog_widget.dart';
 import 'package:emtelek/shared/widgets/appbar_widget.dart';
 import 'package:emtelek/shared/widgets/button_widget.dart';
 import 'package:emtelek/shared/widgets/text_widget.dart';
@@ -41,7 +42,12 @@ class MyAdCardWidget extends StatelessWidget {
       child: ButtonWidget(
         showElevation: true,
         boxShadowOpacity: 0.2,
-        onTap: () {},
+        onTap: () {
+          pageTransition(context,
+              page: PropertyDetailsPage(
+                adDetails: adDetails.property,
+              ));
+        },
         color: Colors.white,
         width: 1,
         height: 0.19,
@@ -138,38 +144,63 @@ class MyAdCardWidget extends StatelessWidget {
                     color: Colors.green,
                     colorText: Colors.white,
                     height: 0.04,
-                    width: 0.27,
+                    width: 0.4,
                     text: 'تعديل',
                     fontSize: 14,
                   ),
+                  // ButtonWidget(
+                  //   onTap: () {
+                  // pageTransition(context,
+                  //     page: PropertyDetailsPage(
+                  //       adDetails: adDetails.property,
+                  //     ));
+                  //   },
+                  //   color: Colors.grey,
+                  //   colorText: Colors.white,
+                  //   height: 0.04,
+                  //   width: 0.27,
+                  //   text: 'معاينة',
+                  //   fontSize: 14,
+                  // ),
                   ButtonWidget(
                     onTap: () {
-                      pageTransition(context,
-                          page: PropertyDetailsPage(
-                            adDetails: adDetails.property,
-                          ));
-                    },
-                    color: Colors.grey,
-                    colorText: Colors.white,
-                    height: 0.04,
-                    width: 0.27,
-                    text: 'معاينة',
-                    fontSize: 14,
-                  ),
-                  ButtonWidget(
-                    onTap: () {
-                      BlocProvider.of<MyAdsCubit>(context).deleteAdProperty(
-                          deleteAdRequestModel: DeleteAdRequestModel(
-                              adId: adDetails.property.adId,
-                              token: getIt<CacheHelper>()
-                                  .getDataString(key: 'token')!,
-                              clientId: getIt<CacheHelper>()
-                                  .getData(key: 'clientId')));
+                      showDialog<void>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          return AlertDialogWidget(
+                            title: 'تنبيه!!',
+                            subtitle: 'سوف يتم حذف الاعلان بشكل نهائي',
+                            widget: Icon(
+                              Icons.info,
+                              color: Colors.red,
+                            ),
+                            onYes: () {
+                              Navigator.pop(context);
+
+                              BlocProvider.of<MyAdsCubit>(context)
+                                  .deleteAdProperty(
+                                      deleteAdRequestModel:
+                                          DeleteAdRequestModel(
+                                              adId: adDetails.property.adId,
+                                              token:
+                                                  getIt<CacheHelper>()
+                                                      .getDataString(
+                                                          key: 'token')!,
+                                              clientId: getIt<CacheHelper>()
+                                                  .getData(key: 'clientId')));
+                            },
+                            onNo: () {
+                              Navigator.pop(context);
+                            },
+                          );
+                        },
+                      );
                     },
                     color: Colors.red,
                     colorText: Colors.white,
                     height: 0.04,
-                    width: 0.27,
+                    width: 0.4,
                     text: 'حذف',
                     fontSize: 14,
                   ),
